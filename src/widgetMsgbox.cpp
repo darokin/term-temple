@@ -1,0 +1,65 @@
+#include <sstream>
+
+#include "utils.hpp"
+#include "screen.hpp"
+#include "widget.hpp"
+#include "widgetMsgbox.hpp"
+#include "widgetsManager.hpp"
+
+static const wchar_t* msgboxTitle = L"_MSGBOX_"; 
+#define MSGBOX_WIDTH    32
+#define MSGBOX_PADDING   2
+extern WidgetManager* wmgr;
+
+WidgetMsgbox::WidgetMsgbox(std::wstring _msg, std::wstring _buttonMsg) : Widget(msgboxTitle) {
+    this->bTitle = false;
+    this->bBorder = false;
+    this->bClosingCross = false;
+
+    dialog = new ModuleDialog({MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
+    dialog->setCentered(true);
+    dialog->setSpeed(10);
+    dialog->setText(_msg);
+
+    // == On calcule la taille après lecture du texte par le module dialog
+    this->size.x = MSGBOX_WIDTH;
+    this->size.y = dialog->getLineMax() + MSGBOX_PADDING + MSGBOX_PADDING + 3;
+    this->pos.x = (termSize.x - this->size.x) / 2;
+    this->pos.y = (termSize.y - this->size.y) / 2;
+
+    dialog->setWidget(this);
+    dialog->updatePos();
+    
+    button = new ModuleButton(_buttonMsg, {int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
+    button->setWidget(this);
+    button->updatePos();
+}
+
+WidgetMsgbox::WidgetMsgbox(std::wstring _msg) : WidgetMsgbox(_msg, L"OK") {
+}
+
+WidgetMsgbox::~WidgetMsgbox() {
+}
+
+void WidgetMsgbox::setPos(i2d _pos) {
+    this->pos = _pos;
+    dialog->updatePos();
+    button->updatePos();
+}
+
+void WidgetMsgbox::handleKey(int _keycode) {
+    switch (_keycode)
+    {
+        case KEY_ENTER:
+        case ' ':
+            wmgr->removeWidget(this);
+            break;
+        default:
+            break;
+    }
+}
+
+void WidgetMsgbox::draw() {
+    dialog->mainDraw();
+    button->mainDraw();
+}

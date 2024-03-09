@@ -1,0 +1,33 @@
+                            
+                            HELP
+
+Introduction
+------------
+Welcome to TermTemple HELP !
+
+You have already notice the "application launcher" that we 
+call APPLAUNCHER. 
+From it you can launch several applications.
+Be sure to go to the KEYS section to know how things works.
+
+History of TermTemple:
+----------------------
+TermTemple started 21/01/2024 as an idea, a really promising
+idea. It leads to several project on the way.
+In fact TermTemple itself is an intermediatory project.
+It's hard to have one idea of a project alone. Maybe it's just
+me that like to scale things in a way where technicalities let
+to a chain of tougher projects that leds to the important one!
+
+Important keys to know:
+-----------------------
+F2   Toggle Application Launcher
+M    Switch to move mode on a window
+S    Switch to snap mode to move window to borders easily
+ESC  Exit TermTemple
+
+Final note:
+-----------
+Thanks for reading the HELP entirely, only a few users do that
+and it's a good way to find whether someone love to do things
+properly or not...good boy ;)

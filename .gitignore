@@ -7,3 +7,5 @@ src/term-temple.exe
 src/obj/*.o
 *.o
 
+# Logs
+data/logs/
