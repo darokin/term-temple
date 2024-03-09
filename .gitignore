@@ -1,0 +1,9 @@
+# Build
+build/
+src/term-temple
+src/term-temple.exe
+
+# Objects
+src/obj/
+*.o
+
