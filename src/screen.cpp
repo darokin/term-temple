@@ -43,7 +43,8 @@ WINDOW *wstatus;
 void initWidgets() {
 	
 	wmgr = WidgetManager::getInstance();
-	wmgr->setBackground("../data/ans/dar_0_home.ans");
+	//wmgr->setBackground("../data/ans/dar_0_home.ans");
+	wmgr->setBackground("../data/ans/eyes_pretty_02.ans");
 
 /*	
 	// ================================================

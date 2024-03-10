@@ -8,7 +8,6 @@ ModuleANSI::ModuleANSI(std::string _filePath, i2d _pos, i2d _size) : Module::Mod
         std::cout << "Unable to open ANSI file '" << _filePath << "'" << std::endl; 
 
     // == Detect size
-    /*
     std::string _line;
     int _h {0}, _w {0}, _lineLength {0};
     if (_size.x == 0 && _size.y == 0) {
@@ -20,11 +19,7 @@ ModuleANSI::ModuleANSI(std::string _filePath, i2d _pos, i2d _size) : Module::Mod
         }
         this->size.x = _w;
         this->size.y = _h;
-
     }
-    */
-        this->size.x = 80;
-        this->size.y = 26;
 }
 
 ModuleANSI::ModuleANSI(std::string _filePath) : ModuleANSI::ModuleANSI(_filePath, {0, 0}, {0, 0}) {

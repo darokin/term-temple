@@ -12,7 +12,7 @@
 #include "moduleOneLiner.hpp"
 
 static const wchar_t* fileExplorerTitle = L"__FILEEXPLORER__"; 
-
+static const std::string fakePathToDataFiles = "/home/darokin/code/cpp/term-temple/";
 extern WidgetManager* wmgr;
 
 /*
@@ -26,24 +26,8 @@ static const std::multimap<std::wstring, std::wstring> filesList {{L"/", L"usr/"
                                                                      {L"/usr/share/", L"tools/"},  {L"/usr/share/", L"themes/"},
                                                             {L"/home/", L"darokin/"}, \
                                                                {L"/home/darokin/", L"code/"}, {L"/home/darokin/", L"documents/"}, {L"/home/darokin/", L"games/"}, {L"/home/darokin/", L"images/"}, \
-                                                                    {L"/home/darokin/images/", L"system01.ans"}, {L"/home/darokin/images/", L"system01.ans"}, \
                                                                     {L"/home/darokin/games/", L"steam/"}, \
                                                                     {L"/home/darokin/code/", L"c/"}, {L"/home/darokin/code/", L"cpp/"}, {L"/home/darokin/code/", L"python/"}, \
-                                                                  /*
-                                                                    {L"/home/darokin/code/c/", L"makefile"}, {L"/home/darokin/code/c/", L"globals.cpp"}, {L"/home/darokin/code/c/", L"globals.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"cursesAnsi.cpp"}, {L"/home/darokin/code/c/", L"cursesAnsi.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"renderer.cpp"}, {L"/home/darokin/code/c/", L"renderer.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"screen.cpp"}, {L"/home/darokin/code/c/", L"screen.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"module.cpp"}, {L"/home/darokin/code/c/", L"module.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"moduleButton.cpp"}, {L"/home/darokin/code/c/", L"moduleButton.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"moduleOneLiner.cpp"}, {L"/home/darokin/code/c/", L"moduleOneLiner.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"moduleScroller.cpp"}, {L"/home/darokin/code/c/", L"moduleScroller.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"widget.cpp"}, {L"/home/darokin/code/c/", L"widget.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"widgetClock.cpp"}, {L"/home/darokin/code/c/", L"widgetClock.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"widgetFileExplorer.cpp"}, {L"/home/darokin/code/c/", L"widgetFileExplorer.hpp"}, \
-                                                                    {L"/home/darokin/code/c/", L"utils.hpp"}, {L"/home/darokin/code/c/", L"fileNotFound.test"}, \
-                                                                    {L"/home/darokin/code/cpp/", L"termTemple/"}, {L"/home/darokin/code/cpp/termTemple/", L"files/"},
-                                                                  */
                                                             {L"/sys/", L"dev/"}, {L"/sys/", L"module/"}};
 //#endif 
 
@@ -72,7 +56,9 @@ WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
     //#ifdef _WIN32
     //    std::string _filesPath = "C:\\Users\\rebuzzi\\Documents\\PERSO\\code\\";
     //#else
-        std::string _filesPath = "/home/darokin/code/cpp/";
+        //std::string _curDirPath = std::filesystem::current_path().string();
+        //std::string _filesPath { _curDirPath.substr(0, _curDirPath.size() - 3) + "data" }; //"../data/"; //
+        std::string _filesPath { "/home/darokin/code/cpp/" };
         recursiveScanFolder(_filesPath);
     //#endif
     
@@ -107,6 +93,49 @@ WidgetFileExplorer::~WidgetFileExplorer() {
  * Add each entry to the 'files' multimap
  * Recursively call it again if the entry is a folder
  */
+/*
+void WidgetFileExplorer::recursiveScanFolder(std::string _filesPath) {
+    stFile* _tmpFile;
+    std::string _strPath;
+    std::string _strParentPath;
+
+    // == We build a correct non relative path for the parent
+    //_strParentPath = _filesPath;
+    if (_filesPath.find("../") != std::string::npos)
+        _strParentPath = fakePathToDataFiles + _filesPath.substr(3);
+    else
+        _strParentPath = _filesPath;
+
+    // == Go throught directory_iterator
+    for (const auto& _fileName : std::filesystem::directory_iterator(_filesPath)) {
+        _strPath = _fileName.path().u8string();
+        // == We replace '../' to have a non relative path that fit in the directory structured we created
+        if (_strPath.find("../") != std::string::npos)
+            _strPath.replace(0, 3, fakePathToDataFiles);
+
+        // == Storing the file
+        _tmpFile = new stFile();
+        if (_fileName.is_directory())
+            _tmpFile->name = Utils::str2wstr(_strPath.substr(_strPath.find_last_of('/', -1) + 1) + "/");
+        else
+            _tmpFile->name = Utils::str2wstr(_strPath.substr(_strPath.find_last_of('/') + 1));
+        //_tmpFile->parentName = Utils::str2wstr(_filesPath);
+        _tmpFile->parentName = Utils::str2wstr(_strParentPath);
+        _tmpFile->bIsOpen = false;
+        _tmpFile->yPosition = 0;
+        _tmpFile->bIsFile = !_fileName.is_directory();
+        //this->files.insert({Utils::str2wstr(_filesPath), _tmpFile});
+        this->files.insert({Utils::str2wstr(_strParentPath), _tmpFile});
+
+        // == Do recursion if its a directory
+        if (_fileName.is_directory()) {
+            std::string pathForRecursion { _fileName.path().u8string() + "/" };
+            recursiveScanFolder(pathForRecursion);//_fileName.path().u8string() + "/");
+        }
+    }
+}
+*/
+
 void WidgetFileExplorer::recursiveScanFolder(const std::string& _filesPath) {
     stFile* tmpFile;
 
