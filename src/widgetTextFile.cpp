@@ -10,7 +10,7 @@
 #include "widgetTextFile.hpp"
 #include "cursesAnsi.hpp"
 
-WidgetTextFile::WidgetTextFile(std::wstring _title, const char* _filePath) : Widget::Widget(_title) {
+WidgetTextFile::WidgetTextFile(const std::wstring& _title, const char* _filePath) : Widget::Widget(_title) {
     this->bResizable = true;
     this->maxWidth = 0;
 

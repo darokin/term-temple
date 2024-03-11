@@ -11,6 +11,13 @@ ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColu
 ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos): ModuleButton(_wstr, _pos, _wstr.length() + 4) {
 }
 
+ModuleButton::ModuleButton(const ModuleButton& _mbutton) : ModuleButton(_mbutton.sText, _mbutton.pos) {
+    this->nbColumns = _mbutton.nbColumns;
+    this->clickFunc = _mbutton.clickFunc;
+    this->msPerChar = _mbutton.msPerChar;
+    this->initialPos = _mbutton.initialPos;
+}
+
 void ModuleButton::setText(const std::wstring& _line) {
     this->sText = _line;
 }

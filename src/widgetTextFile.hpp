@@ -12,7 +12,7 @@ protected:
     uint16_t        scrollX {0};
     uint16_t        scrollY {0};
 public:
-    WidgetTextFile(std::wstring _title, const char* _filePath);
+    WidgetTextFile(const std::wstring& _title, const char* _filePath);
     virtual ~WidgetTextFile();
     virtual void draw();
     virtual void handleKey(int _keycode);

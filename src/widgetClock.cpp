@@ -98,8 +98,8 @@ void WidgetClock::draw() {
     }
 
     renderer::setColorReverse(true);
-    wchar_t strDate[100];
-    swprintf(strDate, 100, L" %02d/%02d/%d ", now->tm_mday, now->tm_mon + 1, now->tm_year + 1900);
+    char strDate[32];
+    snprintf(strDate, 32, " %02d/%02d/%hu ", now->tm_mday, now->tm_mon + 1, now->tm_year + 1900);
     renderer::drawString(strDate, {start_x + sizeX - (this->isBig ? 14 : 13), start_y + sizeY});
     renderer::setColorReverse(false);
 }

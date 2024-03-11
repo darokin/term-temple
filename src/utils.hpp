@@ -52,7 +52,7 @@ using i2d = v2d<int>;
 namespace Utils {
 
     // == DATE and TIME =======================================================
-    inline std::string getCurrentDateTime(std::string s){
+    inline std::string getCurrentDateTime(const std::string& s){
         time_t now = time(0);
         struct tm timeinfo;
         char buf[80];

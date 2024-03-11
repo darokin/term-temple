@@ -258,7 +258,7 @@ void WidgetManager::openFile(const std::string& _filePath) {
     std::string _fileName {};
 
     // == Get filename 
-    _fileName = _filePath.substr(_filePath.find_last_of('/', -1) + 1);
+    _fileName = _filePath.substr(_filePath.find_last_of('/') + 1);
     
     // == Get Extension
     if (_fileName.length() > 4) 

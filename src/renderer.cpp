@@ -1,5 +1,7 @@
 #include "renderer.hpp"
 
+// TODO : refactor drawString with template
+
 namespace renderer {
 
     void setColor(uint8_t _colorPair) {
@@ -13,6 +15,7 @@ namespace renderer {
             wattroff(stdscr, A_REVERSE);
     }
 
+    // == WIDE CHAR
     void drawString(const wchar_t* _line) {
         waddwstr(stdscr, _line);
     }
@@ -31,4 +34,22 @@ namespace renderer {
         drawString(_line, _size);
     }
 
+    // == CHAR (NARROW / ASCII)
+    void drawString(const char* _line) {
+        waddnstr(stdscr, _line, -1);
+    }
+
+    void drawString(const char* _line, uint16_t _size) {
+        waddnstr(stdscr, _line, _size);
+    }
+
+    void drawString(const char* _line, i2d _pos) {
+        wmove(stdscr, _pos.y, _pos.x);
+        drawString(_line);
+    }
+
+    void drawString(const char* _line, i2d _pos, uint16_t _size) {
+        wmove(stdscr, _pos.y, _pos.x);
+        drawString(_line, _size);
+    }
 }

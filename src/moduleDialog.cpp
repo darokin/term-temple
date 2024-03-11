@@ -1,4 +1,7 @@
-// __STDC_WANT_LIB_EXT1__ set to 1 before include stdio.h ; for 
+//#define __STDC_WANT_LIB_EXT1__ 1 // before include stdio.h ; for wcsnlen_s
+//#include <wchar.h>
+//#include <stdio.h>
+
 #include "moduleDialog.hpp"
 #include "renderer.hpp"
 #include "globals.hpp"
@@ -30,8 +33,6 @@ void ModuleDialog::draw() {
     uint16_t nbCharsToShowTotal {};
     uint16_t x {0};
     uint16_t y {(uint16_t)this->pos.y};
-    uint16_t xdec {}; // dec if centered
-    uint16_t slen {}; // current string length
     // == Security
     if (widget == nullptr)
         return;
@@ -44,8 +45,8 @@ void ModuleDialog::draw() {
     nbCharsToShowTotal = nbCharsToShow;
     // == Placing characters
     for (const auto& s : this->sequences[this->seqIndex]->lines) {
-        slen = wcsnlen_s(s, MAX_LINE_SIZE);
-        xdec = (this->centered ? (this->nbColumns - slen) / 2 : 0);
+        uint16_t slen = wcsnlen(s, MAX_LINE_SIZE);
+        uint16_t xdec = (this->centered ? (this->nbColumns - slen) / 2 : 0);
         if (slen > nbCharsToShow) {
             renderer::drawString(s, {this->pos.x + xdec, y}, nbCharsToShow);
             x = nbCharsToShow + this->pos.x + xdec;

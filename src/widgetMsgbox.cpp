@@ -11,7 +11,7 @@ static const wchar_t* msgboxTitle = L"_MSGBOX_";
 #define MSGBOX_PADDING   2
 extern WidgetManager* wmgr;
 
-WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, std::wstring _buttonMsg) : Widget(msgboxTitle) {
+WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg) : Widget(msgboxTitle) {
     this->bTitle = false;
     this->bBorder = false;
     this->bClosingCross = false;

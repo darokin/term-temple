@@ -23,6 +23,7 @@ protected:
 
 public:
     Module(i2d _initialPos, i2d _size = {20, 8});
+    
     virtual ~Module();
     virtual void draw();
     virtual void mainDraw();

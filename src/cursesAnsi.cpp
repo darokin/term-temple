@@ -290,20 +290,22 @@ namespace cursesANSI {
     }
 
     bool mvwaddnANSIstr(WINDOW* _win, int _startY, int _startX, const std::string& _line) {
-        int _x = _startX;
+        uint16_t _x = _startX;
+
         for (unsigned char c : _line) {
             if (c == ASCII_EOF)
                 return false;
             unsigned char printChar = feedChar(c, _win);
             if (printChar != 0) {
                 // == ASCII char en Unicode ne ressortiront pas donc on les converti en Unicode le plus proche
-                if ((int)printChar > 127) // < 256 always true for unsigned char : && (int)printChar < 256)
-                    mvwaddwstr(_win, _startY, _x, CP437_unicode[(int)printChar - 128]);
+                if ((uint8_t)printChar > 127) // < 256 always true for unsigned char : && (int)printChar < 256)
+                    mvwaddwstr(_win, _startY, _x, CP437_unicode[(uint8_t)printChar - 128]);
                 else  
                     mvwaddch(_win, _startY, _x, printChar);
                 _x++;
             }
         }
+
         return true;
     }
     
@@ -313,11 +315,11 @@ namespace cursesANSI {
 
     uint16_t getANSIstrLength(const std::string& _line) {
         uint16_t lengthCount {0};
-        unsigned char printChar;
+
         for (unsigned char c : _line) {
             if (c == ASCII_EOF)
                 break;
-            printChar = feedChar(c, nullptr);
+            unsigned char printChar = feedChar(c, nullptr);
             if (printChar != 0)
                 lengthCount++;
         }
