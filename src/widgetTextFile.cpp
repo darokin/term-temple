@@ -18,7 +18,7 @@ WidgetTextFile::WidgetTextFile(std::wstring _title, const char* _filePath) : Wid
     std::wstringstream wss;
     std::wifstream wif(_filePath);
     if (!wif.is_open()) {
-        wss << "ERROR reading file '" << _filePath << "'";
+        wss << "Unable to open TXT file '" << _filePath << "'" << std::endl;
         this->contentLines.push_back(wss.str());
         return;
     }

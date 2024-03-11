@@ -12,7 +12,7 @@ private:
 public:
     ModuleScroller(i2d _pos, uint16_t _nbColumns);
     virtual ~ModuleScroller() {};
-    void setText(std::wstring _line);
+    void setText(const std::wstring& _line);
     void setSpeed(long _ms);
     virtual void draw();
     void setCentered(bool _centered) { this->centered = _centered; };

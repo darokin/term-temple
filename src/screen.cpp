@@ -14,6 +14,13 @@
 	#define msleep(x) usleep((x) * 100)   // todo faire inline à la place ?
 #endif
 
+#ifdef _WIN32
+	//const std::string backgroundAnsiPath = "..\\data\\ans\\eyes_pretty_02.ans";
+	const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans";
+#else
+	const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans";
+#endif 
+
 #include "screen.hpp"
 #include "widgetsManager.hpp"
 #include "widget.hpp"
@@ -43,8 +50,7 @@ WINDOW *wstatus;
 void initWidgets() {
 	
 	wmgr = WidgetManager::getInstance();
-	//wmgr->setBackground("../data/ans/dar_0_home.ans");
-	wmgr->setBackground("../data/ans/eyes_pretty_02.ans");
+	wmgr->setBackground(backgroundAnsiPath);
 
 /*	
 	// ================================================

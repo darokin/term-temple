@@ -4,6 +4,8 @@
 #include <locale.h>
 #include "screen.hpp"
 
+const char* errorFilePath { "../data/logs/errors.txt" };
+
 void endApp() {
     screenExit();
     // do other main 'free before exit' stuff
@@ -34,7 +36,10 @@ int main(int, char**) {
     setlocale(LC_ALL, "");
 
     // == Stream stderr to file
-    std::freopen("../data/logs/errors.txt", "w", stderr);
+    std::FILE* _ferr = std::freopen(errorFilePath, "w", stderr);
+    if (_ferr == nullptr) {
+        std::cout << "Error can't write errors to '" << errorFilePath << "'" << std::endl;
+    }
 
     screenInit();
     screenLoop();

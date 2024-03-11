@@ -3,13 +3,13 @@
 #include "widgetANSI.hpp"
 #include "cursesAnsi.hpp"
 
-WidgetANSI::WidgetANSI(std::wstring _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
+WidgetANSI::WidgetANSI(const std::wstring& _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
 }
 
-WidgetANSI::WidgetANSI(std::wstring _title) : Widget::Widget(_title) {
+WidgetANSI::WidgetANSI(const std::wstring& _title) : Widget::Widget(_title) {
 }
 
-WidgetANSI::WidgetANSI(std::wstring _title, const char* _ansiFilePath) : Widget::Widget(_title) {
+WidgetANSI::WidgetANSI(const std::wstring& _title, const char* _ansiFilePath) : Widget::Widget(_title) {
     //this->bBorder = false;
     this->setColorPair(getColor(colorPairs::WHITE_ON_BLACK));
     ansiFile.open(_ansiFilePath);

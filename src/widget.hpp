@@ -22,8 +22,8 @@ protected:
     bool        bResizable {false};
     i2d         sizeMin {32, 10};
 public:
-    Widget(std::wstring _title, i2d _pos, i2d _size);
-    Widget(std::wstring _title);
+    Widget(const std::wstring& _title, i2d _pos, i2d _size);
+    explicit Widget(const std::wstring& _title);
     virtual ~Widget(); 
 
     virtual void mainDraw();
@@ -38,7 +38,7 @@ public:
     void setSize(i2d _size);
     void setColorPair(uint8_t _colorPair);
     void setBorder(bool _bBorder);
-    void setTitle(std::wstring _title);
+    void setTitle(const std::wstring& _title);
     i2d  getPos() { return this->pos; };
     i2d  getSize() { return this->size; };
     i2d  getSizeMin() { return this->sizeMin; };

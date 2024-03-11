@@ -32,9 +32,11 @@ public:
     void dialogPrev();
     void dialogNext();
     void setText(std::vector<std::wstring>& _lines);
-    void setText(std::wstring _line);
+    void setText(const std::wstring& _line);
     void setCentered(bool _centered) { this->centered = _centered; };
-    uint16_t getLineMax() { return lineMax; };
+    void setLineMaxForced(uint16_t _lineMaxForced) { this->lineMaxForced = _lineMaxForced; };
+    uint16_t getLineMax() { return this->lineMax; };
+    uint16_t getLineMaxForced() { return lineMaxForced; };
     bool isDone() { return this->bIsDone; };
     bool isLastSequence() { return (seqIndex == sequences.size() - 1); };
 };

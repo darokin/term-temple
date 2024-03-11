@@ -8,8 +8,8 @@ private:
     bool isBig {true};
 
 public:
-    WidgetClock(std::wstring _title, i2d _pos, i2d _size);
-    WidgetClock(std::wstring _title);
+    WidgetClock(const std::wstring& _title, i2d _pos, i2d _size);
+    explicit WidgetClock(const std::wstring& _title);
     virtual ~WidgetClock();
     virtual void draw();
     virtual void handleKey(int _keycode);

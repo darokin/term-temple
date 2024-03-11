@@ -25,7 +25,7 @@ void ModuleScroller::draw() {
     }
 }
 
-void ModuleScroller::setText(std::wstring _line) {
+void ModuleScroller::setText(const std::wstring& _line) {
     this->sText = _line;
 }
 

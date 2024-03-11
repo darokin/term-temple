@@ -14,7 +14,7 @@
 #include "globals.hpp"
 
 // = TODO : add position
-WidgetDialog::WidgetDialog(std::wstring _title, const char* _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
+WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
     dialog = nullptr;
     dialogTimeStart = globals::currentTimeInMs; // Utils::timeInMilliseconds();
 

@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include "utils.hpp"
 
-ModuleOneLiner::ModuleOneLiner(std::wstring _line, i2d _pos)
+ModuleOneLiner::ModuleOneLiner(const std::wstring& _line, i2d _pos)
     : Module(_pos, {(int)_line.length(), 1}) {
     this->setText(_line);
     this->bIsDone = false;
@@ -17,7 +17,7 @@ void ModuleOneLiner::draw() {
     this->bIsDone = (nbCharsToShow >= this->nbChars);
 }
 
-void ModuleOneLiner::setText(std::wstring _line) {
+void ModuleOneLiner::setText(const std::wstring& _line) {
     this->line = _line;
     this->nbChars = _line.length();
 }

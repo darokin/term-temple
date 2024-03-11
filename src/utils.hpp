@@ -79,7 +79,7 @@ namespace Utils {
     }
 
     // == LOG =======================================================
-    inline void Log(std::string logMsg){
+    inline void Log(const std::string& logMsg){
         std::string now = getCurrentDateTime("now");
         std::ofstream ofs(LOGFILE_PATH, std::ios_base::out | std::ios_base::app );
         ofs << now << '\t' << logMsg << std::endl;

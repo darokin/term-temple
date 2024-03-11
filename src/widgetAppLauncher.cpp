@@ -24,14 +24,11 @@ WidgetAppLauncher::WidgetAppLauncher() : Widget(appLauncherTitle) {
     this->pos.x = 4;
     this->pos.y = 4;
 
-    ModuleOneLiner* tmpOL;
-    uint16_t nbSpacesBefore, nbSpacesAfter;
-    std::wstring wsAppName;
     for (int i = 0; i < APPLAUNCHER_NBAPPS; i++) {
-        nbSpacesBefore = (APPLAUNCHER_WIDTH - appNames[i].length()) / 2;
-        nbSpacesAfter = APPLAUNCHER_WIDTH - appNames[i].length() - nbSpacesBefore;
-        wsAppName = std::wstring(nbSpacesBefore, ' ') + appNames[i] + std::wstring(nbSpacesAfter, ' ');
-        tmpOL = new ModuleOneLiner(wsAppName.c_str(), {1, (i * 1) + 1});
+        const uint16_t nbSpacesBefore = (APPLAUNCHER_WIDTH - appNames[i].length()) / 2;
+        const uint16_t nbSpacesAfter = APPLAUNCHER_WIDTH - appNames[i].length() - nbSpacesBefore;
+        const std::wstring wsAppName = std::wstring(nbSpacesBefore, ' ') + appNames[i] + std::wstring(nbSpacesAfter, ' ');
+        ModuleOneLiner* tmpOL = new ModuleOneLiner(wsAppName, {1, (i * 1) + 1});
         tmpOL->setWidget(this);
         tmpOL->updatePos();
         this->addModule(tmpOL);
@@ -42,13 +39,6 @@ WidgetAppLauncher::WidgetAppLauncher() : Widget(appLauncherTitle) {
             this->selectedModule->setColorReversed(true);
         }
     } 
-    /*
-    this->indSelected = 0;
-    this->selector = new ModuleOneLiner(std::wstring(maxX, '_'), {1, (this->indSelected * 2) + 2});
-    this->selector->setSpeed(30);
-    this->selector->setWidget(this);
-    this->selector->updatePos();
-    */
 }
 
 WidgetAppLauncher::~WidgetAppLauncher() {

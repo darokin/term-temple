@@ -6,9 +6,9 @@
 #include "widget.hpp"
 #include "widgetClock.hpp"
 
-WidgetClock::WidgetClock(std::wstring _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
+WidgetClock::WidgetClock(const std::wstring& _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
 }
-WidgetClock::WidgetClock(std::wstring _title) : Widget::Widget(_title) {
+WidgetClock::WidgetClock(const std::wstring& _title) : Widget::Widget(_title) {
 }
 WidgetClock::~WidgetClock() {
 }
@@ -49,13 +49,10 @@ std::wstring arrNumSmall[CHARSMALL_LINES][CHARSMALL_COLS] = {
 };
 
 inline static void drawNumber(int _num, int _posx, int _posy, bool _isBig) {
-    int nbLines = (_isBig ? CHARBIG_COLS : CHARSMALL_COLS); // STUPID c'es reverse le nommage des constantes...
-    std::wstring* wstr;
+    int nbLines = (_isBig ? CHARBIG_COLS : CHARSMALL_COLS); // STUPID c'est reverse le nommage des constantes...
 
 	for (int i = 0; i < nbLines; i++) {
-        wstr = (_isBig ? &arrNum[_num][i] : &arrNumSmall[_num][i]);
-    	//wmove(_win, _posy, _posx);
-		//waddwstr(_win, wstr->c_str());
+        std::wstring* wstr = (_isBig ? &arrNum[_num][i] : &arrNumSmall[_num][i]);
         renderer::drawString(wstr->c_str(), {_posx, _posy});
 		_posy = _posy + 1;
     }

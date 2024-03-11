@@ -10,11 +10,11 @@ private:
     std::wstring    sText;
     uint16_t        nbColumns;
 public:
-    ModuleButton(std::wstring _wstr, i2d _pos, uint16_t _nbColumns);
-    ModuleButton(std::wstring _wstr, i2d _pos);
+    ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColumns);
+    ModuleButton(const std::wstring& _wstr, i2d _pos);
     virtual ~ModuleButton() {};
     virtual void draw();
-    void setText(std::wstring _line);
+    void setText(const std::wstring& _line);
 };
 
 #endif

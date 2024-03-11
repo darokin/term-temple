@@ -1,8 +1,11 @@
+// __STDC_WANT_LIB_EXT1__ set to 1 before include stdio.h ; for 
 #include "moduleDialog.hpp"
 #include "renderer.hpp"
 #include "globals.hpp"
 
-int endWordInHowManyChar(std::wstring wstr, size_t wordCountStart) {
+#define MAX_LINE_SIZE   1024
+
+int endWordInHowManyChar(const std::wstring& wstr, size_t wordCountStart) {
     size_t _strLenght = wstr.length();
     if (wordCountStart >= _strLenght)
         return 0;
@@ -23,12 +26,12 @@ ModuleDialog::ModuleDialog(i2d _pos, uint16_t _nbColumns)
 }
 
 void ModuleDialog::draw() {
-    uint16_t nbCharsToShow {0};
-    uint16_t nbCharsToShowTotal {0};
+    uint16_t nbCharsToShow {};
+    uint16_t nbCharsToShowTotal {};
     uint16_t x {0};
     uint16_t y {(uint16_t)this->pos.y};
-    uint16_t xdec {0}; // dec if centered
-    uint16_t slen {0}; // current string length
+    uint16_t xdec {}; // dec if centered
+    uint16_t slen {}; // current string length
     // == Security
     if (widget == nullptr)
         return;
@@ -40,10 +43,10 @@ void ModuleDialog::draw() {
         nbCharsToShow = this->sequences[this->seqIndex]->nbChars;
     nbCharsToShowTotal = nbCharsToShow;
     // == Placing characters
-    for (auto s : this->sequences[this->seqIndex]->lines) {
-        slen = wcslen(s);
+    for (const auto& s : this->sequences[this->seqIndex]->lines) {
+        slen = wcsnlen_s(s, MAX_LINE_SIZE);
         xdec = (this->centered ? (this->nbColumns - slen) / 2 : 0);
-        if (wcslen(s) > nbCharsToShow) {
+        if (slen > nbCharsToShow) {
             renderer::drawString(s, {this->pos.x + xdec, y}, nbCharsToShow);
             x = nbCharsToShow + this->pos.x + xdec;
             y++;
@@ -89,7 +92,7 @@ void ModuleDialog::dialogNext() {
     this->seqIndex++;
 }
 
-void ModuleDialog::setText(std::wstring _line) {
+void ModuleDialog::setText(const std::wstring& _line) {
     std::wistringstream _wis(_line);
     std::wstring _ws;
     std::vector<std::wstring> _lines;
@@ -125,7 +128,7 @@ void ModuleDialog::setText(std::vector<std::wstring>& _lines) {
             continue;
         }
         // == Empty line
-        if (_lines[i].length() <= 0) {
+        if (_lines[i].length() == 0) {
             newLine[0] = L'\0';
             sequences.back()->lines.push_back(newLine);
             sequences.back()->nbChars++;

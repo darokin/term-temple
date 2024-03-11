@@ -11,8 +11,8 @@ protected:
     ModuleDialog *dialog {nullptr};
     ModuleButton *button {nullptr};
 public:
-    WidgetMsgbox(std::wstring _msg, std::wstring _buttonMsg);
-    WidgetMsgbox(std::wstring _msg);
+    WidgetMsgbox(const std::wstring& _msg, std::wstring _buttonMsg);
+    explicit WidgetMsgbox(const std::wstring& _msg);
     virtual ~WidgetMsgbox();
     virtual void draw();
     virtual void handleKey(int _keycode);

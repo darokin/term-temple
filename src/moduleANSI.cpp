@@ -2,15 +2,15 @@
 #include "moduleANSI.hpp"
 #include "cursesAnsi.hpp"
 
-ModuleANSI::ModuleANSI(std::string _filePath, i2d _pos, i2d _size) : Module::Module(_pos, _size) {
+ModuleANSI::ModuleANSI(const std::string& _filePath, i2d _pos, i2d _size) : Module::Module(_pos, _size) {
     ansiFile.open(_filePath);
     if (!ansiFile.is_open())
         std::cout << "Unable to open ANSI file '" << _filePath << "'" << std::endl; 
 
     // == Detect size
-    std::string _line;
-    int _h {0}, _w {0}, _lineLength {0};
     if (_size.x == 0 && _size.y == 0) {
+        std::string _line;
+        int _h {0}, _w {0}, _lineLength {0};
         while (getline(this->ansiFile, _line)) {
             _lineLength = cursesANSI::getANSIstrLength(_line); 
             if (_lineLength > _w)
@@ -22,7 +22,7 @@ ModuleANSI::ModuleANSI(std::string _filePath, i2d _pos, i2d _size) : Module::Mod
     }
 }
 
-ModuleANSI::ModuleANSI(std::string _filePath) : ModuleANSI::ModuleANSI(_filePath, {0, 0}, {0, 0}) {
+ModuleANSI::ModuleANSI(const std::string& _filePath) : ModuleANSI::ModuleANSI(_filePath, {0, 0}, {0, 0}) {
 }
 
 ModuleANSI::~ModuleANSI() {

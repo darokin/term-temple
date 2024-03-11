@@ -15,7 +15,7 @@ private:
     ModuleDialog* dialog;
     ModuleButton* button;
 public:
-    WidgetDialog(std::wstring _title, const char* _ansiFilePath);
+    WidgetDialog(const std::wstring& _title, const char* _ansiFilePath);
     virtual ~WidgetDialog();
     virtual void draw();
     virtual void handleKey(int _keycode);

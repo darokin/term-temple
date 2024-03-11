@@ -54,9 +54,9 @@
 #define ANSI_COLOR_COUNT	8
 
 namespace cursesANSI {
-    bool mvwaddnANSIstr(WINDOW* _win, int _startY, int _startX, std::string _line);
-	bool mvwaddnANSIstr(int _startY, int _startX, std::string _line);
-    uint16_t getANSIstrLength(std::string _line);
+    bool mvwaddnANSIstr(WINDOW* _win, int _startY, int _startX, const std::string& _line);
+	bool mvwaddnANSIstr(int _startY, int _startX, const std::string& _line);
+    uint16_t getANSIstrLength(const std::string& _line);
     unsigned char feedChar(unsigned char c, WINDOW* _win);
 };
 

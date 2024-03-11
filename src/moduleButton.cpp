@@ -3,15 +3,15 @@
 
 #define BUTTON_DEFAULT_HEIGHT   3
 
-ModuleButton::ModuleButton(std::wstring _wstr, i2d _pos, uint16_t _nbColumns) 
+ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColumns) 
  : Module(_pos, {_nbColumns, BUTTON_DEFAULT_HEIGHT}), sText {_wstr}, nbColumns {_nbColumns} {
     this->msPerChar = 200;
 }
 
-ModuleButton::ModuleButton(std::wstring _wstr, i2d _pos): ModuleButton(_wstr, _pos, _wstr.length() + 4) {
+ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos): ModuleButton(_wstr, _pos, _wstr.length() + 4) {
 }
 
-void ModuleButton::setText(std::wstring _line) {
+void ModuleButton::setText(const std::wstring& _line) {
     this->sText = _line;
 }
 

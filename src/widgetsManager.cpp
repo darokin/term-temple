@@ -182,7 +182,7 @@ void WidgetManager::addWidget(Widget* _widget) {
 }
 
 void WidgetManager::removeWidget(Widget* _widget) {
-    for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); it++) {
+    for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
         if (*it == _widget) {
             this->widgets.erase(it);
             break;
@@ -284,7 +284,7 @@ void WidgetManager::openHelp() {
     i2d _pos {(termSize.x - _size.x) / 2, (termSize.y - _size.y) / 2 - 1};
     WidgetTextFile* _wHelp;
     
-    _wHelp = new WidgetTextFile(L"HELP", "files/help.txt");
+    _wHelp = new WidgetTextFile(L"HELP", "../data/txt/help.txt");
     _wHelp->setColorPair(colorPairs::BLUE_ON_WHITE);
     _wHelp->setPos(_pos);
     _wHelp->setSize(_size);
@@ -292,7 +292,7 @@ void WidgetManager::openHelp() {
 }
 
 void WidgetManager::openSystem() {
-    WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "./files/system01.ans");
+    WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
 	wANSI->setPos({8, 6});
 	wANSI->setSize({68, 30});
     addWidget(wANSI);
