@@ -1,9 +1,10 @@
 #ifndef TERMTEMPLE_RENDERER_H
 #define TERMTEMPLE_RENDERER_H
 
+// TODO __linux__ / _macos __WIN32
 #ifdef __unix__
     #include <cursesw.h>
-#elif // defined _WIN32
+#else
     #define NCURSES_WIDECHAR 1
     #include <ncursesw/ncurses.h>
 #endif

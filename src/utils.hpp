@@ -36,6 +36,19 @@ template<typename Type>
 struct v2d {
     Type x{0};
     Type y{0};
+
+    v2d(Type _x, Type _y) : x { _x }, y { _y } {};
+    v2d() : x { 0 }, y { 0 } {};
+    v2d(const v2d& _copy) = default; // : v2d(_copy.x, _copy.y) {};
+    v2d(v2d&& _move) = default;
+    v2d& operator=(v2d&& _movea) = default;
+    v2d& operator=(const v2d& _copya) = default; /* {
+        if (this == &_copya) return *this;
+        x = _copya.x;
+        y = _copya.y;
+        return *this;
+    };*/
+    
     friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; };
     friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; };
 };
@@ -48,6 +61,7 @@ template<typename Type> inline bool operator<=(const v2d<Type>& l, const v2d<Typ
 template<typename Type> inline bool operator>=(const v2d<Type>& l, const v2d<Type>& r) { return !(l < r); };
 
 using i2d = v2d<int>;
+using u2d = v2d<uint16_t>;
 
 namespace Utils {
 
@@ -161,6 +175,10 @@ namespace Utils {
         return result;
     } */
 
+    // == WSTRING FORMAT =====================================
+    // == Après fail avec variadic arg (cf. + haut) j'ai demandé 
+    // == honteusement à ChatGPT (3.5) de faire un format_wstring() (ci-après)
+
     // Fonction récursive pour formater une chaîne de caractères
     template<typename T>
     void format_arg(std::wstringstream& ss, const std::wstring& fmt, size_t& pos, const T& value) {
@@ -181,6 +199,7 @@ namespace Utils {
         }
     }
 
+    // == Format WSTRING 
     template<typename... Args>
     std::wstring format_wstring(const std::wstring& fmt, Args... args) {
         std::wstringstream ss;

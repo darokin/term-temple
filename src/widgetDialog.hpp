@@ -1,6 +1,7 @@
 #ifndef TERMTEMPLE_WIDGETDIALOG_H
 #define TERMTEMPLE_WIDGETDIALOG_H
 
+#include <memory>
 #include "screen.hpp"
 #include "widget.hpp"
 #include "widgetTextFile.hpp"
@@ -12,8 +13,8 @@ extern i2d termSize;
 class WidgetDialog : public WidgetTextFile {
 private:
     long long dialogTimeStart;
-    ModuleDialog* dialog;
-    ModuleButton* button;
+    std::unique_ptr<ModuleDialog> dialog {};
+    std::unique_ptr<ModuleButton> button {};
 public:
     WidgetDialog(const std::wstring& _title, const char* _ansiFilePath);
     virtual ~WidgetDialog();

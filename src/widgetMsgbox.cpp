@@ -1,5 +1,5 @@
 #include <sstream>
-
+#include <memory>
 #include "utils.hpp"
 #include "screen.hpp"
 #include "widget.hpp"
@@ -16,7 +16,8 @@ WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _button
     this->bBorder = false;
     this->bClosingCross = false;
 
-    dialog = new ModuleDialog({MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
+    //dialog = new ModuleDialog({MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
+    dialog = std::make_unique<ModuleDialog>(i2d{MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
     dialog->setCentered(true);
     dialog->setSpeed(10);
     dialog->setText(_msg);
@@ -30,7 +31,8 @@ WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _button
     dialog->setWidget(this);
     dialog->updatePos();
     
-    button = new ModuleButton(_buttonMsg, {int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
+    //button = new ModuleButton(_buttonMsg, {int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
+    button = std::make_unique<ModuleButton>(_buttonMsg, i2d{int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
     button->setWidget(this);
     button->updatePos();
 }

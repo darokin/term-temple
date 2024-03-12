@@ -18,8 +18,7 @@ WidgetANSI::WidgetANSI(const std::wstring& _title, const char* _ansiFilePath) : 
 }
 
 WidgetANSI::~WidgetANSI() {
-    if (ansiFile.is_open())
-        ansiFile.close();
+    // file is auto closed
 }
 
 void WidgetANSI::draw() {

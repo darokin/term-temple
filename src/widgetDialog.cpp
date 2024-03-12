@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <codecvt>
-
+#include <memory>
 #include "screen.hpp"
 #include "renderer.hpp"
 #include "widget.hpp"
@@ -13,25 +13,22 @@
 #include "utils.hpp"
 #include "globals.hpp"
 
-// = TODO : add position
+// == TODO : add position
 WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
     dialog = nullptr;
     dialogTimeStart = globals::currentTimeInMs; // Utils::timeInMilliseconds();
 
-    button = new ModuleButton(L"Close", {3, 5}, 12);
+    button = std::make_unique<ModuleButton>(L"Close", i2d{3, 5}, 12);
     button->setWidget(this);
     button->updatePos();
 }
 
 WidgetDialog::~WidgetDialog() {
-    //if (txtFile.is_open())
-    //    txtFile.close();
-    if (dialog != nullptr)
-        free(dialog);
+
 }
 
 void WidgetDialog::addDialog(std::vector<std::wstring>& _lines) {
-    dialog = new ModuleDialog({1, 1}, this->size.x - 2, this->size.y - 2);
+    dialog = std::make_unique<ModuleDialog>(i2d{1, 1}, this->size.x - 2, this->size.y - 2);
     dialog->setWidget(this);
     dialog->updatePos();
     dialog->setText(_lines);
@@ -65,7 +62,7 @@ void WidgetDialog::handleKey(int _keycode) {
 }
 
 void WidgetDialog::draw() {
-    if (dialog == nullptr)
+    if (!dialog) // == nullptr)
         return;
   
     dialog->mainDraw();
@@ -81,7 +78,7 @@ void WidgetDialog::setPos(i2d _pos) {
     this->pos = _pos;
     for (auto& m : this->modules)
         m->updatePos();
-    if (dialog != nullptr)
+    if (dialog) // != nullptr)
         dialog->updatePos();
     button->updatePos();
 }
