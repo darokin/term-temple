@@ -1,8 +1,8 @@
 #ifndef TERMTEMPLE_RENDERER_H
 #define TERMTEMPLE_RENDERER_H
 
-// TODO __linux__ / _macos __WIN32
-#ifdef __unix__
+// TODO __linux__ / __APPLE__ / __WIN32
+#if defined (__unix__) || (__linux__)
     #include <cursesw.h>
 #else
     #define NCURSES_WIDECHAR 1
@@ -10,6 +10,8 @@
 #endif
 
 #include "utils.hpp"
+
+// TODO refactor
 
 namespace renderer {
 	void setColor(uint8_t _colorPair);

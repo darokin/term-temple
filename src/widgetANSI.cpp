@@ -3,6 +3,7 @@
 #include "widgetANSI.hpp"
 #include "cursesAnsi.hpp"
 
+// TODO : Mettre un moduleANSI inside et avoir un draw d'une ligne
 WidgetANSI::WidgetANSI(const std::wstring& _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
 }
 

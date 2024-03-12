@@ -274,8 +274,7 @@ void WidgetFileExplorer::handleKey(int _keycode) {
 
     uint16_t _yPos = this->selectedFile->yPosition;
 
-    switch (_keycode)
-    {
+    switch (_keycode) {
         case KEY_UP:
             if (_yPos != 0) {
                 if (_yPos - this->scrollY < 3 && this->scrollY > 0) {

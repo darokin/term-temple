@@ -52,7 +52,6 @@ void WidgetManager::draw() {
 }
 
 void WidgetManager::setBackground(const std::string& _backgroundPath) {
-    //this->backgroundPath = _backgroundPath;
     if (background != nullptr) {
         delete background;
     }
@@ -68,10 +67,10 @@ void WidgetManager::setBackground(const std::string& _backgroundPath) {
 }
 
 void WidgetManager::handleKey(int _keycode) {
-    if (_keycode == 27) {
+    if (_keycode == KEY_ESCAPE) {
         return;
     }
-    if (_keycode == KEY_TAB) {//9) {
+    if (_keycode == KEY_TAB) {
         if (this->widgets.size() <= 1)
             return;
         Widget* tmpWidget;
@@ -221,7 +220,7 @@ void WidgetManager::handleMouseClicked(i2d _pos) {
         _wPos = _w->getPos();
         if (_pos.x >= _wPos.x && _pos.x < _wPos.x + _wSize.x \
         &&  _pos.y >= _wPos.y && _pos.y < _wPos.y + _wSize.y) {
-        /*
+        /* TODO : ok now replace and retest
         if (_pos >= _wPos && _pos < _wPos + _wSize) {
         */
             _clickedWidget = _w;
@@ -259,11 +258,11 @@ void WidgetManager::openFile(const std::string& _filePath) {
 
     // == Get filename 
     _fileName = _filePath.substr(_filePath.find_last_of('/') + 1);
-    
+
     // == Get Extension
     if (_fileName.length() > 4) 
         _extension = _fileName.substr(_fileName.length() - 4, 4);
-    
+
     // == Images
     if (_extension == ".ans") {
         _newWidget = new WidgetANSI(Utils::str2wstr(_fileName), _filePath.c_str());
@@ -280,10 +279,10 @@ void WidgetManager::openFile(const std::string& _filePath) {
 }
 
 void WidgetManager::openHelp() {
-	i2d _size {64, 24};
+    i2d _size {64, 24};
     i2d _pos {(termSize.x - _size.x) / 2, (termSize.y - _size.y) / 2 - 1};
     WidgetTextFile* _wHelp;
-    
+
     _wHelp = new WidgetTextFile(L"HELP", "../data/txt/help.txt");
     _wHelp->setColorPair(colorPairs::BLUE_ON_WHITE);
     _wHelp->setPos(_pos);
@@ -293,19 +292,19 @@ void WidgetManager::openHelp() {
 
 void WidgetManager::openSystem() {
     WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
-	wANSI->setPos({8, 6});
-	wANSI->setSize({68, 30});
+    wANSI->setPos({8, 6});
+    wANSI->setSize({68, 30});
     addWidget(wANSI);
 }
 
 void WidgetManager::openFileExplorer() {
-	WidgetFileExplorer* wFileExplorer = new WidgetFileExplorer();
-	addWidget(wFileExplorer);
+    WidgetFileExplorer* wFileExplorer = new WidgetFileExplorer();
+    addWidget(wFileExplorer);
 }
 
 void WidgetManager::openClock() {
     WidgetClock* wClock = new WidgetClock(L"CLOCK", {12, 10}, {48, 12});
-	wClock->setColorPair(colorPairs::BLUE_ON_YELLOW);
+    wClock->setColorPair(colorPairs::BLUE_ON_YELLOW);
     addWidget(wClock);
 }
 
@@ -336,6 +335,9 @@ void WidgetManager::freeWidgets() {
     for (auto w : widgets) {
         delete w;
     }
+    if (background)
+        delete background; // background ModuleANSI
+    if (appLauncher)
+        delete appLauncher; // widgetAppLauncher
 }
 
-// =====================================

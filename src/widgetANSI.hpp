@@ -11,7 +11,6 @@ public:
     explicit WidgetANSI(const std::wstring& _title);
     WidgetANSI(const std::wstring& _title, const char* _ansiFilePath);
     virtual ~WidgetANSI();
-    //virtual void mainDraw();
     void draw();
 };
 

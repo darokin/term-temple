@@ -12,7 +12,7 @@ private:
 public:
     ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColumns);
     ModuleButton(const std::wstring& _wstr, i2d _pos);
-    ModuleButton(const ModuleButton& _mbutton);
+    ModuleButton(const ModuleButton& _mbutton); // no need... (TODO)
     virtual ~ModuleButton() {};
     virtual void draw();
     void setText(const std::wstring& _line);

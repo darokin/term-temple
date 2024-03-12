@@ -32,7 +32,7 @@ ModuleANSI::~ModuleANSI() {
 void ModuleANSI::draw() {
     std::string _line;
     int y{ 0 };
-    
+
     if (!ansiFile.is_open())
         return;
 

@@ -16,7 +16,7 @@
 // == TODO : add position
 WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
     dialog = nullptr;
-    dialogTimeStart = globals::currentTimeInMs; // Utils::timeInMilliseconds();
+    dialogTimeStart = globals::currentTimeInMs; // Utils::timeInMilliseconds(); (TODO)
 
     button = std::make_unique<ModuleButton>(L"Close", i2d{3, 5}, 12);
     button->setWidget(this);
@@ -24,7 +24,6 @@ WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath
 }
 
 WidgetDialog::~WidgetDialog() {
-
 }
 
 void WidgetDialog::addDialog(std::vector<std::wstring>& _lines) {

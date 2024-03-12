@@ -7,7 +7,7 @@ namespace globals {
     const wchar_t* cursBlock    = L"█";
     const wchar_t* cursBlock2   = L"▓";
     const wchar_t* cursBlock3   = L"▒";
-	const wchar_t* longSpacesLine = L"\
+    const wchar_t* longSpacesLine = L"\
                                                 \
                                                 \
                                                 \
@@ -15,7 +15,7 @@ namespace globals {
                                                 \
                                                 ";
     GameState gameState {GameState::INGAME_START};
-	long long currentTimeInMs;
+    long long currentTimeInMs;
     wchar_t statusText[STATUS_TEXT_MAXLENGTH];
 
     void tick() { 

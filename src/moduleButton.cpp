@@ -11,6 +11,7 @@ ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColu
 ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos): ModuleButton(_wstr, _pos, _wstr.length() + 4) {
 }
 
+// == Should never need to copy button... (TODO)
 ModuleButton::ModuleButton(const ModuleButton& _mbutton) : ModuleButton(_mbutton.sText, _mbutton.pos) {
     this->nbColumns = _mbutton.nbColumns;
     this->clickFunc = _mbutton.clickFunc;
@@ -23,8 +24,7 @@ void ModuleButton::setText(const std::wstring& _line) {
 }
 
 void ModuleButton::draw() {
-    //renderer::drawString(this->sText.c_str(), {this->pos.x + int((this->size.x - this->sText.length() - 4) / 2), this->pos.y + 1}, (this->nbColumns));
-    renderer::drawString(this->sText.c_str(), {this->pos.x + 2, this->pos.y + 1});//, {this-} {this->pos.x + int((this->size.x - this->sText.length() - 4) / 2), this->pos.y + 1}, (this->nbColumns));
+    renderer::drawString(this->sText.c_str(), {this->pos.x + 2, this->pos.y + 1});
     for (int _tx = pos.x; _tx < this->pos.x + this->size.x; _tx++) {
         renderer::drawString(L"─", {_tx, this->pos.y});
         renderer::drawString(L"─", {_tx, this->pos.y + this->size.y - 1});
@@ -38,6 +38,3 @@ void ModuleButton::draw() {
     renderer::drawString(L"└", {this->pos.x, this->pos.y + this->size.y - 1});
     renderer::drawString(L"┘", {this->pos.x + this->size.x - 1, this->pos.y + this->size.y - 1});
 }
-
-
-

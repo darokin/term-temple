@@ -13,11 +13,11 @@ WidgetClock::WidgetClock(const std::wstring& _title) : Widget::Widget(_title) {
 WidgetClock::~WidgetClock() {
 }
 
-#define CHARBIG_COLS    5
-#define CHARBIG_LINES    11
+#define CHARBIG_COLS        5
+#define CHARBIG_LINES       11
 
-#define CHARSMALL_COLS    3
-#define CHARSMALL_LINES    11
+#define CHARSMALL_COLS      3
+#define CHARSMALL_LINES     11
 
 std::wstring arrNum[CHARBIG_LINES][CHARBIG_COLS] = { 
 	{L"████████", L"██⠀⠀⠀⠀██", L"██⠀⠀⠀⠀██", L"██⠀⠀⠀⠀██", L"████████"},
@@ -51,10 +51,10 @@ std::wstring arrNumSmall[CHARSMALL_LINES][CHARSMALL_COLS] = {
 inline static void drawNumber(int _num, int _posx, int _posy, bool _isBig) {
     int nbLines = (_isBig ? CHARBIG_COLS : CHARSMALL_COLS); // STUPID c'est reverse le nommage des constantes...
 
-	for (int i = 0; i < nbLines; i++) {
+    for (int i = 0; i < nbLines; i++) {
         std::wstring* wstr = (_isBig ? &arrNum[_num][i] : &arrNumSmall[_num][i]);
         renderer::drawString(wstr->c_str(), {_posx, _posy});
-		_posy = _posy + 1;
+        _posy = _posy + 1;
     }
 };
 
@@ -66,7 +66,7 @@ void WidgetClock::handleKey(int _keycode) {
 
 void WidgetClock::draw() {
     char hourMinute[6];
- 
+
     std::time_t t = std::time(0);   // get time now
     std::tm* now = std::localtime(&t);
     snprintf(hourMinute, 6, "%02d:%02d", now->tm_hour, now->tm_min);
@@ -76,7 +76,7 @@ void WidgetClock::draw() {
     int sizeX = 0;
     int sizeY = (this->isBig ? CHARBIG_COLS : CHARSMALL_COLS);
     for (int i = 0; i < 5; i++) {
-		val = (int)hourMinute[i] - 48;  // Lucky me ':' is ascii char 59 right after '9' :)
+        val = (int)hourMinute[i] - 48;  // Lucky me ':' is ascii char 59 right after '9' :)
         if (this->isBig)
             sizeX += (arrNum[val][0].length() + 2);
         else 
@@ -89,8 +89,8 @@ void WidgetClock::draw() {
     // == Parcours pour affichage
     int curX = start_x;
     for (int i = 0; i < 5; i++) {
-		val = (int)hourMinute[i] - 48;
-		drawNumber(val, curX, start_y, this->isBig);
+        val = (int)hourMinute[i] - 48;
+        drawNumber(val, curX, start_y, this->isBig);
         if (this->isBig)
             curX += (arrNum[val][0].length() + 2);
         else 

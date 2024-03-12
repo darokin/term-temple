@@ -6,9 +6,10 @@
 #include "widgetMsgbox.hpp"
 #include "widgetsManager.hpp"
 
-static const wchar_t* msgboxTitle = L"_MSGBOX_"; 
-#define MSGBOX_WIDTH    32
-#define MSGBOX_PADDING   2
+#define MSGBOX_WIDTH        32
+#define MSGBOX_PADDING      2
+static const wchar_t* msgboxTitle = L"_MSGBOX_";
+
 extern WidgetManager* wmgr;
 
 WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg) : Widget(msgboxTitle) {
@@ -16,7 +17,6 @@ WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _button
     this->bBorder = false;
     this->bClosingCross = false;
 
-    //dialog = new ModuleDialog({MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
     dialog = std::make_unique<ModuleDialog>(i2d{MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
     dialog->setCentered(true);
     dialog->setSpeed(10);
@@ -30,8 +30,7 @@ WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _button
 
     dialog->setWidget(this);
     dialog->updatePos();
-    
-    //button = new ModuleButton(_buttonMsg, {int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
+
     button = std::make_unique<ModuleButton>(_buttonMsg, i2d{int(this->size.x - (_buttonMsg.length() + (MSGBOX_PADDING*2))) / 2, this->size.y - 4});
     button->setWidget(this);
     button->updatePos();
@@ -50,8 +49,7 @@ void WidgetMsgbox::setPos(i2d _pos) {
 }
 
 void WidgetMsgbox::handleKey(int _keycode) {
-    switch (_keycode)
-    {
+    switch (_keycode) {
         case KEY_ENTER:
         case ' ':
             wmgr->removeWidget(this);

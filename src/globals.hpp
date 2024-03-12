@@ -19,11 +19,11 @@ namespace globals {
     extern const wchar_t* cursBlock3;
 	extern const wchar_t* longSpacesLine;
 	extern long long currentTimeInMs;
+	extern GameState gameState;
+	
     void tick();
 	int setStatusText(const wchar_t* _line, ...);
 	const wchar_t* getStatusText();
-
-	extern GameState gameState;
 };
 
 #endif

@@ -9,6 +9,8 @@
 #define CURSES_ANSI_COLOR_CODE_DEC  50
 
 namespace cursesANSI {
+
+    // == To convert the extended ASCII char to their Unicode nearest respective
     static const wchar_t* CP437_unicode[128] = { \
         L"\u00C7", // Ç		0		128
         L"\u00FC", // ü		1		129
@@ -141,13 +143,13 @@ namespace cursesANSI {
     };
 
     enum class State {
-    STATE_NONE,
-    STATE_PRINT,
-    STATE_ESCAPE,
-    STATE_MODIFIER,
-    STATE_MODIFIER_UNDO,
-    STATE_MODIFIER_FG,
-    STATE_MODIFIER_BG    
+        STATE_NONE,
+        STATE_PRINT,
+        STATE_ESCAPE,
+        STATE_MODIFIER,
+        STATE_MODIFIER_UNDO,
+        STATE_MODIFIER_FG,
+        STATE_MODIFIER_BG    
     };
 
     struct cursesColorPairs {
@@ -157,11 +159,14 @@ namespace cursesANSI {
     };
 
     static std::vector<cursesColorPairs> vcolors;
-    static State state;// {0};
-    static unsigned char prevChar;// {0};
-    static int colorFG;// {-1};
-    static int colorBG;// {-1};
+    static State state;
+    static unsigned char prevChar;
+    static int colorFG;
+    static int colorBG;
 
+    // == We move all corPairs so when we read a ANSI file and create color pairs
+    // == we don´t conflict with the color pairs used in our main app.
+    // == Find color pair in the vector or create and store it.
     static int getColorPair(int fg, int bg) {
         for (auto col : vcolors) {
             if (col.colorFG == fg && col.colorBG == bg)
@@ -180,7 +185,6 @@ namespace cursesANSI {
         // =============================================
         case (State::STATE_NONE):
         case (State::STATE_PRINT):
-            // # PRINT
             if (c == ASCII_ESC) {
                 state = State::STATE_MODIFIER;
                 break;
@@ -198,7 +202,6 @@ namespace cursesANSI {
         case State::STATE_MODIFIER_FG:
         case State::STATE_MODIFIER_BG:
         case State::STATE_MODIFIER:
-            // # MODIFIER ANALYSIS
             if (c == MOD_END || c == MOD_SPLITTER) {
                 // == Special case where we only want to count ansi line length
                 /*

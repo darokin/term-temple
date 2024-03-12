@@ -15,39 +15,21 @@
 
 #define LOGFILE_PATH    "logs/log.txt"
 
-/*
-struct v2d {
-    int x{0};
-    int y{0};
-    friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; };
-    friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; };
-};
 
-inline bool operator==(const v2d& l, const v2d& r) { return (l.x == r.x && l.y == r.y); };
-inline bool operator!=(const v2d& l, const v2d& r) { return !(l == r); };
-inline bool operator< (const v2d& l, const v2d& r) { return (l.x < r.x && l.y < r.y); };
-inline bool operator> (const v2d& l, const v2d& r) { return r < l; };
-inline bool operator<=(const v2d& l, const v2d& r) { return !(l > r); };
-inline bool operator>=(const v2d& l, const v2d& r) { return !(l < r); };
-*/
-
-
+// ============================================================================================================
 template<typename Type>
 struct v2d {
     Type x{0};
     Type y{0};
 
+    // == Créé inutilement en pensant que les par défaut suffisait pas...
+    // == C'était juste l'usage de make_unique qui ne mappait pas {} comme i2d contrairement au constructeur de base
     v2d(Type _x, Type _y) : x { _x }, y { _y } {};
     v2d() : x { 0 }, y { 0 } {};
     v2d(const v2d& _copy) = default; // : v2d(_copy.x, _copy.y) {};
     v2d(v2d&& _move) = default;
     v2d& operator=(v2d&& _movea) = default;
-    v2d& operator=(const v2d& _copya) = default; /* {
-        if (this == &_copya) return *this;
-        x = _copya.x;
-        y = _copya.y;
-        return *this;
-    };*/
+    v2d& operator=(const v2d& _copya) = default;
     
     friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; };
     friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; };
@@ -61,7 +43,8 @@ template<typename Type> inline bool operator<=(const v2d<Type>& l, const v2d<Typ
 template<typename Type> inline bool operator>=(const v2d<Type>& l, const v2d<Type>& r) { return !(l < r); };
 
 using i2d = v2d<int>;
-using u2d = v2d<uint16_t>;
+using u2d = v2d<uint16_t>; // not used yet may replace most
+// ============================================================================================================
 
 namespace Utils {
 
@@ -176,7 +159,7 @@ namespace Utils {
     } */
 
     // == WSTRING FORMAT =====================================
-    // == Après fail avec variadic arg (cf. + haut) j'ai demandé 
+    // == Grosse triche après fail avec variadic arg (cf. + haut) j'ai demandé 
     // == honteusement à ChatGPT (3.5) de faire un format_wstring() (ci-après)
 
     // Fonction récursive pour formater une chaîne de caractères

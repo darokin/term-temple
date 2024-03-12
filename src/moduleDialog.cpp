@@ -1,3 +1,4 @@
+// == Stop no multi-platform safer than wcsnlen()
 //#define __STDC_WANT_LIB_EXT1__ 1 // before include stdio.h ; for wcsnlen_s
 //#include <wchar.h>
 //#include <stdio.h>
@@ -87,7 +88,7 @@ void ModuleDialog::dialogNext() {
 
     if (this->seqIndex >= this->sequences.size() - 1)
         return;
-     
+
     this->seqTimeStart = globals::currentTimeInMs;
     this->bIsDone = false;
     this->seqIndex++;

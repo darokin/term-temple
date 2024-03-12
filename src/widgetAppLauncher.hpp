@@ -10,10 +10,9 @@ protected:
     uint16_t indSelected {0};
 public:
     WidgetAppLauncher();
-    virtual ~WidgetAppLauncher();
-    virtual void draw();
-    virtual void handleKey(int _keycode);
-    //void setPos(i2d _pos);
+    ~WidgetAppLauncher();
+    void draw() override;
+    void handleKey(int _keycode) override;
 };
 
 #endif

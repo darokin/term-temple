@@ -13,7 +13,7 @@ extern WidgetManager* wmgr;
 Widget::Widget(const std::wstring& _title, i2d _pos, i2d _size) : title { _title }, pos { _pos }, size { _size } {
     //this->titlePosX = (this->size.x - this->title.length()) / 2;
     this->colorPair = colorPairs::PINK_ON_WHITE;
-    this->timeStart = globals::currentTimeInMs;  // Utils::timeInMilliseconds();
+    this->timeStart = globals::currentTimeInMs;  // Utils::timeInMilliseconds(); 
 }
 
 Widget::Widget(const std::wstring& _title) : Widget(_title, {0, 0}, {40, 20}) {
@@ -21,9 +21,9 @@ Widget::Widget(const std::wstring& _title) : Widget(_title, {0, 0}, {40, 20}) {
 
 
 Widget::~Widget() {
-    //for (auto m : modules) {
-    //    free(m);
-    //}
+    for (auto m : modules) {
+        free(m);
+    }
 }
 
 void Widget::setPos(i2d _pos) {
@@ -74,7 +74,7 @@ void Widget::drawBorder() {
     renderer::drawString(L"╚", {this->pos.x, this->pos.y + this->size.y - 1});
     renderer::drawString(L"╝", {this->pos.x + this->size.x - 1, this->pos.y + this->size.y - 1});
 }
-   
+
 void Widget::mainDraw() {
     // == Refresh time lapsed
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;

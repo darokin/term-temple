@@ -1,4 +1,3 @@
-//#include "module.hpp"
 #include <cmath>
 #include "renderer.hpp"
 #include "moduleScroller.hpp"
@@ -18,7 +17,7 @@ void ModuleScroller::draw() {
     long startPosition {0};
     startPosition += std::fmod((this->timeLapsedMs / this->msPerChar), this->sText.length()); 
     const wchar_t* wstr = this->sText.c_str();
-    
+
     uint16_t xdec = (this->centered ? (this->size.x - this->nbColumns) / 2 : 0);
     for (uint16_t i = 0; i < this->nbColumns; i++) {
         renderer::drawString(&wstr[(startPosition + i) % this->sText.length()], {this->pos.x + xdec + i, this->pos.y}, 1);

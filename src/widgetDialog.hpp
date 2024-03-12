@@ -8,6 +8,7 @@
 #include "moduleDialog.hpp"
 #include "moduleButton.hpp"
 
+// TODO termSize doit être rename ET mis dans globals (qui devrait être rename (ou redécoupé) aussi)
 extern i2d termSize;
 
 class WidgetDialog : public WidgetTextFile {
@@ -18,11 +19,11 @@ private:
 public:
     WidgetDialog(const std::wstring& _title, const char* _ansiFilePath);
     virtual ~WidgetDialog();
-    virtual void draw();
-    virtual void handleKey(int _keycode);
     void addDialog(std::vector<std::wstring>& _lines);
     void addDialog();
-    virtual void setPos(i2d _pos);
+    void draw() override;
+    void handleKey(int _keycode) override;
+    void setPos(i2d _pos) override;
 };
 
 #endif

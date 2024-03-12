@@ -1,5 +1,5 @@
 CC		= g++
-CFLAGS	= -g -Wall -Wextra -I.
+CFLAGS	= -g -Wall -Wextra -std=c++17 -I.
 LINKS	= -lncursesw
 OBJDIR	= obj
 DEPS	= screen.hpp widgetsManager.hpp widget.hpp \
