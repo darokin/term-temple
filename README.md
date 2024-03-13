@@ -1,12 +1,28 @@
+![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/darokin/term-temple)
+
 # term-temple :computer:
 
-Multi-tool console application / fantasy text-mode operating system.
+**Term Temple** is a multi-tool console application / fantasy text-mode operating system.
 
 Terminal printing is made with curses (ncrusesw for wide character support).
 
-Yes it is currently graphically inspired by TempleOS.
+It is graphically inspired by TempleOS.
 
 ## Usage
+
+You will need a color enabled terminal.
+
+Currently suggested font is square font.
+
+Font used for the screenshot is Px AmstradPC1512 Regular from the "Old School PC Font Ressource" website:
+
+[Old School PC Font Ressource](https://int10h.org/oldschool-pc-fonts/fontlist/)
+
+Other useful fonts:
+
+[Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 
 Install libncursesw5-dev ou juste libncurses-dev.
 Depuis 'src/' :
@@ -15,6 +31,14 @@ Depuis 'src/' :
 >make  
 >./term-temple && stty sane && clear
 ```
+
+### Screenshots :camera:
+
+<p align="center">
+<img src="https://darokin.info/github/imgs/term-temple_01.png" alt="Term Temple console application by darokin"/><br />
+<img src="https://darokin.info/github/imgs/term-temple_02.png" alt="Term Temple console application by darokin"/><br />
+<img src="https://darokin.info/github/imgs/term-temple_03.png" alt="Term Temple console application by darokin"/><br />
+</p>
 
 ## Project
 
