@@ -24,12 +24,15 @@ struct v2d {
 
     // == Créé inutilement en pensant que les par défaut suffisait pas...
     // == C'était juste l'usage de make_unique qui ne mappait pas {} comme i2d contrairement au constructeur de base
+    // brace enclosed initialized list
+    /*
     v2d(Type _x, Type _y) : x { _x }, y { _y } {};
     v2d() : x { 0 }, y { 0 } {};
     v2d(const v2d& _copy) = default; // : v2d(_copy.x, _copy.y) {};
     v2d(v2d&& _move) = default;
     v2d& operator=(v2d&& _movea) = default;
     v2d& operator=(const v2d& _copya) = default;
+    */
     
     friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; };
     friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; };

@@ -5,7 +5,10 @@
 #include "widget.hpp"
 #include "widgetAppLauncher.hpp"
 #include "module.hpp"
+#include "moduleOneLiner.hpp"
 #include "moduleANSI.hpp"
+
+//class WidgetAppLauncher; // < this class has typedef on widgetManager
 
 extern i2d termSize;
 
@@ -19,6 +22,7 @@ protected:
     // recheck si pas mieux dans screen ou entre screen et wmgrd
     ModuleANSI* background {nullptr};
     WidgetAppLauncher* appLauncher {nullptr};
+    ModuleOneLiner* statusBar {nullptr};
     bool isOnAppLauncher {false};
     // == Handle mouse
     bool mousePressedFlag {false};

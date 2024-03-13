@@ -30,9 +30,9 @@ protected:
 public:
     WidgetFileExplorer();
     virtual ~WidgetFileExplorer();
-    virtual void draw();
-    virtual void handleKey(int _keycode);
-    virtual void setPos(i2d _pos);
+    virtual void draw() final;
+    virtual void handleKey(int _keycode) final;
+    virtual void setPos(i2d _pos) final;
     void addFilesToTree(const std::wstring& _path);
     void recursiveScanFolder(const std::string& _filesPath);
     void calcTree();

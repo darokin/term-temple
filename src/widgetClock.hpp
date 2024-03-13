@@ -10,9 +10,9 @@ private:
 public:
     WidgetClock(const std::wstring& _title, i2d _pos, i2d _size);
     explicit WidgetClock(const std::wstring& _title);
-    ~WidgetClock();
-    void draw() override;
-    void handleKey(int _keycode) override;
+    virtual ~WidgetClock();
+    virtual void draw() override;
+    virtual void handleKey(int _keycode) override;
 };
 
 #endif

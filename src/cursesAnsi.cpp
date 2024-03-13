@@ -203,8 +203,8 @@ namespace cursesANSI {
         case State::STATE_MODIFIER_BG:
         case State::STATE_MODIFIER:
             if (c == MOD_END || c == MOD_SPLITTER) {
+                // ==============================================================
                 // == Special case where we only want to count ansi line length
-                /*
                 if (_win == nullptr) {
                     // == Fin ou split de modifier !
                     if (c == MOD_END) {
@@ -215,11 +215,10 @@ namespace cursesANSI {
                     }
                     break; // we leave if we don´t have a window we are only counting
                 }
-                */
+                // ==============================================================
                 // == On applique l'attribut SIMPLE
                 if (state == State::STATE_MODIFIER) {
-                    switch (prevChar)
-                    {
+                    switch (prevChar) {
                     case MOD_0_RESET:
                         {
                         wstandend(_win);

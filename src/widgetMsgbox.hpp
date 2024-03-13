@@ -15,9 +15,9 @@ public:
     WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg);
     explicit WidgetMsgbox(const std::wstring& _msg);
     virtual ~WidgetMsgbox();
-    virtual void draw();
-    virtual void handleKey(int _keycode);
-    virtual void setPos(i2d _pos);
+    virtual void draw() override;
+    virtual void handleKey(int _keycode) override;
+    virtual void setPos(i2d _pos) override;
 };
 
 #endif

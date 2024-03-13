@@ -14,8 +14,8 @@ protected:
 public:
     WidgetTextFile(const std::wstring& _title, const char* _filePath);
     virtual ~WidgetTextFile();
-    virtual void draw();
-    virtual void handleKey(int _keycode);
+    virtual void draw() override;
+    virtual void handleKey(int _keycode) override;
 };
 
 #endif

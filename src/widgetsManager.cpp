@@ -9,17 +9,22 @@
 #include "widgetClock.hpp"
 #include "widgetTextFile.hpp"
 #include "widgetFileExplorer.hpp"
+#include "moduleOneLiner.hpp"
 
 extern wchar_t debugText[256];
 
 WidgetManager* WidgetManager::widgetmgr = nullptr;
 
 WidgetManager::WidgetManager() {
+    // == Creation of APP LAUNCHER
     appLauncher = new WidgetAppLauncher();
     this->isOnAppLauncher = true;
     this->focusWidget = appLauncher;
     this->background = nullptr;
-	// we don't add it to the widgets because it is controlled individually
+	// == We don't add it to the widgets because it is controlled individually
+    // == Creation of STATUS module
+    statusBar = new ModuleOneLiner(L"STATUS", {1, termSize.y - 1});
+    statusBar->setColorPair(getColor(colorPairs::YELLOW_ON_BLUE));
 }
 
 WidgetManager* WidgetManager::getInstance() {
@@ -293,7 +298,7 @@ void WidgetManager::openHelp() {
 void WidgetManager::openSystem() {
     WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
     wANSI->setPos({8, 6});
-    wANSI->setSize({68, 30});
+    //wANSI->setSize({68, 30});
     addWidget(wANSI);
 }
 

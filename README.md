@@ -1,4 +1,4 @@
-# term-temple
+# term-temple :computer:
 
 Multi-tool console application / fantasy text-mode operating system.
 
@@ -6,14 +6,17 @@ Terminal printing is made with curses (ncrusesw for wide character support).
 
 Yes it is currently graphically inspired by TempleOS.
 
-# Usage
+## Usage
 
 Install libncursesw5-dev ou juste libncurses-dev.
->make
->./term-temple && stty sane && clear
-depuis src/
+Depuis 'src/' :
 
-# Project
+```
+>make  
+>./term-temple && stty sane && clear
+```
+
+## Project
 
 All the main curses calls (wmove() + wmaddnwstr()) are made in renderer.cpp. Renderer.cpp is made as a pass through to facilitate the migration to some other text mode (or graphical) library.
 
@@ -21,7 +24,7 @@ cursesANSI.cpp is the exception and along the basic ANSI art parser, there are f
 
 The goal of the project is to make a simple window manager, with a few tools inside (clock, text file reader, ANSI art reader, calculator etc.) so it feels like a text-mode pseudo operating system.
 
-Curses library is not made to intensive graphics / working in realtime, the way the WINDOW object are redrawn etc. 
+Curses library is not made to intensive graphics / working in realtime, the way the WINDOW object are redrawn etc. :broken_heart:
 
 So the trick is to use 0 capabilities of Curses (WINDOW or other lib (menu etc.)) to handle manually the rendering and using only the 'stdscr' WINDOW object Curses expose to draw everything.
 
@@ -34,8 +37,8 @@ So my class WidgetManager would mean some sort of minimal window despktop manage
 ```mermaid
 flowchart TB
     Widget-->WidgetClock;
-    Widget-->WidgetANSI;
     Widget-->WidgetTextFile;
+    WidgetTextFile-->WidgetANSI;
     Widget-->WidgetMsgBox;
     Widget-->etc.;
 ```
@@ -77,17 +80,16 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
 
  - Est-ce que je dois privélégier de faire des const plutôt que des define ?
  - Est-ce que je dois apprendre à gérer CMake au lieu de faire des makefiles ?
- - (En bibliothèques je ne pense rajouter que : LuaCPP, et 2 petites en header only pour respectivement lire/écrire du JSON et lire de l'audio. À chaque fois ce sera des petites header only.)
+ - (En bibliothèques je ne pense rajouter que : LuaCPP, et 2 petites en header only pour respectivement lire/écrire du JSON et lire de l'audio.)
  - Si je veux faire un jeu après je mettrais SDL ou similaire et ferais une couche entre SDL et mon renderer, puis refaire le gros du 'graphisme' non textuel (cadre de fenêtre etc.).
- - Garder le flag virtual à la place de override dans les méthodes surchargées dans les sous-classe pour la lisibilité etc.
 
 ## TODO
 
- - Dans WidgetANSI mettre juste un moduleANSI et dégager le code en doublon
- - Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
- - timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
- - rename in globals 
- - rename mainDraw() as update() ?
- - faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
- - Dans AppLauncher mettre des callbacks mappées au appNames
- - Plein de mémoire pas libérée (dans les spécif des widgets)
+ - [x] Dans WidgetANSI mettre juste un moduleANSI et dégager le code en doublon
+ - [ ] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
+ - [ ] timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
+ - [ ] rename in globals 
+ - [ ] rename mainDraw() as update() ?
+ - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
+ - [ ] Dans AppLauncher mettre des callbacks mappées au appNames
+ - [ ] Plein de mémoire pas libérée (dans les spécif des widgets)

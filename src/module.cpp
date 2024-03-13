@@ -14,7 +14,8 @@ Module::~Module() {
 }
 
 void Module::updatePos() {
-    if (this->widget == nullptr) { // for special modules like the background that are not on a widget
+    // == Case for special modules like the background that are not on a widget
+    if (this->widget == nullptr) { 
         this->pos.x = this->initialPos.x;
         this->pos.y = this->initialPos.y;
         return;

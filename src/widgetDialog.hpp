@@ -21,9 +21,9 @@ public:
     virtual ~WidgetDialog();
     void addDialog(std::vector<std::wstring>& _lines);
     void addDialog();
-    void draw() override;
-    void handleKey(int _keycode) override;
-    void setPos(i2d _pos) override;
+    virtual void draw() final;
+    virtual void handleKey(int _keycode) final;
+    virtual void setPos(i2d _pos) final;
 };
 
 #endif
