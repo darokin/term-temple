@@ -131,8 +131,8 @@ void screenInit() {
 }
 
 void screenLoop() {
-    int keycode;
     bool bQuit = false;
+    int keycode;
     MEVENT event;
 
     do {
@@ -140,7 +140,6 @@ void screenLoop() {
         
         // ============================================
         globals::tick();
-        //werase(stdscr);
         wmgr->draw();
         drawStatusBar();
         wrefresh(stdscr);
@@ -151,16 +150,12 @@ void screenLoop() {
         if (keycode == -1)
             continue;
 
-        // == TODO : Faire marcher PC speaker 
-        if (keycode) {
-            beep();
-        }
+        // == HEY HANDLING
         switch (keycode) {
             case KEY_MOUSE:
                 if(getmouse(&event) != OK)
                     break;
                 if(event.bstate & BUTTON1_PRESSED) {	
-                    //swprintf(statusText, STATUS_TEXT_MAXLENGTH, L"Mouse 1 [%d, %d]", event.x, event.y);
                     wmgr->handleMousePressed({event.x, event.y});
                 } else if(event.bstate & REPORT_MOUSE_POSITION) {	
                     wmgr->handleMouseMove({event.x, event.y});
@@ -176,7 +171,6 @@ void screenLoop() {
                 break;
             case KEY_F(2):
                 wmgr->toggleAppLauncher();
-                //wmgr->alert(L"F2 KEY PRESSED");
                 break;
             case 'M':
             case 'm':
@@ -223,9 +217,7 @@ void screenLoop() {
                     default:
                         wmgr->handleKey(keycode);
                 }
-
                 globals::setStatusText(L"Key '%d' '0x%x' [%c]", keycode, keycode, (char)keycode);
-                //swprintf(statusText, STATUS_TEXT_MAXLENGTH, L"Key '%d' '0x%x' [%c]", keycode, keycode, (char)keycode);
                 wrefresh(wstatus);
         }
     } while(!bQuit);

@@ -298,7 +298,6 @@ void WidgetManager::openHelp() {
 void WidgetManager::openSystem() {
     WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
     wANSI->setPos({8, 6});
-    //wANSI->setSize({68, 30});
     addWidget(wANSI);
 }
 
@@ -314,6 +313,8 @@ void WidgetManager::openClock() {
 }
 
 // TODO : is it useless
+// TODO : instead of blind centering, calculate widget that are out of bounds
+// and move them inside the screen. Display alert if screensize too small ?
 void WidgetManager::refreshWidgets(uint16_t _termCols, uint16_t _termLines) {
     i2d tmpPos{};
     i2d bkgSize {};

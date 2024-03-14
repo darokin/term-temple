@@ -50,7 +50,7 @@ enum colorPairs {
 
 // == CURSES COLORS ==============================================
 inline static uint16_t getColor(uint16_t _colorPair) {
-    return _colorPair;//(999 - _colorPair); // <- must keep, seem useless but maybe usefull for monochrome 'hack' for example
+    return _colorPair; //(999 - _colorPair); // <- must keep, seem useless but maybe usefull for monochrome 'hack' for example
 }
 
 void screenInit();
