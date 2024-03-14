@@ -53,14 +53,16 @@ WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
     }
 
     // == Scan the 'files' folder
-    //#ifdef _WIN32
+    std::string _curDirPath = std::filesystem::current_path().string();
+    std::cerr << "Debug curDir = '" << _curDirPath << "'" << std::endl;
+    std::string _filesPath { _curDirPath };
+    #ifdef _WIN32
     //    std::string _filesPath = "C:\\Users\\rebuzzi\\Documents\\PERSO\\code\\";
-    //#else
-        //std::string _curDirPath = std::filesystem::current_path().string();
+    #else
         //std::string _filesPath { _curDirPath.substr(0, _curDirPath.size() - 3) + "data" }; //"../data/"; //
         std::string _filesPath { "/home/darokin/code/cpp/" };
         recursiveScanFolder(_filesPath);
-    //#endif
+    #endif
     
 
     // == Add header module (address bar)
