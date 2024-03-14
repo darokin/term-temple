@@ -1,9 +1,10 @@
-#include "screen.hpp" // getColor and colorPairs
+#include "globals.hpp"
 #include "widget.hpp"
 #include "widgetANSI.hpp"
 #include "cursesAnsi.hpp"
+#include "moduleANSI.hpp"
 
-WidgetANSI::WidgetANSI(const std::wstring& _title, const char* _ansiFilePath) : Widget::Widget(_title) {
+WidgetANSI::WidgetANSI(const std::wstring& _title, const std::string& _ansiFilePath) : Widget::Widget(_title) {
     // == Init ANSI module and set position
     ansiModule = std::make_unique<ModuleANSI>(_ansiFilePath);
     i2d ansiSize = ansiModule->getSize();
@@ -14,7 +15,7 @@ WidgetANSI::WidgetANSI(const std::wstring& _title, const char* _ansiFilePath) : 
     ansiModule->setWidget(this);
     ansiModule->updatePos();
     // == Widget Color
-    this->setColorPair(getColor(colorPairs::WHITE_ON_BLACK));
+    this->setColorPair(globals::getColor(colorPairs::WHITE_ON_BLACK));
 }
 
 WidgetANSI::~WidgetANSI() {

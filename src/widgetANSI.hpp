@@ -3,13 +3,14 @@
 
 #include <memory>
 #include "widget.hpp"
+#include "moduleANSI.hpp"
 
 class WidgetANSI : public Widget {
 private:
     std::ifstream ansiFile;
     std::unique_ptr<ModuleANSI> ansiModule {};
 public:
-    WidgetANSI(const std::wstring& _title, const char* _ansiFilePath);
+    WidgetANSI(const std::wstring& _title, const std::string& _ansiFilePath);
     virtual ~WidgetANSI();
     virtual void draw() final;
     virtual void setPos(i2d _pos) final;

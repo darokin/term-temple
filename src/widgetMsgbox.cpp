@@ -1,7 +1,7 @@
 #include <sstream>
 #include <memory>
 #include "utils.hpp"
-#include "screen.hpp"
+#include "globals.hpp"
 #include "widget.hpp"
 #include "widgetMsgbox.hpp"
 #include "widgetsManager.hpp"
@@ -25,8 +25,8 @@ WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _button
     // == On calcule la taille après lecture du texte par le module dialog
     this->size.x = MSGBOX_WIDTH;
     this->size.y = dialog->getLineMax() + MSGBOX_PADDING + MSGBOX_PADDING + 3;
-    this->pos.x = (termSize.x - this->size.x) / 2;
-    this->pos.y = (termSize.y - this->size.y) / 2;
+    this->pos.x = (globals::termSize.x - this->size.x) / 2;
+    this->pos.y = (globals::termSize.y - this->size.y) / 2;
 
     dialog->setWidget(this);
     dialog->updatePos();

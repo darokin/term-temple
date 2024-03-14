@@ -8,9 +8,6 @@
 #include "moduleDialog.hpp"
 #include "moduleButton.hpp"
 
-// TODO termSize doit être rename ET mis dans globals (qui devrait être rename (ou redécoupé) aussi)
-extern i2d termSize;
-
 class WidgetDialog : public WidgetTextFile {
 private:
     long long dialogTimeStart;

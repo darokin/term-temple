@@ -1,6 +1,5 @@
 #include <stdexcept>
 #include "globals.hpp"
-#include "screen.hpp"
 #include "renderer.hpp"
 #include "widgetsManager.hpp"
 #include "widget.hpp"
@@ -23,8 +22,8 @@ WidgetManager::WidgetManager() {
     this->background = nullptr;
 	// == We don't add it to the widgets because it is controlled individually
     // == Creation of STATUS module
-    statusBar = new ModuleOneLiner(L"STATUS", {1, termSize.y - 1});
-    statusBar->setColorPair(getColor(colorPairs::YELLOW_ON_BLUE));
+    statusBar = new ModuleOneLiner(L"STATUS", {1, globals::termSize.y - 1});
+    statusBar->setColorPair(globals::getColor(colorPairs::YELLOW_ON_BLUE));
 }
 
 WidgetManager* WidgetManager::getInstance() {
@@ -37,10 +36,10 @@ WidgetManager* WidgetManager::getInstance() {
 void WidgetManager::draw() {
     // == Fill background
     // == Set Color
-    renderer::setColor(getColor(colorPairs::WHITE_ON_BLACK));
+    renderer::setColor(globals::getColor(colorPairs::WHITE_ON_BLACK));
     // == Erase backgrounds with empty lines
-    for (uint8_t _y = 0; _y < termSize.y - 1; _y++) 
-        renderer::drawString(globals::longSpacesLine, {0, _y}, termSize.x);
+    for (uint8_t _y = 0; _y < globals::termSize.y - 1; _y++) 
+        renderer::drawString(globals::longSpacesLine, {0, _y}, globals::termSize.x);
 
     // == Draw background ANSI
     if (background != nullptr)
@@ -66,8 +65,8 @@ void WidgetManager::setBackground(const std::string& _backgroundPath) {
 
     background = new ModuleANSI(_backgroundPath);
     bkgSize = background->getSize();
-    tmpPos.x = (termSize.x - bkgSize.x) / 2.0;
-    tmpPos.y = (termSize.y - bkgSize.y) / 2.0;
+    tmpPos.x = (globals::termSize.x - bkgSize.x) / 2.0;
+    tmpPos.y = (globals::termSize.y - bkgSize.y) / 2.0;
     background->setPos(tmpPos);
 }
 
@@ -113,12 +112,12 @@ void WidgetManager::handleMove(int _keycode) {
             _pos.y += _dec;
             break;
     }
-    if (_pos.x + _size.x > termSize.x)
-        _pos.x = termSize.x - _size.x;
+    if (_pos.x + _size.x > globals::termSize.x)
+        _pos.x = globals::termSize.x - _size.x;
     if (_pos.x < 0)
         _pos.x = 0;
-    if (_pos.y + _size.y > termSize.y - 1)
-        _pos.y = termSize.y - _size.y - 1;
+    if (_pos.y + _size.y > globals::termSize.y - 1)
+        _pos.y = globals::termSize.y - _size.y - 1;
     if (_pos.y < 0)
         _pos.y = 0;
     focusWidget->setPos(_pos);
@@ -134,13 +133,13 @@ void WidgetManager::handleSnap(int _keycode) {
             _pos.x = 0;
             break;
         case KEY_RIGHT:
-             _pos.x = termSize.x - _size.x;
+             _pos.x = globals::termSize.x - _size.x;
             break;
         case KEY_UP:
             _pos.y = 0;
             break;
         case KEY_DOWN:
-            _pos.y = termSize.y - _size.y - 1;
+            _pos.y = globals::termSize.y - _size.y - 1;
             break;
     }
     focusWidget->setPos(_pos);
@@ -161,7 +160,7 @@ void WidgetManager::handleResize(int _keycode) {
                 _size.x--;
             break;
         case KEY_RIGHT:
-            if (_pos.x + _size.x + 1 < termSize.x)
+            if (_pos.x + _size.x + 1 < globals::termSize.x)
                 _size.x++;
             break;
         case KEY_UP:
@@ -169,7 +168,7 @@ void WidgetManager::handleResize(int _keycode) {
                 _size.y--;
             break;
         case KEY_DOWN:
-            if (_pos.y + _size.y + 1 < termSize.y - 1)
+            if (_pos.y + _size.y + 1 < globals::termSize.y - 1)
                 _size.y++;
             break;
     }
@@ -285,7 +284,7 @@ void WidgetManager::openFile(const std::string& _filePath) {
 
 void WidgetManager::openHelp() {
     i2d _size {64, 24};
-    i2d _pos {(termSize.x - _size.x) / 2, (termSize.y - _size.y) / 2 - 1};
+    i2d _pos {(globals::termSize.x - _size.x) / 2, (globals::termSize.y - _size.y) / 2 - 1};
     WidgetTextFile* _wHelp;
 
     _wHelp = new WidgetTextFile(L"HELP", "../data/txt/help.txt");

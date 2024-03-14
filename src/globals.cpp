@@ -17,11 +17,20 @@ namespace globals {
     GameState gameState {GameState::INGAME_START};
     long long currentTimeInMs;
     wchar_t statusText[STATUS_TEXT_MAXLENGTH];
+    i2d termSize;
 
+    // == CURSES COLORS ==============================================
+    uint16_t getColor(uint16_t _colorPair) {
+        return _colorPair; //(999 - _colorPair); // <- must keep, seem useless but maybe usefull for monochrome 'hack' for example
+    }
+
+    // == TIME TICK ===================================================
     void tick() { 
         currentTimeInMs = Utils::timeInMilliseconds(); 
     };
 
+    // == CENTRALIZED STATUS MSG =======================================
+    // TODO : migrate in widgetManager() ?
     int setStatusText(const wchar_t* _line, ...) {
         va_list vl;
         va_start(vl, _line);

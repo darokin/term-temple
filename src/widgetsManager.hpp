@@ -10,8 +10,6 @@
 
 //class WidgetAppLauncher; // < this class has typedef on widgetManager
 
-extern i2d termSize;
-
 class WidgetManager {
 protected:
     WidgetManager(); 

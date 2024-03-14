@@ -31,18 +31,17 @@ const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans"; // ok p
 #include "utils.hpp"
 #include "globals.hpp"
 
-i2d termSize;
 WidgetManager* wmgr;
 WINDOW *wstatus; // <-- remove and put module inside wmgr instead
 
-// TODO remove all color dec if unused... getColor() is useless
+// == We define BRIGHT colors outise of the range of 'normal' curses colors
 #define COLOR_DEC_CONST	        32
 #define COLOR_BRIGHT_BLUE       (COLOR_DEC_CONST + 9)
 #define COLOR_BRIGHT_MAGENTA    (COLOR_DEC_CONST + 13)
 #define COLOR_BRIGHT_YELLOW     (COLOR_DEC_CONST + 14)
 #define COLOR_BRIGHT_WHITE      (COLOR_DEC_CONST + 15)
 
-// == Previous project add a list of predefined widgets
+// == Previous project added a list of predefined widgets
 void initWidgets() {
     wmgr = WidgetManager::getInstance();
     wmgr->setBackground(backgroundAnsiPath);
@@ -58,7 +57,7 @@ void click1(Module* _module, Widget* _widget, i2d _pos) {
 // == TODO : move as a module inside widgetManager
 void drawStatusBar() {
     werase(wstatus);
-    wbkgd(wstatus, COLOR_PAIR(getColor(colorPairs::BLUE_ON_WHITE)) | A_BOLD | A_REVERSE);
+    wbkgd(wstatus, COLOR_PAIR(globals::getColor(colorPairs::BLUE_ON_WHITE)) | A_BOLD | A_REVERSE);
     wmove(wstatus, 0, 0);
     wprintw(wstatus, "%ls", globals::getStatusText());
     wrefresh(wstatus);
@@ -87,31 +86,31 @@ void screenInit() {
         init_color(COLOR_BRIGHT_BLUE, 0, 0, 1000);
         init_color(COLOR_BRIGHT_YELLOW, 1000, 1000, 0);
 
-        init_pair(getColor(colorPairs::BLACK_ON_WHITE), COLOR_BLACK, COLOR_BRIGHT_WHITE);
-        init_pair(getColor(colorPairs::YELLOW_ON_WHITE), COLOR_YELLOW, COLOR_BRIGHT_WHITE);
-        init_pair(getColor(colorPairs::PINK_ON_WHITE), COLOR_MAGENTA, COLOR_BRIGHT_WHITE);	
-        init_pair(getColor(colorPairs::BLUE_ON_WHITE), COLOR_BLUE, COLOR_BRIGHT_WHITE);
-        init_pair(getColor(colorPairs::BLUE_ON_YELLOW), COLOR_BLUE, COLOR_BRIGHT_YELLOW);
-        init_pair(getColor(colorPairs::BLACK_ON_YELLOW), COLOR_BLACK, COLOR_BRIGHT_YELLOW);
-        init_pair(getColor(colorPairs::YELLOW_ON_BLUE), COLOR_YELLOW, COLOR_BRIGHT_BLUE);
-        init_pair(getColor(colorPairs::BLACK_ON_BLUE), COLOR_BLACK, COLOR_BRIGHT_BLUE);
-        init_pair(getColor(colorPairs::BLACK_ON_PINK), COLOR_BLACK, COLOR_BRIGHT_MAGENTA);	
+        init_pair(globals::getColor(colorPairs::BLACK_ON_WHITE), COLOR_BLACK, COLOR_BRIGHT_WHITE);
+        init_pair(globals::getColor(colorPairs::YELLOW_ON_WHITE), COLOR_YELLOW, COLOR_BRIGHT_WHITE);
+        init_pair(globals::getColor(colorPairs::PINK_ON_WHITE), COLOR_MAGENTA, COLOR_BRIGHT_WHITE);	
+        init_pair(globals::getColor(colorPairs::BLUE_ON_WHITE), COLOR_BLUE, COLOR_BRIGHT_WHITE);
+        init_pair(globals::getColor(colorPairs::BLUE_ON_YELLOW), COLOR_BLUE, COLOR_BRIGHT_YELLOW);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_YELLOW), COLOR_BLACK, COLOR_BRIGHT_YELLOW);
+        init_pair(globals::getColor(colorPairs::YELLOW_ON_BLUE), COLOR_YELLOW, COLOR_BRIGHT_BLUE);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_BLUE), COLOR_BLACK, COLOR_BRIGHT_BLUE);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_PINK), COLOR_BLACK, COLOR_BRIGHT_MAGENTA);	
     } else {
-        init_pair(getColor(colorPairs::BLACK_ON_WHITE), COLOR_BLACK, COLOR_WHITE);
-        init_pair(getColor(colorPairs::YELLOW_ON_WHITE), COLOR_YELLOW, COLOR_WHITE);
-        init_pair(getColor(colorPairs::PINK_ON_WHITE), COLOR_MAGENTA, COLOR_WHITE);	
-        init_pair(getColor(colorPairs::BLUE_ON_WHITE), COLOR_BLUE, COLOR_WHITE);
-        init_pair(getColor(colorPairs::BLUE_ON_YELLOW), COLOR_BLUE, COLOR_YELLOW);
-        init_pair(getColor(colorPairs::BLACK_ON_YELLOW), COLOR_BLACK, COLOR_YELLOW);
-        init_pair(getColor(colorPairs::YELLOW_ON_BLUE), COLOR_YELLOW, COLOR_BLUE);
-        init_pair(getColor(colorPairs::BLACK_ON_BLUE), COLOR_BLACK, COLOR_BLUE);
-        init_pair(getColor(colorPairs::BLACK_ON_PINK), COLOR_BLACK, COLOR_MAGENTA);	
+        init_pair(globals::getColor(colorPairs::BLACK_ON_WHITE), COLOR_BLACK, COLOR_WHITE);
+        init_pair(globals::getColor(colorPairs::YELLOW_ON_WHITE), COLOR_YELLOW, COLOR_WHITE);
+        init_pair(globals::getColor(colorPairs::PINK_ON_WHITE), COLOR_MAGENTA, COLOR_WHITE);	
+        init_pair(globals::getColor(colorPairs::BLUE_ON_WHITE), COLOR_BLUE, COLOR_WHITE);
+        init_pair(globals::getColor(colorPairs::BLUE_ON_YELLOW), COLOR_BLUE, COLOR_YELLOW);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_YELLOW), COLOR_BLACK, COLOR_YELLOW);
+        init_pair(globals::getColor(colorPairs::YELLOW_ON_BLUE), COLOR_YELLOW, COLOR_BLUE);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_BLUE), COLOR_BLACK, COLOR_BLUE);
+        init_pair(globals::getColor(colorPairs::BLACK_ON_PINK), COLOR_BLACK, COLOR_MAGENTA);	
     }
     init_pair(colorPairs::DEFAULT, -1, -1);
-    init_pair(getColor(colorPairs::WHITE_ON_BLACK), COLOR_WHITE, COLOR_BLACK);
-    init_pair(getColor(colorPairs::YELLOW_ON_BLACK), COLOR_YELLOW, COLOR_BLACK);
-    init_pair(getColor(colorPairs::PINK_ON_BLACK), COLOR_MAGENTA, COLOR_BLACK);	
-    init_pair(getColor(colorPairs::BLUE_ON_BLACK), COLOR_BLUE, COLOR_BLACK);
+    init_pair(globals::getColor(colorPairs::WHITE_ON_BLACK), COLOR_WHITE, COLOR_BLACK);
+    init_pair(globals::getColor(colorPairs::YELLOW_ON_BLACK), COLOR_YELLOW, COLOR_BLACK);
+    init_pair(globals::getColor(colorPairs::PINK_ON_BLACK), COLOR_MAGENTA, COLOR_BLACK);	
+    init_pair(globals::getColor(colorPairs::BLUE_ON_BLACK), COLOR_BLUE, COLOR_BLACK);
 
     // == Mouse events
     mousemask(ALL_MOUSE_EVENTS, NULL);
@@ -121,7 +120,7 @@ void screenInit() {
 
     // == Create main wmaindow and initialize default style
     //wMain = newwmain(viewSize.y, viewSize.x, 0, 0);
-    wstatus = newwin(1, termSize.x, termSize.y - 1, 0);
+    wstatus = newwin(1, globals::termSize.x, globals::termSize.y - 1, 0);
 
     // == Init global time (do it once so widget constructors get their timeStart)
     globals::tick();
@@ -167,7 +166,7 @@ void screenLoop() {
                 break;
             case KEY_RESIZE:
                 screenResize();
-                wmgr->refreshWidgets(termSize.x, termSize.y);
+                wmgr->refreshWidgets(globals::termSize.x, globals::termSize.y);
                 break;
             case KEY_F(2):
                 wmgr->toggleAppLauncher();
@@ -230,11 +229,11 @@ void statusRefresh() {
 void screenResize() {
     int w, h;
     getmaxyx(stdscr, h, w);
-    termSize.x = w;
-    termSize.y = h;
+    globals::termSize.x = w;
+    globals::termSize.y = h;
     werase(stdscr);
     if (wmgr != nullptr) 
-        wmgr->refreshWidgets(termSize.x, termSize.y - 1);
+        wmgr->refreshWidgets(globals::termSize.x, globals::termSize.y - 1);
 }
 
 void screenExit() {
