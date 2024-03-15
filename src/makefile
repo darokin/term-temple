@@ -1,5 +1,5 @@
 CC		= g++
-CFLAGS	= -g -Wall -Wextra -std=c++17 -I.
+CFLAGS	= -g -Wall -O3 -Wextra -lstdc++fs -std=c++17 -I.
 LINKS	= -lncursesw
 OBJDIR	= obj
 DEPS	= screen.hpp widgetsManager.hpp widget.hpp \
@@ -24,7 +24,7 @@ all: $(APP)
 .PHONY: clean
 
 clean:
-	rm -f *.o
+	rm -f $(OBJ)
 	rm -f ${APP}
 
 re: clean

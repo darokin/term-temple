@@ -34,7 +34,8 @@ public:
     virtual void handleKey(int _keycode) final;
     virtual void setPos(i2d _pos) final;
     void addFilesToTree(const std::wstring& _path);
-    void recursiveScanFolder(const std::string& _filesPath);
+    //void recursiveScanFolder(const std::string& _filesPath);
+    void recursiveScanFolderFake(const std::string& _filesPath, const std::string& _startPath);
     void calcTree();
     void drawTree();
     void drawScrollbar();

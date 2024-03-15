@@ -11,15 +11,12 @@
 #include "widgetFileExplorer.hpp"
 #include "moduleOneLiner.hpp"
 
-static const wchar_t* fileExplorerTitle = L"__FILEEXPLORER__"; 
-static const std::string fakePathToDataFiles = "/home/darokin/code/cpp/term-temple/";
+#define PAGE_SKIP   10
+
 extern WidgetManager* wmgr;
 
-/*
-#ifdef _WIN32
-static const std::multimap<std::wstring, std::wstring> filesList {{L"C:\\Users\\rebuzzi\\Documents\\PERSO\\", L"code\\"}};
-#else
-*/
+static const wchar_t* fileExplorerTitle = L"__FILEEXPLORER__"; 
+static const std::string fakePathToDataFiles = "/home/darokin/code/cpp/term-temple/";
 static const std::multimap<std::wstring, std::wstring> filesList {{L"/", L"usr/"}, {L"/", L"home/"}, {L"/", L"sys/"}, \
                                                             {L"/usr/", L"bin/"}, {L"/usr/", L"lib/"}, {L"/usr/", L"include/"}, {L"/usr/", L"share/"}, {L"/usr/", L"sbin/"}, \
                                                                     {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"cmake/"}, \
@@ -28,8 +25,8 @@ static const std::multimap<std::wstring, std::wstring> filesList {{L"/", L"usr/"
                                                                {L"/home/darokin/", L"code/"}, {L"/home/darokin/", L"documents/"}, {L"/home/darokin/", L"games/"}, {L"/home/darokin/", L"images/"}, \
                                                                     {L"/home/darokin/games/", L"steam/"}, \
                                                                     {L"/home/darokin/code/", L"c/"}, {L"/home/darokin/code/", L"cpp/"}, {L"/home/darokin/code/", L"python/"}, \
+                                                            {L"/home/darokin/code/cpp/", L"term-temple/"}, \
                                                             {L"/sys/", L"dev/"}, {L"/sys/", L"module/"}};
-//#endif 
 
 WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
     this->bTitle = false;
@@ -54,20 +51,23 @@ WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
 
     // == Scan the 'files' folder
     std::string _curDirPath = std::filesystem::current_path().string();
-    std::cerr << "Debug curDir = '" << _curDirPath << "'" << std::endl;
-    std::string _filesPath { _curDirPath };
+    // FUGLY trick to remove "src/" !!!
+    _curDirPath = _curDirPath.substr(0, _curDirPath.length() - 3); // could be better
+    //std::string _filesPath { _curDirPath };
     #ifdef _WIN32
+        //std::cerr << "Debug curDir = '" << _curDirPath << "'" << std::endl;
     //    std::string _filesPath = "C:\\Users\\rebuzzi\\Documents\\PERSO\\code\\";
     #else
         //std::string _filesPath { _curDirPath.substr(0, _curDirPath.size() - 3) + "data" }; //"../data/"; //
-        std::string _filesPath { "/home/darokin/code/cpp/" };
-        recursiveScanFolder(_filesPath);
+        //std::string _filesPath { "/home/darokin/code/cpp/" };
+        recursiveScanFolderFake(_curDirPath, _curDirPath);
     #endif
     
 
     // == Add header module (address bar)
     // == Add PATH module
-    pathModule = new ModuleOneLiner(Utils::str2wstr(_filesPath).substr(0, this->size.x - 2), {1, 1});
+    //pathModule = new ModuleOneLiner(Utils::str2wstr(_curDirPath).substr(0, this->size.x - 2), {1, 1});
+    pathModule = new ModuleOneLiner(L"/", {1, 1});
     pathModule->setWidget(this);
     pathModule->updatePos();
     
@@ -95,18 +95,17 @@ WidgetFileExplorer::~WidgetFileExplorer() {
  * Add each entry to the 'files' multimap
  * Recursively call it again if the entry is a folder
  */
-/*
-void WidgetFileExplorer::recursiveScanFolder(std::string _filesPath) {
+// == Specific version when we create a fake filesystem
+// == And then we add a real file explorer starting from the project folder
+void WidgetFileExplorer::recursiveScanFolderFake(const std::string& _filesPath, const std::string& _startPath) {
     stFile* _tmpFile;
     std::string _strPath;
     std::string _strParentPath;
 
-    // == We build a correct non relative path for the parent
-    //_strParentPath = _filesPath;
-    if (_filesPath.find("../") != std::string::npos)
-        _strParentPath = fakePathToDataFiles + _filesPath.substr(3);
-    else
-        _strParentPath = _filesPath;
+    // == We build a correct 'fake path' from the real one
+    _strParentPath = _filesPath;
+    if (_filesPath != _startPath)
+        _strParentPath.replace(0, _startPath.length(), fakePathToDataFiles);
 
     // == Go throught directory_iterator
     for (const auto& _fileName : std::filesystem::directory_iterator(_filesPath)) {
@@ -132,12 +131,16 @@ void WidgetFileExplorer::recursiveScanFolder(std::string _filesPath) {
         // == Do recursion if its a directory
         if (_fileName.is_directory()) {
             std::string pathForRecursion { _fileName.path().u8string() + "/" };
-            recursiveScanFolder(pathForRecursion);//_fileName.path().u8string() + "/");
+            recursiveScanFolderFake(pathForRecursion, _startPath);//_fileName.path().u8string() + "/");
         }
     }
 }
-*/
 
+/*
+// Ok recursive function to load a real file explorer.
+// Should not be used as is from / otherwise would be too damn long
+// Use a _depth parmeter so we only go 1 or 2 level underneath only
+// Or cut recursiveness and call it everytime we open a folder... (?)
 void WidgetFileExplorer::recursiveScanFolder(const std::string& _filesPath) {
     stFile* tmpFile;
 
@@ -157,6 +160,7 @@ void WidgetFileExplorer::recursiveScanFolder(const std::string& _filesPath) {
             recursiveScanFolder(_fileName.path().u8string() + "/");
     }
 }
+*/
 
 /*
  * RECALC TREE only takes the list of stFiles
@@ -277,6 +281,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
     uint16_t _yPos = this->selectedFile->yPosition;
 
     switch (_keycode) {
+        case 'k':
+        case 'K':
         case KEY_UP:
             if (_yPos != 0) {
                 if (_yPos - this->scrollY < 3 && this->scrollY > 0) {
@@ -287,6 +293,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
                 bHasMoved = true;
             }
             break;
+        case 'j':
+        case 'J':
         case KEY_DOWN:
             if (_yPos < this->nbLines) {
                 if (_yPos - this->scrollY > this->nbLinesDisplayable - 4) {
@@ -308,6 +316,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
                 bHasOpenedClosed = true;
             }
             break;
+        case 'l':
+        case 'L':
         case KEY_RIGHT:
             // == Do nothing if it's an opened folder or a file
             if (this->selectedFile->bIsOpen || this->selectedFile->bIsFile)
@@ -315,6 +325,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             this->selectedFile->bIsOpen = true;
             bHasOpenedClosed = true;
             break;
+        case 'h':
+        case 'H':
         case KEY_LEFT:
             // == Do nothing if it's a closed folder or a file
             if (!this->selectedFile->bIsOpen || this->selectedFile->bIsFile)
@@ -324,8 +336,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             break;
         case KEY_PPAGE:
             if (_yPos > 0) {
-                if (_yPos > 10)
-                    _yPos -= 10;
+                if (_yPos > PAGE_SKIP)
+                    _yPos -= PAGE_SKIP;
                 else
                     _yPos = 0;
                 bHasMoved = true;
@@ -339,8 +351,8 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             break;
         case KEY_NPAGE:
             if (_yPos < this->nbLines) {
-                if (_yPos + 10 < this->nbLines)
-                    _yPos += 10;
+                if (_yPos + PAGE_SKIP < this->nbLines)
+                    _yPos += PAGE_SKIP;
                 else
                     _yPos = this->nbLines;
                 bHasMoved = true;
@@ -361,13 +373,13 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             // == Store the new selected stFile
             // == Select new stFile module
             if (val->yPosition == _yPos && this->selectedFile->module != nullptr) {
-                this->selectedFile->module->setColorReversed(false);   
+                this->selectedFile->module->setColorReversed(false);
                 this->selectedFile = val;
                 // == We drawTree() here so the new selected stFile has a module loaded (because it is drawn)
                 if (bHasScrolled)
                     this->drawTree();
-                this->selectedFile->module->setColorReversed(true);   
-                break;             
+                this->selectedFile->module->setColorReversed(true);
+                break;
             }
         }
         // == Change path in address bar

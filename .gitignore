@@ -2,6 +2,7 @@
 build/
 src/term-temple
 src/term-temple.exe
+term-temple
 
 # Objects
 src/obj/*.o
