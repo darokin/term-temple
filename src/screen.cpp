@@ -3,15 +3,15 @@
 #include <vector>
 
 #ifdef _WIN32
-	#include <windows.h>
-	#define NCURSES_WIDECHAR 1
+    #include <windows.h>
+    #define NCURSES_WIDECHAR 1
     #include <ncursesw/ncurses.h>
-	#define msleep(x) Sleep((x))
+    #define msleep(x) Sleep((x))
 #else // __unix__ / __linux__ / __APPLE__
-	#include <unistd.h> // usleep()
+    #include <unistd.h> // usleep()
     #include <ncursesw/curses.h>
-	#include <ncursesw/menu.h>
-	#define msleep(x) usleep((x) * 100)
+    #include <ncursesw/menu.h>
+    #define msleep(x) usleep((x) * 100)
 #endif
 
 const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans"; // ok path for win also
