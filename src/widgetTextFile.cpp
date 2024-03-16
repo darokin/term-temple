@@ -10,7 +10,7 @@
 #include "widgetTextFile.hpp"
 #include "cursesAnsi.hpp"
 
-WidgetTextFile::WidgetTextFile(const std::wstring& _title, const char* _filePath) : Widget::Widget(_title) {
+WidgetTextFile::WidgetTextFile(const std::wstring& _title, const std::string& _filePath) : Widget::Widget(_title) {
     this->bResizable = true;
     this->maxWidth = 0;
 
@@ -18,7 +18,7 @@ WidgetTextFile::WidgetTextFile(const std::wstring& _title, const char* _filePath
     std::wstringstream wss;
     std::wifstream wif(_filePath);
     if (!wif.is_open()) {
-        wss << "Unable to open TXT file '" << _filePath << "'" << std::endl;
+        wss << "Unable to open TXT file '" << _filePath.c_str() << "'" << std::endl;
         this->contentLines.push_back(wss.str());
         return;
     }

@@ -17,7 +17,7 @@ WidgetManager* WidgetManager::widgetmgr = nullptr;
 WidgetManager::WidgetManager() {
     // == Creation of APP LAUNCHER
     appLauncher = new WidgetAppLauncher();
-    this->isOnAppLauncher = true;
+    this->isOnAppLauncher = false;
     this->focusWidget = appLauncher;
     this->background = nullptr;
 	// == We don't add it to the widgets because it is controlled individually
@@ -150,10 +150,10 @@ void WidgetManager::handleResize(int _keycode) {
         return;
     if (!this->focusWidget->isResizable())
         return;
-    i2d _pos = this->focusWidget->getPos();
-    i2d _size = this->focusWidget->getSize();
-    i2d _backupSize = _size;
-    i2d _minSize = this->focusWidget->getSizeMin();
+    i2d _pos { this->focusWidget->getPos() };
+    i2d _size { this->focusWidget->getSize() };
+    i2d _backupSize { _size };
+    i2d _minSize { this->focusWidget->getSizeMin() };
     switch (_keycode) {
         case KEY_LEFT:
             if (_size.x > _minSize.x)
@@ -185,13 +185,21 @@ void WidgetManager::addWidget(Widget* _widget) {
 }
 
 void WidgetManager::removeWidget(Widget* _widget) {
+    // == Remove widget from vector
     for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
         if (*it == _widget) {
+            delete _widget;
             this->widgets.erase(it);
             break;
         }
     }
-    this->focusWidget = this->widgets.back();
+    // == Set focus on top widget OR the App Launcher if opened
+    if (this->widgets.size() > 0)
+        this->focusWidget = this->widgets.back();
+    else if (this->isOnAppLauncher)
+        this->focusWidget = this->appLauncher;
+    else
+        this->focusWidget = nullptr;
 }
 
 void WidgetManager::handleMousePressed(i2d _pos) {
@@ -269,11 +277,11 @@ void WidgetManager::openFile(const std::string& _filePath) {
 
     // == Images
     if (_extension == ".ans") {
-        _newWidget = new WidgetANSI(Utils::str2wstr(_fileName), _filePath.c_str());
+        _newWidget = new WidgetANSI(Utils::str2wstr(_fileName), _filePath);
         _newWidget->setPos({1, 1});
     } else {
         // == File without extension
-        _newWidget = new WidgetTextFile(Utils::str2wstr(_fileName), _filePath.c_str());
+        _newWidget = new WidgetTextFile(Utils::str2wstr(_fileName), _filePath);
         _newWidget->setColorPair(colorPairs::WHITE_ON_BLACK);
         _newWidget->setPos({12, 5});
         _newWidget->setSize({52, 30});

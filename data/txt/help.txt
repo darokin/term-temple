@@ -23,14 +23,22 @@ Blablablabla...
 Important keys to know:
 -----------------------
 F2      Toggle Application Launcher
-M       Enter MOVE MODE on a window
-S       Enter SNAP MODE to move window to borders easily
-R       Enter RESIZE MODE to resize a window (only available
+
+[KEYS TO CHANGE MODE] Use *ESCAPE* to go back to normal mode
+M       Enter *MOVE MODE* on a window
+S       Enter *SNAP MODE* to move window to borders easily
+R       Enter *RESIZE MODE* to resize a window (only available
         on widgetTextFile for now)
+↑↓←→    Mode/Snap/Resize (hjkl possible)
+PUP/PDOWN
+ESCAPE  Go back to *NORMAL* if you were in a special mode.
+
+[KEYS IN NORMAL MODE]
 Q       Close focused window
+TAB     Swap windows
 SPACE   Action button (open app in app launcher, open file in
         the file exploere etc.)
-ESC     Back to normal mode / Exit TermTemple
+ESC     EXIT application
 
 Final note:
 -----------

@@ -110,6 +110,7 @@ Quelques remarques dans tous les sens désolé.
  - Il y a encore plein de 'new' partout, est-ce que smart pointers all the way or not ?
  - Est-ce que je dois privélégier de faire des const plutôt que des define ?
  - Est-ce que je dois apprendre à gérer CMake au lieu de faire des makefiles ?
+ - J'ai le sentiment d'avoir peu de code 'métier' sur lequel faire des tests unitaires, j'ai toujours été naze la dessus et n'ai jamais automatisé de tests. Je compte faire un ou 2 tests avec Catch2 histoire d'être moins bête. Un avis/conseil ?
 
 
 ## TODO

@@ -41,10 +41,13 @@ WINDOW *wstatus; // <-- remove and put module inside wmgr instead
 #define COLOR_BRIGHT_YELLOW     (COLOR_DEC_CONST + 14)
 #define COLOR_BRIGHT_WHITE      (COLOR_DEC_CONST + 15)
 
-// == Previous project added a list of predefined widgets
+// == Init widgets
 void initWidgets() {
-    wmgr = WidgetManager::getInstance();
+    wmgr = WidgetManager::getInstance(); // TODO remove useless singleton
     wmgr->setBackground(backgroundAnsiPath);
+    //wmgr->toggleAppLauncher(); // Start with the app Launcher opened
+    wmgr->alert(L"""Press SPACE BAR to validate this message and then Press F2 to open the APP LAUNCHER.\n\
+    I suggest you go first use the TUTORIAL.\nUse SPACE BAR to launch an application. HAVE FUN !""");
 }
 
 /*
@@ -217,7 +220,7 @@ void screenLoop() {
                         wmgr->handleKey(keycode);
                 }
                 globals::setStatusText(L"Key '%d' '0x%x' [%c]", keycode, keycode, (char)keycode);
-                wrefresh(wstatus);
+                //wrefresh(wstatus);
         }
     } while(!bQuit);
 }

@@ -10,9 +10,9 @@ ModuleANSI::ModuleANSI(const std::string& _filePath, i2d _pos, i2d _size) : Modu
     // == Detect size
     if (_size.x == 0 && _size.y == 0) {
         std::string _line;
-        int _h {0}, _w {0}, _lineLength {0};
+        uint16_t _h {0}, _w {0};
         while (getline(this->ansiFile, _line)) {
-            _lineLength = cursesANSI::getANSIstrLength(_line); 
+            uint16_t _lineLength = cursesANSI::getANSIstrLength(_line); 
             if (_lineLength > _w)
                 _w = _lineLength;
             _h++;
@@ -31,7 +31,7 @@ ModuleANSI::~ModuleANSI() {
 
 void ModuleANSI::draw() {
     std::string _line;
-    int y{ 0 };
+    int y {0};
 
     if (!ansiFile.is_open())
         return;
