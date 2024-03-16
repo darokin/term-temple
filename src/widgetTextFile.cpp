@@ -34,8 +34,8 @@ WidgetTextFile::WidgetTextFile(const std::wstring& _title, const std::string& _f
         std::replace_if(_line.begin(), _line.end(), [] (const wchar_t& wc) { return (wc == '\t') ;}, ' ');
         this->contentLines.push_back(_line);
         // == Store the maximum size in chars
-        if (wcslen(_line.c_str()) > this->maxWidth)
-            this->maxWidth = wcslen(_line.c_str());
+        if (_line.size() > this->maxWidth)
+            this->maxWidth = _line.size();
     }
     this->maxHeight = this->contentLines.size();
 }
