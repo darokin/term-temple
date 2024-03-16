@@ -47,12 +47,12 @@ void WidgetManager::draw() {
 
     // == Draw widgets
     for (auto w : widgets) {
-        w->mainDraw();
+        w->update();
     }
 
     // == App launcher
     if (this->isOnAppLauncher)
-        this->appLauncher->mainDraw(); 
+        this->appLauncher->update(); 
 }
 
 void WidgetManager::setBackground(const std::string& _backgroundPath) {

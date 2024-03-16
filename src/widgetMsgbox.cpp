@@ -60,6 +60,6 @@ void WidgetMsgbox::handleKey(int _keycode) {
 }
 
 void WidgetMsgbox::draw() {
-    dialog->mainDraw();
-    button->mainDraw();
+    dialog->update();
+    button->update();
 }

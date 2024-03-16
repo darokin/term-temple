@@ -64,10 +64,10 @@ void WidgetDialog::draw() {
     if (!dialog) // == nullptr)
         return;
   
-    dialog->mainDraw();
+    dialog->update();
 
     //if (dialog->isLastSequence() && dialog->isDone()) 
-    button->mainDraw();
+    button->update();
     if (dialog->isDone())
         renderer::drawString(((int(this->timeLapsedMs / 200) % 2) ? L" " : L"▼"), {this->pos.x + this->size.x - 2, this->pos.y + this->size.y - 2});
         //mvwaddwstr(win, this->pos.y + this->size.y - 2, this->pos.x + this->size.x - 2, ((int(timeLapsedMs / 200) % 2) ? L" " : L"▼"));

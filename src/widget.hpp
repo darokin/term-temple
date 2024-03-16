@@ -18,7 +18,7 @@ protected:
     long        timeLapsedMs {0};
     i2d         pos {0, 0};
     i2d         size {80, 25};
-    uint8_t     colorPair;
+    uint8_t     colorPair {0};
     bool        bResizable {false};
     i2d         sizeMin {32, 10};
 public:
@@ -26,7 +26,7 @@ public:
     explicit Widget(const std::wstring& _title);
     virtual ~Widget(); 
 
-    virtual void mainDraw();
+    virtual void update();
     virtual void draw();
     virtual void handleKey(int _keycode);
     virtual void mainHandleKey(int _keycode);

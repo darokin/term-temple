@@ -26,7 +26,7 @@ void Module::updatePos() {
     this->pos.y = this->initialPos.y + _widgetPos.y;
 }
 
-void Module::mainDraw() {
+void Module::update() {
     // == Update elapsed time
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;
     // == Set Color

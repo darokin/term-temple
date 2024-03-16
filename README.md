@@ -99,7 +99,7 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
  - Si je veux faire un jeu après je mettrais SDL ou similaire et ferais une couche entre SDL et mon renderer, puis refaire le gros du 'graphisme' non textuel (cadre de fenêtre etc.).
  - J'ai appris que je pouvais scoper au plus juste et que même déclarer une variable dans une boucle n'était pas une aberration maintenant malgré avoir toujours appris l'inverse (toujours déclarer les variables en premier au début des fonctions)... 
  - Je commence à lire les Core Guidelinesh...
- - Je me rends compte qu'en utilisant un gros superset de fonctions et classes template comme exposé par la STL, c'est ultra cool. Maintenant je vois que pour vraiment bien me servir du C++ il me manque un entendement complet sur les sémantiques de copie et move, bien comprendre les différences entre rvalue et lvalue, comment est résolu la recherche de prototype, etc. j'ai encore du taff de ce côté là.
+ - Je me rends compte qu'en utilisant un gros superset de fonctions et classes template comme exposé par la STL, c'est ultra cool. Maintenant je vois que pour vraiment bien me servir du C++ il me manque un entendement complet sur les sémantiques de copie et move, bien comprendre les différences entre rvalue et lvalue, comment est résolue la recherche de prototype, etc. j'ai encore du taff de ce côté là.
 
 ### Questions 
 
@@ -114,7 +114,8 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
  - [ ] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
  - [ ] timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
  - [ ] rename in globals 
- - [ ] rename mainDraw() as update() ?
+ - [x] rename mainDraw() as update() ?
  - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
  - [ ] Dans AppLauncher mettre des callbacks mappées au appNames
  - [ ] Plein de mémoire pas libérée (dans les spécif des widgets)
+ - [ ] Catch2 test init widget + module + update pos + chekcpos

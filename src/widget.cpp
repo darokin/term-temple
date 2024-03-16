@@ -75,7 +75,7 @@ void Widget::drawBorder() {
     renderer::drawString(L"╝", {this->pos.x + this->size.x - 1, this->pos.y + this->size.y - 1});
 }
 
-void Widget::mainDraw() {
+void Widget::update() {
     // == Refresh time lapsed
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;
     // == Set Color
@@ -96,7 +96,7 @@ void Widget::mainDraw() {
     draw();
     // == Update modules 
     for (auto m : modules) {  
-        m->mainDraw();
+        m->update();
     }
 }
 

@@ -421,7 +421,7 @@ void WidgetFileExplorer::setPos(i2d _pos) {
 
 void WidgetFileExplorer::draw() {
     // everything is in the widget modules
-    this->pathModule->mainDraw();
-    this->lineModule->mainDraw();
+    this->pathModule->update();
+    this->lineModule->update();
     this->drawScrollbar();
 }

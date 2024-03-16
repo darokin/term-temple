@@ -11,10 +11,10 @@ class Module {
 typedef void (*triggerfunc)(Module*, Widget*, i2d);
 
 protected:
-    Widget* widget;             // widget the module is linked to
+    Widget* widget {nullptr};   // widget the module is linked to
     i2d     initialPos {1, 1};  // initial position in the widget
-    i2d     pos {1, 1}; 
-    i2d     size {1, 1};  
+    i2d     pos {1, 1};
+    i2d     size {1, 1};
     uint8_t colorPair {0};
     bool    colorReversed {false};
     long long timeStart {0};
@@ -24,11 +24,11 @@ protected:
 
 public:
     Module(i2d _initialPos, i2d _size = {20, 8});
-
     virtual ~Module();
+    
     virtual void draw();
-    virtual void mainDraw();    // main one should not be overloadable ! (? bypass for special module maybe)
 
+    void update();
     void updatePos();
     void setWidget(Widget* _widget) { this->widget = _widget; };
     void setColorPair(uint8_t _colorPair) { this->colorPair = _colorPair; };
