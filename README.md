@@ -92,13 +92,17 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
 
 ## REMARQUES
 
+Quelques remarques dans tous les sens désolé.
  - C'est mon premier vrai projet en C++ après n'y avoir quasi pas toucher depuis quelques exos fait à l'école (en mode C with classes) il y a 20+ ans...
- - C'est un peu le bazard dans globals, leur nommage, la présence du wStatut dans screen comme ça.
+ - Il n'y a rien de complètement validé pour le projet final de jeu ni pour ce projet intermédiaire, mais je commence à construire les fondations pour voir ensuite les visuels, la cohérence etc.
+ - Le widget file explorer est en mode hybride, il affiche des faux chemins un fausse arborescence, et 'dedans' une vrai arborescence (depuis le système de fichier du poste qui exécute) qui est celle du projet donc on peut explorer comme ça explorer le code du projet mais surtout aller dans le sous dossier data du projet pour ouvrir des fichiers .txt ou .ans. 
+ - C'est un peu le bazard dans globals, la légitimité de ce qui j'ai y mis pour l'instant, le nommage etc.
  - Il y a des trucs nommés GameState par exemple et qui sont orientés car le but derrière serait justement d'ajouter Lua pour scripter et en faire un 'jeu' dont tout le gameplay serait basé sur des interactions dans ce 'fake os'.
+ - La présence du wStatut dans screen comme ça. En fait j'ai une todo list sur les quelques points à extraire encore pour pouvoir me plugger à autre chose que curses plus tard (le redimensionnement du terminal, la gestion des input clavier, ...)
  - (En bibliothèques je ne pense rajouter que : LuaCPP, et 2 petites en header only pour respectivement lire/écrire du JSON et lire de l'audio.)
  - Si je veux faire un jeu après je mettrais SDL ou similaire et ferais une couche entre SDL et mon renderer, puis refaire le gros du 'graphisme' non textuel (cadre de fenêtre etc.).
- - J'ai appris que je pouvais scoper au plus juste et que même déclarer une variable dans une boucle n'était pas une aberration maintenant malgré avoir toujours appris l'inverse (toujours déclarer les variables en premier au début des fonctions)... 
- - Je commence à lire les Core Guidelinesh...
+ - J'ai appris que je pouvais scoper au plus juste et que même déclarer une variable dans une boucle n'était pas une aberration maintenant (pas de diff de perf), malgré avoir toujours appris l'inverse (toujours déclarer les variables en premier au début des fonctions)... 
+ - Je commence à lire les Core Guidelines... Il y a déjà un conseil que je ne suis pas, ce serait celui de typer personnellement les choses pour leur donner du sens, par exemple je pourrais définir même une litéral 'px' et un type Pixel pour décrire toutes les tailles et positions à l'écran plutôt que juste des entiers (bon c'est plus des caractères que des pixels pour le coup dans mon cas mais c'est pour l'idée). 
  - Je me rends compte qu'en utilisant un gros superset de fonctions et classes template comme exposé par la STL, c'est ultra cool. Maintenant je vois que pour vraiment bien me servir du C++ il me manque un entendement complet sur les sémantiques de copie et move, bien comprendre les différences entre rvalue et lvalue, comment est résolue la recherche de prototype, etc. j'ai encore du taff de ce côté là.
 
 ### Questions 

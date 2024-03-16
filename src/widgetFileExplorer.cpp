@@ -16,16 +16,16 @@
 extern WidgetManager* wmgr;
 
 static const wchar_t* fileExplorerTitle = L"__FILEEXPLORER__"; 
-static const std::string fakePathToDataFiles = "/home/darokin/code/cpp/term-temple/";
+static const std::string fakePathToDataFiles = "/home/system7/code/cpp/term-temple/";
 static const std::multimap<std::wstring, std::wstring> filesList {{L"/", L"usr/"}, {L"/", L"home/"}, {L"/", L"sys/"}, \
                                                             {L"/usr/", L"bin/"}, {L"/usr/", L"lib/"}, {L"/usr/", L"include/"}, {L"/usr/", L"share/"}, {L"/usr/", L"sbin/"}, \
                                                                     {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"cmake/"}, \
                                                                      {L"/usr/share/", L"tools/"},  {L"/usr/share/", L"themes/"},
-                                                            {L"/home/", L"darokin/"}, \
-                                                               {L"/home/darokin/", L"code/"}, {L"/home/darokin/", L"documents/"}, {L"/home/darokin/", L"games/"}, {L"/home/darokin/", L"images/"}, \
-                                                                    {L"/home/darokin/games/", L"steam/"}, \
-                                                                    {L"/home/darokin/code/", L"c/"}, {L"/home/darokin/code/", L"cpp/"}, {L"/home/darokin/code/", L"python/"}, \
-                                                            {L"/home/darokin/code/cpp/", L"term-temple/"}, \
+                                                            {L"/home/", L"system7/"}, \
+                                                               {L"/home/system7/", L"code/"}, {L"/home/system7/", L"documents/"}, {L"/home/system7/", L"games/"}, {L"/home/system7/", L"images/"}, \
+                                                                    {L"/home/system7/games/", L"steam/"}, \
+                                                                    {L"/home/system7/code/", L"c/"}, {L"/home/system7/code/", L"cpp/"}, {L"/home/system7/code/", L"python/"}, \
+                                                            {L"/home/system7/code/cpp/", L"term-temple/"}, \
                                                             {L"/sys/", L"dev/"}, {L"/sys/", L"module/"}};
 
 WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
@@ -49,20 +49,10 @@ WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
         this->files.insert({key, tmpFile});
     }
 
-    // == Scan the 'files' folder
-    std::string _curDirPath = std::filesystem::current_path().string();
-    // FUGLY trick to remove "src/" !!!
-    _curDirPath = _curDirPath.substr(0, _curDirPath.length() - 3); // could be better
-    //std::string _filesPath { _curDirPath };
-    #ifdef _WIN32
-        //std::cerr << "Debug curDir = '" << _curDirPath << "'" << std::endl;
-    //    std::string _filesPath = "C:\\Users\\rebuzzi\\Documents\\PERSO\\code\\";
-    #else
-        //std::string _filesPath { _curDirPath.substr(0, _curDirPath.size() - 3) + "data" }; //"../data/"; //
-        //std::string _filesPath { "/home/darokin/code/cpp/" };
-        recursiveScanFolderFake(_curDirPath, _curDirPath);
-    #endif
-    
+    // == Set _curDirPath to project path to scan it
+    this->curDirPath = std::filesystem::current_path().string();
+    this->curDirPath.resize(this->curDirPath.length() - 3); // removing 'src/'
+    recursiveScanFolderFake(this->curDirPath, this->curDirPath);
 
     // == Add header module (address bar)
     // == Add PATH module
@@ -100,32 +90,22 @@ WidgetFileExplorer::~WidgetFileExplorer() {
 void WidgetFileExplorer::recursiveScanFolderFake(const std::string& _filesPath, const std::string& _startPath) {
     stFile* _tmpFile;
     std::string _strPath;
-    std::string _strParentPath;
+    std::string _strParentPath { _filesPath };
 
     // == We build a correct 'fake path' from the real one
-    _strParentPath = _filesPath;
-    if (_filesPath != _startPath)
-        _strParentPath.replace(0, _startPath.length(), fakePathToDataFiles);
+    _strParentPath.replace(0, _startPath.length(), fakePathToDataFiles);
 
     // == Go throught directory_iterator
     for (const auto& _fileName : std::filesystem::directory_iterator(_filesPath)) {
         _strPath = _fileName.path().u8string();
-        // == We replace '../' to have a non relative path that fit in the directory structured we created
-        if (_strPath.find("../") != std::string::npos)
-            _strPath.replace(0, 3, fakePathToDataFiles);
-
         // == Storing the file
         _tmpFile = new stFile();
-        if (_fileName.is_directory())
-            _tmpFile->name = Utils::str2wstr(_strPath.substr(_strPath.find_last_of('/', -1) + 1) + "/");
-        else
-            _tmpFile->name = Utils::str2wstr(_strPath.substr(_strPath.find_last_of('/') + 1));
-        //_tmpFile->parentName = Utils::str2wstr(_filesPath);
+        // == Extract only file or folder name from path (add '/' if it's a directory)
+        _tmpFile->name = Utils::str2wstr(_strPath.substr(_strPath.find_last_of('/') + 1) + (_fileName.is_directory() ? "/" : ""));
         _tmpFile->parentName = Utils::str2wstr(_strParentPath);
         _tmpFile->bIsOpen = false;
         _tmpFile->yPosition = 0;
         _tmpFile->bIsFile = !_fileName.is_directory();
-        //this->files.insert({Utils::str2wstr(_filesPath), _tmpFile});
         this->files.insert({Utils::str2wstr(_strParentPath), _tmpFile});
 
         // == Do recursion if its a directory
@@ -145,16 +125,13 @@ void WidgetFileExplorer::recursiveScanFolder(const std::string& _filesPath) {
     stFile* tmpFile;
 
     for (const auto& _fileName : std::filesystem::directory_iterator(_filesPath)) {
-        tmpFile = new stFile();
-        if (_fileName.is_directory())
-            tmpFile->name = Utils::str2wstr(_fileName.path().u8string().substr(_fileName.path().u8string().find_last_of('/', -1) + 1) + "/");
-        else
-            tmpFile->name = Utils::str2wstr(_fileName.path().u8string().substr(_fileName.path().u8string().find_last_of('/') + 1));
-        tmpFile->parentName = Utils::str2wstr(_filesPath);
-        tmpFile->bIsOpen = false;
-        tmpFile->yPosition = 0;
-        tmpFile->bIsFile = !_fileName.is_directory();
-        this->files.insert({Utils::str2wstr(_filesPath), tmpFile});
+        _tmpFile = new stFile();
+        _tmpFile->name = Utils::str2wstr(_fileName.substr(_strPath.find_last_of('/') + 1) + (_fileName.is_directory() ? "/" : ""));
+        _tmpFile->parentName = Utils::str2wstr(_filesPath);
+        _tmpFile->bIsOpen = false;
+        _tmpFile->yPosition = 0;
+        _tmpFile->bIsFile = !_fileName.is_directory();
+        this->files.insert({Utils::str2wstr(_filesPath), _tmpFile});
 
         if (_fileName.is_directory())
             recursiveScanFolder(_fileName.path().u8string() + "/");
@@ -193,13 +170,6 @@ void WidgetFileExplorer::drawTree() {
         delete m;
     }
     modules.clear();
-/*
-    // == Set path with selected stFile
-    if (this->selectedFile == nullptr)
-        sPath = L"/";
-    else
-        sPath = this->selectedFile->parentName + this->selectedFile->name;
-*/
 
     // ======================================================
     // == Display modules that are visible
@@ -308,8 +278,14 @@ void WidgetFileExplorer::handleKey(int _keycode) {
         case KEY_SPACE:
         case KEY_ENTER:
             if (this->selectedFile->bIsFile) {
-                // == Opening FILES
-                wmgr->openFile(Utils::wstr2str(this->selectedFile->parentName + this->selectedFile->name));
+                // == Opening FILES (normal mode)
+                //wmgr->openFile(Utils::wstr2str(this->selectedFile->parentName + this->selectedFile->name));
+                // == Replace fake dir path with our project path
+                // TODO : Store differently the whole fake path stuff now to remove the replace here
+                // TODO : add a 'subPath' member in stFile with the path and name from the root project
+                std::string _fileRealPath = Utils::wstr2str(this->selectedFile->parentName + this->selectedFile->name);
+                _fileRealPath = _fileRealPath.replace(0, fakePathToDataFiles.length(), this->curDirPath);
+                wmgr->openFile(_fileRealPath);
             } else {
                 // == Opening or closing FOLDERS
                 this->selectedFile->bIsOpen = !this->selectedFile->bIsOpen;
@@ -403,12 +379,11 @@ void WidgetFileExplorer::drawScrollbar() {
     i2d _scrollBarPos {this->pos.x + this->size.x - 1, this->pos.y + 1};
     int _scrollBarHeight = static_cast<int>(std::ceil(_nbLinesDisplayable / _nbLines * _scrollbarMaxHeight)) - 1;
     int _scrollBarCursorY = _scrollBarPos.y + static_cast<int>(std::ceil((this->scrollY / _nbLines) * _scrollbarMaxHeight));
-    for (uint16_t _y = _scrollBarPos.y; _y < _scrollBarPos.y + _scrollbarMaxHeight; _y++) {
+    for (uint16_t _y = _scrollBarPos.y; _y < _scrollBarPos.y + _scrollbarMaxHeight; _y++)
         if (_y >= _scrollBarCursorY && _y < _scrollBarCursorY + _scrollBarHeight)
             renderer::drawString(globals::cursBlock, {_scrollBarPos.x, _y});
         else
             renderer::drawString(globals::cursBlock3, {_scrollBarPos.x, _y});
-    }
 }
 
 void WidgetFileExplorer::setPos(i2d _pos) {

@@ -24,6 +24,7 @@ protected:
     uint16_t nbLines {0};
     uint16_t nbLinesDisplayable {0};
     uint16_t scrollY {0};
+    std::string curDirPath {}; // == Custom case for fake path (current project directory)
 
     ModuleOneLiner* pathModule;
     ModuleOneLiner* lineModule;

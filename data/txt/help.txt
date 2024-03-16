@@ -12,19 +12,25 @@ Be sure to go to the KEYS section to know how things works.
 
 History of TermTemple:
 ----------------------
-TermTemple started 21/01/2024 as an idea, a really promising
-idea. It leads to several project on the way.
+TermTemple started 21/01/2024 as silly idea. 
+It leads to several project on the way.
 In fact TermTemple itself is an intermediatory project.
 It's hard to have one idea of a project alone. Maybe it's just
 me that like to scale things in a way where technicalities let
 to a chain of tougher projects that leds to the important one!
+Blablablabla...
 
 Important keys to know:
 -----------------------
-F2   Toggle Application Launcher
-M    Switch to move mode on a window
-S    Switch to snap mode to move window to borders easily
-ESC  Exit TermTemple
+F2      Toggle Application Launcher
+M       Enter MOVE MODE on a window
+S       Enter SNAP MODE to move window to borders easily
+R       Enter RESIZE MODE to resize a window (only available
+        on widgetTextFile for now)
+Q       Close focused window
+SPACE   Action button (open app in app launcher, open file in
+        the file exploere etc.)
+ESC     Back to normal mode / Exit TermTemple
 
 Final note:
 -----------
