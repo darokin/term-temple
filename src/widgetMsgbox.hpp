@@ -8,9 +8,9 @@
 
 class WidgetMsgbox : public Widget {
 protected:
-    std::wstring line {};
-    std::unique_ptr<ModuleDialog> dialog {};
-    std::unique_ptr<ModuleButton> button {};
+    std::wstring line;
+    std::unique_ptr<ModuleDialog> dialog;
+    std::unique_ptr<ModuleButton> button;
 public:
     WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg);
     explicit WidgetMsgbox(const std::wstring& _msg);

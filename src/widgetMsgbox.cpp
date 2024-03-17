@@ -12,12 +12,14 @@ static const wchar_t* msgboxTitle = L"_MSGBOX_";
 
 extern WidgetManager* wmgr;
 
-WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg) : Widget(msgboxTitle) {
+WidgetMsgbox::WidgetMsgbox(const std::wstring& _msg, const std::wstring& _buttonMsg) : 
+                            Widget(msgboxTitle), 
+                            dialog { std::make_unique<ModuleDialog>(i2d{MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2)) } {
     this->bTitle = false;
     this->bBorder = false;
     this->bClosingCross = false;
 
-    dialog = std::make_unique<ModuleDialog>(i2d{MSGBOX_PADDING, MSGBOX_PADDING}, MSGBOX_WIDTH - (MSGBOX_PADDING * 2));
+    // == Set text before using size (TODO setText should be done in ModuleDialog constructor)
     dialog->setCentered(true);
     dialog->setSpeed(10);
     dialog->setText(_msg);

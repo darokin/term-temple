@@ -6,13 +6,6 @@
 #include "widget.hpp"
 #include "widgetClock.hpp"
 
-WidgetClock::WidgetClock(const std::wstring& _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
-}
-WidgetClock::WidgetClock(const std::wstring& _title) : Widget::Widget(_title) {
-}
-WidgetClock::~WidgetClock() {
-}
-
 #define CHARBIG_COLS        5
 #define CHARBIG_LINES       11
 
@@ -48,6 +41,7 @@ std::wstring arrNumSmall[CHARSMALL_LINES][CHARSMALL_COLS] = {
 	{L"⠀", L"■", L"■"}
 };
 
+// TODO compartiment in namespace ?
 inline static void drawNumber(int _num, int _posx, int _posy, bool _isBig) {
     int nbLines = (_isBig ? CHARBIG_COLS : CHARSMALL_COLS); // STUPID c'est reverse le nommage des constantes...
 
@@ -57,6 +51,15 @@ inline static void drawNumber(int _num, int _posx, int _posy, bool _isBig) {
         _posy = _posy + 1;
     }
 };
+
+// ========================================================
+
+WidgetClock::WidgetClock(const std::wstring& _title, i2d _pos, i2d _size) : Widget::Widget(_title, _pos, _size) {
+}
+WidgetClock::WidgetClock(const std::wstring& _title) : Widget::Widget(_title) {
+}
+WidgetClock::~WidgetClock() {
+}
 
 void WidgetClock::handleKey(int _keycode) {
     if (_keycode == 27 || _keycode == 9)

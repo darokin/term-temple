@@ -4,7 +4,9 @@
 #include "cursesAnsi.hpp"
 #include "moduleANSI.hpp"
 
-WidgetANSI::WidgetANSI(const std::wstring& _title, const std::string& _ansiFilePath) : Widget::Widget(_title) {
+WidgetANSI::WidgetANSI(const std::wstring& _title, const std::string& _ansiFilePath) : 
+                        Widget::Widget(_title), 
+                        ansiModule {std::make_unique<ModuleANSI>(_ansiFilePath)} {
     // == Init ANSI module and set position
     ansiModule = std::make_unique<ModuleANSI>(_ansiFilePath);
     i2d ansiSize = ansiModule->getSize();

@@ -1,5 +1,4 @@
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/darokin/term-temple)
 
 # term-temple :computer:
@@ -14,11 +13,17 @@ It is graphically inspired by TempleOS. I'm learning **modern C++** while making
 
 You will need a color enabled terminal.
 
-Currently suggested font is square font.
+Currently suggested font is square font. 
+
+**~145x70** is a good terminal resolution for now (current background ANSI is quite large).
 
 **Font** used for the screenshot is **Px AmstradPC1512 Regular** from the **"Old School PC Font Ressource"** website:
 
 [Old School PC Font Ressource](https://int10h.org/oldschool-pc-fonts/fontlist/)
+
+[Amstrad font preview](https://int10h.org/oldschool-pc-fonts/fontlist/font?amstrad_pc)
+
+[Old School PC Font Download](https://int10h.org/oldschool-pc-fonts/download/)
 
 Other useful fonts:
 
@@ -73,9 +78,9 @@ flowchart TB
     Module-->etc.;
 ```
 
-So basically screen.cpp is the main file that refresh a "Widget Manager" that refresh a vector of "Widgets". Each widgets then refresh their modules.
+So basically **screen.cpp** is the main file that refresh a "Widget Manager" that refresh a vector of "Widgets". Each widgets then refresh their modules.
 
-Basic key (and mouse) handling is made in screen.cpp in the main loop, and are pass through widgetManager and potentially to the 'focused Widget' (WidgetManager::focusWidget) afterward.
+Basic key (and mouse) handling is made in **screen.cpp** in the main loop, and are pass through **widgetManager** and potentially to the 'focused Widget' (WidgetManager::focusWidget) afterward.
 
 Key or mouse events may never go to a module, all the logic is either : 
  - Desktop mangement input (going in resize mode, moving a window, opening the app launcher)
@@ -94,16 +99,14 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
 
 Quelques remarques dans tous les sens désolé.
  - C'est mon premier vrai projet en C++ après n'y avoir quasi pas touché depuis quelques exos fait à l'école (en mode C with classes) il y a 20+ ans...
- - Il n'y a rien de complètement validé pour le projet final de jeu ni pour ce projet intermédiaire, mais je commence à construire les fondations pour voir ensuite les visuels, la cohérence etc.
- - Le widget file explorer est en mode hybride, il affiche des faux chemins, un fausse arborescence, et 'dedans', une vrai arborescence (depuis le système de fichier du poste qui exécute) qui est celle du projet donc on peut comme ça explorer le code du projet mais surtout aller dans le sous dossier data du projet pour ouvrir des fichiers .txt ou .ans. 
+ - Il n'y a rien de complètement validé pour le projet final de jeu ni pour ce projet intermédiaire (il y avait même un projet précédent de 'dashboard' ASCII/ANSI : [https://github.com/darokin/adash/](ADASH)), mais je commence à construire les fondations (et me former en C++) pour voir ensuite les visuels, la cohérence etc.
+ - Le widget **FileExplorer** est en mode hybride, il affiche des faux chemins, un fausse arborescence, et 'dedans' (**home/system7/code/cpp/term-temple/**), une vrai arborescence (depuis le système de fichier du poste qui exécute) qui est celle du projet donc on peut comme ça explorer le code du projet mais surtout aller dans le sous dossier data du projet pour ouvrir des fichiers .txt ou .ans. 
  - C'est un peu le bazard dans globals, la légitimité de ce qui j'ai y mis pour l'instant, le nommage etc.
  - Il y a des trucs nommés GameState par exemple et qui sont orientés car le but derrière serait justement d'ajouter Lua pour scripter et en faire un 'jeu' dont tout le gameplay serait basé sur des interactions dans ce 'fake os'.
  - La présence du wStatut dans screen comme ça. En fait j'ai une todo list sur les quelques points à extraire encore pour pouvoir me plugger à autre chose que curses plus tard (le redimensionnement du terminal, la gestion des input clavier, ...)
  - (En bibliothèques je ne pense rajouter que : LuaCPP, et 2 petites en header only pour respectivement lire/écrire du JSON et lire de l'audio.)
  - Si je veux faire un jeu après je mettrais SDL ou similaire et ferais une couche entre SDL et mon renderer, puis refaire le gros du 'graphisme' non textuel (cadre de fenêtre etc.).
- - J'ai appris que je pouvais scoper au plus juste et que même déclarer une variable dans une boucle n'était pas une aberration maintenant (pas de diff de perf), malgré avoir toujours appris l'inverse (toujours déclarer les variables en premier au début des fonctions)... 
- - Je commence à lire les Core Guidelines... Il y a déjà un conseil que je ne suis pas, ce serait celui de typer personnellement les choses pour leur donner du sens, par exemple je pourrais définir même une litéral 'px' et un type Pixel pour décrire toutes les tailles et positions à l'écran plutôt que juste des entiers (bon c'est plus des caractères que des pixels pour le coup dans mon cas mais c'est pour l'idée). 
- - Je me rends compte qu'en utilisant un gros superset de fonctions et classes template comme exposé par la STL, c'est ultra cool. Maintenant je vois que pour vraiment bien me servir du C++ il me manque un entendement complet sur les sémantiques de copie et move, bien comprendre les différences entre rvalue et lvalue, comment est résolue la recherche de prototype, etc. j'ai encore du taff de ce côté là.
+ - Je commence à lire les Core Guidelines.
 
 ### Questions 
 
@@ -125,6 +128,6 @@ Quelques remarques dans tous les sens désolé.
  - [ ] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur
  - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
  - [ ] Régler les cas d'auto kill (q on widget that call delete on themselves removeWidget(.., true))
- - [ ] Debug mouse les clics sont trigger de manière random yen a un sur 2 sur 15 qui passent...
+ - [ ] Debug mouse les clics semblent triggered de manière random on dirait...
  - [ ] Plein de mémoire pas libérée (dans les spécif des widgets)
  - [ ] Catch2 test init widget + module + update pos + chekcpos
