@@ -3,6 +3,7 @@
 #include "renderer.hpp"
 #include "widgetsManager.hpp"
 #include "widget.hpp"
+#include "widgetDialog.hpp"
 #include "widgetMsgbox.hpp"
 #include "widgetANSI.hpp"
 #include "widgetClock.hpp"
@@ -79,7 +80,7 @@ void WidgetManager::handleKey(int _keycode) {
             return;
         Widget* tmpWidget;
         tmpWidget = this->widgets.front();
-        this->removeWidget(tmpWidget);
+        this->removeWidget(tmpWidget, false);
         this->addWidget(tmpWidget);
     }
     if (this->focusWidget != nullptr)
@@ -184,11 +185,12 @@ void WidgetManager::addWidget(Widget* _widget) {
     this->isOnAppLauncher = false;
 }
 
-void WidgetManager::removeWidget(Widget* _widget) {
+void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
     // == Remove widget from vector
     for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
         if (*it == _widget) {
-            delete _widget;
+            if (bDoKill)
+                delete _widget;
             this->widgets.erase(it);
             break;
         }
@@ -240,14 +242,14 @@ void WidgetManager::handleMouseClicked(i2d _pos) {
         }
     }
     if (_clickedWidget != nullptr) {
-        removeWidget(_clickedWidget);
+        removeWidget(_clickedWidget, false);
         addWidget(_clickedWidget);
         this->focusWidget = _clickedWidget;
         _clickedWidget->handleMouseClick(_pos);
     }
 }
 
-void WidgetManager::alert(const std::wstring& _msg) {
+void WidgetManager::alert(const std::wstring& _msg, bool _centered) {
     /*
     va_list vl;
     va_start(vl, _msg);
@@ -256,10 +258,11 @@ void WidgetManager::alert(const std::wstring& _msg) {
     vswprintf(_formatedMsg, size, _msg.c_str(), vl);
     va_end(vl);
     */
-    WidgetMsgbox* newMsgbox = new WidgetMsgbox(_msg);//std::wstring(_formatedMsg));
+    WidgetMsgbox* newMsgbox = new WidgetMsgbox(_msg);
     newMsgbox->setBorder(true);
     newMsgbox->setTitle(L"WARNING");
     newMsgbox->setColorPair(colorPairs::BLACK_ON_YELLOW);
+    newMsgbox->setCentered(_centered);
     addWidget(newMsgbox);
 }
 
@@ -303,20 +306,25 @@ void WidgetManager::openHelp() {
 }
 
 void WidgetManager::openSystem() {
-    WidgetANSI* wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
-    wANSI->setPos({8, 6});
-    addWidget(wANSI);
+    WidgetANSI* _wANSI = new WidgetANSI(L" SYSTEM ", "../data/ans/system01.ans");
+    _wANSI->setPos({8, 6});
+    addWidget(_wANSI);
+}
+
+void WidgetManager::openTutorial() {
+    WidgetDialog* _wDialog = new WidgetDialog(L" TUTORIAL ", "../data/txt/tutorial.txt");
+    addWidget(_wDialog);
 }
 
 void WidgetManager::openFileExplorer() {
-    WidgetFileExplorer* wFileExplorer = new WidgetFileExplorer();
-    addWidget(wFileExplorer);
+    WidgetFileExplorer* _wFileExplorer = new WidgetFileExplorer();
+    addWidget(_wFileExplorer);
 }
 
 void WidgetManager::openClock() {
-    WidgetClock* wClock = new WidgetClock(L"CLOCK", {12, 10}, {48, 12});
-    wClock->setColorPair(colorPairs::BLUE_ON_YELLOW);
-    addWidget(wClock);
+    WidgetClock* _wClock = new WidgetClock(L"CLOCK", {12, 10}, {48, 12});
+    _wClock->setColorPair(colorPairs::BLUE_ON_YELLOW);
+    addWidget(_wClock);
 }
 
 // TODO : is it useless

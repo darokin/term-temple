@@ -18,6 +18,7 @@ public:
     virtual void draw() override;
     virtual void handleKey(int _keycode) override;
     virtual void setPos(i2d _pos) override;
+    void setCentered(bool _centered) { if (this->dialog) dialog->setCentered(_centered); };
 };
 
 #endif

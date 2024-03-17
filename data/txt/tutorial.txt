@@ -1,0 +1,18 @@
+Welcome to the TERM-TEMPLE tutorial.
+Use <↓> arrow key to go to the next text.
+-
+You can use <↑> to go back to the previous text.
+-
+If you find that the scrolling text is too slow you can quicken it with the <↓> arrow key.
+-
+Ok so we can know explain the basics.
+-
+First of all i suggest that after this tutorial you go to the HELP section.
+-
+The most important Key to remember is <F2> to bring back the APP LAUNCHER.
+-
+That's it, i let you go read through the HELP section. Another useful key is <Q> to close a window.
+-
+Don't forget that <F2> Key to open up the APP LAUNCHER.
+-
+Tutorial is ended, you can press <Q> to close the window.

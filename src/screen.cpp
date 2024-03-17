@@ -46,8 +46,8 @@ void initWidgets() {
     wmgr = WidgetManager::getInstance(); // TODO remove useless singleton
     wmgr->setBackground(backgroundAnsiPath);
     //wmgr->toggleAppLauncher(); // Start with the app Launcher opened
-    wmgr->alert(L"""Press SPACE BAR to validate this message and then Press F2 to open the APP LAUNCHER.\n\
-    I suggest you go first use the TUTORIAL.\nUse SPACE BAR to launch an application. HAVE FUN !""");
+    wmgr->alert(L"""Press <SPACE BAR> or <Q> to validate this message and then press <F2> to open the APP LAUNCHER.\n\
+I suggest you go first use the TUTORIAL.\nUse <SPACE BAR> to launch an application.\nHAVE FUN!""", false);
 }
 
 /*

@@ -13,12 +13,22 @@
 #include "utils.hpp"
 #include "globals.hpp"
 
+#define DIALOGBOX_WIDTH        32
+#define DIALOGBOX_PADDING      2
+
+const std::wstring buttonMsg = L"Close";
+
 // == TODO : add position
-WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
-    dialog = nullptr;
+WidgetDialog::WidgetDialog(const std::wstring& _title, const std::string& _ansiFilePath) : WidgetTextFile::WidgetTextFile(_title, _ansiFilePath) {
     dialogTimeStart = globals::currentTimeInMs; // Utils::timeInMilliseconds(); (TODO)
 
-    button = std::make_unique<ModuleButton>(L"Close", i2d{3, 5}, 12);
+    // == On calcule la taille après lecture du texte par le module dialog
+    // TODO toute la classe à revoir
+    if (_ansiFilePath != "") {
+        addDialog(); // TODO : Do static initers that call a simplier constructor, do the dirty and return a new dialog (?)
+    }
+
+    button = std::make_unique<ModuleButton>(buttonMsg, i2d{int(this->size.x - (buttonMsg.length() + (DIALOGBOX_PADDING*2))) / 2, this->size.y - 4});
     button->setWidget(this);
     button->updatePos();
 }
@@ -26,11 +36,19 @@ WidgetDialog::WidgetDialog(const std::wstring& _title, const char* _ansiFilePath
 WidgetDialog::~WidgetDialog() {
 }
 
+// TODO : c'est pas clair du tout entre loader le dialog depuis un vecteur de lignes construit à l'extérieur
+// ou le addDialog() qui charge le dialog depuis le fichier chargé (devrait être fait dans le constructeur)
 void WidgetDialog::addDialog(std::vector<std::wstring>& _lines) {
-    dialog = std::make_unique<ModuleDialog>(i2d{1, 1}, this->size.x - 2, this->size.y - 2);
+    dialog = std::make_unique<ModuleDialog>(i2d{2, 2}, DIALOGBOX_WIDTH - 4, this->size.y - 4);
+    dialog->setText(_lines);
+
+    this->size.x = DIALOGBOX_WIDTH;
+    this->size.y = dialog->getLineMax() + DIALOGBOX_PADDING + DIALOGBOX_PADDING + 3;
+    this->pos.x = (globals::termSize.x - this->size.x) / 2;
+    this->pos.y = (globals::termSize.y - this->size.y) / 2;
+
     dialog->setWidget(this);
     dialog->updatePos();
-    dialog->setText(_lines);
 }
 
 void WidgetDialog::addDialog() {
@@ -61,16 +79,14 @@ void WidgetDialog::handleKey(int _keycode) {
 }
 
 void WidgetDialog::draw() {
-    if (!dialog) // == nullptr)
+    if (!dialog) // TODO build on construct
         return;
   
     dialog->update();
 
-    //if (dialog->isLastSequence() && dialog->isDone()) 
     button->update();
     if (dialog->isDone())
         renderer::drawString(((int(this->timeLapsedMs / 200) % 2) ? L" " : L"▼"), {this->pos.x + this->size.x - 2, this->pos.y + this->size.y - 2});
-        //mvwaddwstr(win, this->pos.y + this->size.y - 2, this->pos.x + this->size.x - 2, ((int(timeLapsedMs / 200) % 2) ? L" " : L"▼"));
 }
 
 void WidgetDialog::setPos(i2d _pos) {

@@ -18,7 +18,7 @@ private:
     std::vector<dialogSequence*> sequences{};
     size_t      seqIndex {0};
     long long   seqTimeStart {0};
-    uint16_t    nbColumns;
+    uint16_t    nbColumns {0};
     uint16_t    lineMax {0};
     uint16_t    lineMaxForced {0};
     bool        blink {true};

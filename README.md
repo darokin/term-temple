@@ -93,9 +93,9 @@ Main loop in screenLoop() do WidgetManager->draw() basically;
 ## REMARQUES
 
 Quelques remarques dans tous les sens désolé.
- - C'est mon premier vrai projet en C++ après n'y avoir quasi pas toucher depuis quelques exos fait à l'école (en mode C with classes) il y a 20+ ans...
+ - C'est mon premier vrai projet en C++ après n'y avoir quasi pas touché depuis quelques exos fait à l'école (en mode C with classes) il y a 20+ ans...
  - Il n'y a rien de complètement validé pour le projet final de jeu ni pour ce projet intermédiaire, mais je commence à construire les fondations pour voir ensuite les visuels, la cohérence etc.
- - Le widget file explorer est en mode hybride, il affiche des faux chemins un fausse arborescence, et 'dedans' une vrai arborescence (depuis le système de fichier du poste qui exécute) qui est celle du projet donc on peut explorer comme ça explorer le code du projet mais surtout aller dans le sous dossier data du projet pour ouvrir des fichiers .txt ou .ans. 
+ - Le widget file explorer est en mode hybride, il affiche des faux chemins, un fausse arborescence, et 'dedans', une vrai arborescence (depuis le système de fichier du poste qui exécute) qui est celle du projet donc on peut comme ça explorer le code du projet mais surtout aller dans le sous dossier data du projet pour ouvrir des fichiers .txt ou .ans. 
  - C'est un peu le bazard dans globals, la légitimité de ce qui j'ai y mis pour l'instant, le nommage etc.
  - Il y a des trucs nommés GameState par exemple et qui sont orientés car le but derrière serait justement d'ajouter Lua pour scripter et en faire un 'jeu' dont tout le gameplay serait basé sur des interactions dans ce 'fake os'.
  - La présence du wStatut dans screen comme ça. En fait j'ai une todo list sur les quelques points à extraire encore pour pouvoir me plugger à autre chose que curses plus tard (le redimensionnement du terminal, la gestion des input clavier, ...)
@@ -122,5 +122,9 @@ Quelques remarques dans tous les sens désolé.
  - [x] rename mainDraw() as update() ?
  - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
  - [ ] Dans AppLauncher mettre des callbacks mappées au appNames
+ - [ ] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur
+ - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
+ - [ ] Régler les cas d'auto kill (q on widget that call delete on themselves removeWidget(.., true))
+ - [ ] Debug mouse les clics sont trigger de manière random yen a un sur 2 sur 15 qui passent...
  - [ ] Plein de mémoire pas libérée (dans les spécif des widgets)
  - [ ] Catch2 test init widget + module + update pos + chekcpos

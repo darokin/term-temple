@@ -10,17 +10,18 @@
 
 class WidgetDialog : public WidgetTextFile {
 private:
-    long long dialogTimeStart;
-    std::unique_ptr<ModuleDialog> dialog {};
-    std::unique_ptr<ModuleButton> button {};
+    long long dialogTimeStart {};
+    std::unique_ptr<ModuleDialog> dialog {nullptr};
+    std::unique_ptr<ModuleButton> button {nullptr};
 public:
-    WidgetDialog(const std::wstring& _title, const char* _ansiFilePath);
+    WidgetDialog(const std::wstring& _title, const std::string& _ansiFilePath);
     virtual ~WidgetDialog();
     void addDialog(std::vector<std::wstring>& _lines);
     void addDialog();
     virtual void draw() final;
     virtual void handleKey(int _keycode) final;
     virtual void setPos(i2d _pos) final;
+    void setCentered(bool _centered) { if (this->dialog) dialog->setCentered(_centered); };
 };
 
 #endif

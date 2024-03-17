@@ -9,7 +9,7 @@
 #define APPLAUNCHER_NBAPPS  6
 #define APPLAUNCHER_WIDTH   24
 static const wchar_t* appLauncherTitle = L"__APPLAUNCHER__"; 
-const std::wstring appNames[APPLAUNCHER_NBAPPS] = {L"SYSTEM", L"FILE EXPLORER", L"CLOCK", L"NOTES", L"TODOS", L"HELP"};
+const std::wstring appNames[APPLAUNCHER_NBAPPS] = {L"TUTORIAL", L"SYSTEM", L"FILE EXPLORER", L"CLOCK", L"TODOS", L"HELP"};
 //const wchar_t* appNames[NBAPPS] = {L"🔧 SYSTEM", L"🕑 CLOCK", L"📖 NOTES", L"🗒 TODOS"}; // ⌚ ⌛ 
 // TODO : instead do a map where the key is the application name and the value is a pointer to the function
 
@@ -90,6 +90,8 @@ void WidgetAppLauncher::handleKey(int _keycode) {
             //std::invoke(appMap[], wmgr);
             if (appNames[this->indSelected] == L"SYSTEM") {
                 wmgr->openSystem();
+            } else if (appNames[this->indSelected] == L"TUTORIAL") {
+                wmgr->openTutorial();
             } else if (appNames[this->indSelected] == L"CLOCK") {
                 wmgr->openClock();
             } else if (appNames[this->indSelected] == L"FILE EXPLORER") {

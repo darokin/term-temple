@@ -125,9 +125,12 @@ void Widget::handleMouseClick(i2d _pos) {
     _pos.y -= this->pos.y;
 
     // == Detect click on closing cross
-    if (bClosingCross)
-        if (_pos.y == 0 && _pos.x >= this->size.x - 7 && _pos.x <= this->size.x - 3)
+    if (bClosingCross) {
+        if (_pos.y == 0 && _pos.x >= this->size.x - 7 && _pos.x <= this->size.x - 3) {
             wmgr->removeWidget(this);
+            return;
+        }
+    }
 
     // == Detect click on local modules
     i2d _mpos, _msize;

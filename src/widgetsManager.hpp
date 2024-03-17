@@ -29,7 +29,7 @@ public:
     static WidgetManager* getInstance();
     void draw();
     void addWidget(Widget* _widget);
-    void removeWidget(Widget* _widget);
+    void removeWidget(Widget* _widget, bool bDoKill = true);
     void refreshWidgets(uint16_t _termCols, uint16_t _termLines);
     void handleKey(int _keycode);
     void handleMove(int _keycode);
@@ -44,11 +44,12 @@ public:
     void setBackground(const std::string& _backgroundPath);
 
     void openSystem();
+    void openTutorial();
     void openHelp();
     void openClock();
     void openFileExplorer();
     void openFile(const std::string& _filePath);
-    void alert(const std::wstring& _msg);
+    void alert(const std::wstring& _msg, bool _centered = true);
 };
 
 #endif
