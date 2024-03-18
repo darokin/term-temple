@@ -312,7 +312,8 @@ void WidgetManager::openSystem() {
 }
 
 void WidgetManager::openTutorial() {
-    WidgetDialog* _wDialog = new WidgetDialog(L" TUTORIAL ", "../data/txt/tutorial.txt");
+    WidgetDialog* _wDialog = WidgetDialog::createDialogPtrWithFile("../data/txt/tutorial.txt");
+    _wDialog->setTitle(L" TUTORIAL ");
     addWidget(_wDialog);
 }
 
