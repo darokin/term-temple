@@ -129,5 +129,6 @@ Quelques remarques dans tous les sens désolé.
  - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
  - [ ] Régler les cas d'auto kill (q on widget that call delete on themselves removeWidget(.., true))
  - [ ] Debug mouse les clics semblent triggered de manière random on dirait...
+ - [ ] Gérer le clic sur CROSS d'une fenêtre dans widgetManager et pas widget et remove trace de wmgr dans widget.cpp...
  - [ ] Plein de mémoire pas libérée (dans les spécif des widgets)
  - [ ] Catch2 test init widget + module + update pos + chekcpos

@@ -31,7 +31,7 @@
 #define KEY_SPACE       ' '
 
 enum colorPairs {
-    DEFAULT,
+    COLORPAIR_DEFAULT,
     WHITE_ON_BLACK,
     BLACK_ON_WHITE,
     YELLOW_ON_WHITE,
@@ -44,7 +44,8 @@ enum colorPairs {
     BLUE_ON_WHITE,
     BLUE_ON_BLACK,
     BLUE_ON_YELLOW,
-    BLACK_ON_BLUE
+    BLACK_ON_BLUE,
+    COLORPAIR_END
 };
 
 enum class GameState {

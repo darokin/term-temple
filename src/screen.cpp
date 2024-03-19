@@ -109,7 +109,7 @@ void screenInit() {
         init_pair(globals::getColor(colorPairs::BLACK_ON_BLUE), COLOR_BLACK, COLOR_BLUE);
         init_pair(globals::getColor(colorPairs::BLACK_ON_PINK), COLOR_BLACK, COLOR_MAGENTA);	
     }
-    init_pair(colorPairs::DEFAULT, -1, -1);
+    init_pair(colorPairs::COLORPAIR_DEFAULT, -1, -1);
     init_pair(globals::getColor(colorPairs::WHITE_ON_BLACK), COLOR_WHITE, COLOR_BLACK);
     init_pair(globals::getColor(colorPairs::YELLOW_ON_BLACK), COLOR_YELLOW, COLOR_BLACK);
     init_pair(globals::getColor(colorPairs::PINK_ON_BLACK), COLOR_MAGENTA, COLOR_BLACK);	

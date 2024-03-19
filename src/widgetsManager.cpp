@@ -82,6 +82,12 @@ void WidgetManager::handleKey(int _keycode) {
         tmpWidget = this->widgets.front();
         this->removeWidget(tmpWidget, false);
         this->addWidget(tmpWidget);
+        return;
+    }
+    if (_keycode == 'q' || _keycode == 'Q') {
+        if (this->focusWidget != nullptr)
+            this->removeWidget(this->focusWidget);
+        return;
     }
     if (this->focusWidget != nullptr)
         focusWidget->mainHandleKey(_keycode);

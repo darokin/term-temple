@@ -102,9 +102,11 @@ void Widget::update() {
 
 void Widget::mainHandleKey(int _keycode) {
     switch (_keycode) {
-        case 'q':
-            wmgr->removeWidget(this);
-            return; // No more key handling after widget close
+        case 'C':
+        case 'c':
+            this->colorPair++;
+            if (this->colorPair == colorPairs::COLORPAIR_END)
+                this->colorPair = colorPairs::COLORPAIR_DEFAULT + 1; 
             break;
         default:
             break;
