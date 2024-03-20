@@ -127,6 +127,7 @@ Quelques remarques dans tous les sens désolé.
  - [ ] Dans AppLauncher mettre des callbacks mappées au appNames
  - [ ] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur
  - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
+ - [ ] Pour les widget RESIZABLE, mémorisé un prevPos et un prevSize pour revenir dessus lors retour normal après FullScreen <F>
  - [ ] Régler les cas d'auto kill (q on widget that call delete on themselves removeWidget(.., true))
  - [ ] Debug mouse les clics semblent triggered de manière random on dirait...
  - [ ] Gérer le clic sur CROSS d'une fenêtre dans widgetManager et pas widget et remove trace de wmgr dans widget.cpp...

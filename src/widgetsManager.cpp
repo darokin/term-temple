@@ -162,6 +162,18 @@ void WidgetManager::handleResize(int _keycode) {
     i2d _backupSize { _size };
     i2d _minSize { this->focusWidget->getSizeMin() };
     switch (_keycode) {
+        case 'F':
+        case 'f':
+            if (_size.x == globals::termSize.x && _size.y == globals::termSize.y - 1) {
+                _size.x = _minSize.x;
+                _size.y = _minSize.y;
+            } else {
+                _pos.x = 0;
+                _pos.y = 0;
+                _size.x = globals::termSize.x;
+                _size.y = globals::termSize.y - 1;
+            }
+            break;
         case KEY_LEFT:
             if (_size.x > _minSize.x)
                 _size.x--;
@@ -180,6 +192,7 @@ void WidgetManager::handleResize(int _keycode) {
             break;
     }
     if (_size != _backupSize) {
+        focusWidget->setPos(_pos);
         focusWidget->setSize(_size);
         globals::setStatusText(L"[RESIZE] [%d, %d]", _size.x, _size.y);
     }
@@ -240,7 +253,7 @@ void WidgetManager::handleMouseClicked(i2d _pos) {
         _wPos = _w->getPos();
         if (_pos.x >= _wPos.x && _pos.x < _wPos.x + _wSize.x \
         &&  _pos.y >= _wPos.y && _pos.y < _wPos.y + _wSize.y) {
-        /* TODO : ok now replace and retest
+        /* 
         if (_pos >= _wPos && _pos < _wPos + _wSize) {
         */
             _clickedWidget = _w;
