@@ -5,18 +5,9 @@
 
 ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos, uint16_t _nbColumns) 
  : Module(_pos, {_nbColumns, BUTTON_DEFAULT_HEIGHT}), sText {_wstr}, nbColumns {_nbColumns} {
-    this->msPerChar = 200;
 }
 
 ModuleButton::ModuleButton(const std::wstring& _wstr, i2d _pos): ModuleButton(_wstr, _pos, _wstr.length() + 4) {
-}
-
-// == Should never need to copy button... (TODO)
-ModuleButton::ModuleButton(const ModuleButton& _mbutton) : ModuleButton(_mbutton.sText, _mbutton.pos) {
-    this->nbColumns = _mbutton.nbColumns;
-    this->clickFunc = _mbutton.clickFunc;
-    this->msPerChar = _mbutton.msPerChar;
-    this->initialPos = _mbutton.initialPos;
 }
 
 void ModuleButton::setText(const std::wstring& _line) {

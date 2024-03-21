@@ -12,7 +12,6 @@
 
 WidgetTextFile::WidgetTextFile(const std::wstring& _title, const std::string& _filePath) : Widget::Widget(_title) {
     this->bResizable = true;
-    this->maxWidth = 0;
 
     // == File reading and conversion
     std::wstringstream wss;

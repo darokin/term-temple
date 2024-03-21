@@ -12,6 +12,7 @@ typedef void (*triggerfunc)(Module*, Widget*, i2d);
 
 protected:
     Widget* widget {nullptr};   // widget the module is linked to
+    triggerfunc clickFunc {nullptr};
     i2d     initialPos {1, 1};  // initial position in the widget
     i2d     pos {1, 1};
     i2d     size {1, 1};
@@ -20,7 +21,6 @@ protected:
     long long timeStart {0};
     long    timeLapsedMs {0};
     float   msPerChar {10.f};   // speed for the default animation of the module
-    triggerfunc clickFunc;
 
 public:
     Module(i2d _initialPos, i2d _size = {20, 8});

@@ -6,7 +6,6 @@
 class WidgetClock : public Widget {
 private:
     bool isBig {true};
-
 public:
     WidgetClock(const std::wstring& _title, i2d _pos, i2d _size);
     explicit WidgetClock(const std::wstring& _title);

@@ -10,15 +10,15 @@ class Module; // Forward declaration because Module also have a pointer to widge
 class Widget {
 protected:
     std::wstring title {};
-    bool        bBorder {true};
-    bool        bClosingCross {true};
     bool        bTitle {true};
-    std::vector<Module*> modules;
-    long long   timeStart {0};
-    long        timeLapsedMs {0};
     i2d         pos {0, 0};
     i2d         size {80, 25};
-    uint8_t     colorPair {0};
+    uint8_t     colorPair {1}; // colorPairs::<COLOR>_ON_<COLOR>
+    std::vector<Module*> modules {};
+    long long   timeStart {0};
+    long        timeLapsedMs {0};
+    bool        bBorder {true};
+    bool        bClosingCross {true};
     bool        bResizable {false};
     i2d         sizeMin {32, 10};
 public:

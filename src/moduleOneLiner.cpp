@@ -7,7 +7,6 @@
 ModuleOneLiner::ModuleOneLiner(const std::wstring& _line, i2d _pos)
     : Module(_pos, {(int)_line.length(), 1}) {
     this->setText(_line);
-    this->bIsDone = false;
 }
 
 void ModuleOneLiner::draw() {

@@ -10,15 +10,11 @@
 
 extern WidgetManager* wmgr;
 
-Widget::Widget(const std::wstring& _title, i2d _pos, i2d _size) : title { _title }, pos { _pos }, size { _size } {
-    //this->titlePosX = (this->size.x - this->title.length()) / 2;
-    this->colorPair = colorPairs::PINK_ON_WHITE;
-    this->timeStart = globals::currentTimeInMs;  // Utils::timeInMilliseconds(); 
+Widget::Widget(const std::wstring& _title, i2d _pos, i2d _size) : title { _title }, pos { _pos }, size { _size }, timeStart { globals::currentTimeInMs } {
 }
 
 Widget::Widget(const std::wstring& _title) : Widget(_title, {0, 0}, {40, 20}) {
 } 
-
 
 Widget::~Widget() {
     for (auto m : modules) {
@@ -34,7 +30,6 @@ void Widget::setPos(i2d _pos) {
 
 void Widget::setSize(i2d _size) {
     this->size = _size;
-    //this->titlePosX = (this->size.x / 2) - (this->title.length() / 2);
 }
 
 void Widget::setColorPair(uint8_t _colorPair) {

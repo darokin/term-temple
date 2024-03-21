@@ -4,10 +4,7 @@
 #include "module.hpp"
 #include "widget.hpp"
 
-Module::Module(i2d _initialPos, i2d _size): initialPos {_initialPos}, pos {_initialPos}, size {_size} {
-    this->timeStart = globals::currentTimeInMs; 
-    this->widget = nullptr;
-    this->clickFunc = nullptr;
+Module::Module(i2d _initialPos, i2d _size) : initialPos {_initialPos}, pos {_initialPos}, size {_size}, timeStart {globals::currentTimeInMs} { 
 }
 
 Module::~Module() {

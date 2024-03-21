@@ -95,12 +95,12 @@ void WidgetDialog::handleKey(int _keycode) {
     case KEY_UP:
         dialog->dialogPrev();
         break;
+    case KEY_SPACE:
     case KEY_DOWN:
         dialog->dialogNext();
         break;
     case KEY_PPAGE:
     case KEY_NPAGE:
-        //if (this->readSeqIndex)
         break;
     default:
         break;
