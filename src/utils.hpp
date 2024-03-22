@@ -181,6 +181,6 @@ namespace Utils {
         return ss.str();
     }
 
-};
+}
 
 #endif

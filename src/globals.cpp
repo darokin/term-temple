@@ -27,7 +27,7 @@ namespace globals {
     // == TIME TICK ===================================================
     void tick() { 
         currentTimeInMs = Utils::timeInMilliseconds(); 
-    };
+    }
 
     // == CENTRALIZED STATUS MSG =======================================
     // TODO : migrate in widgetManager() ?
@@ -42,4 +42,4 @@ namespace globals {
     const wchar_t* getStatusText() {
         return statusText;
     }
-};
+}

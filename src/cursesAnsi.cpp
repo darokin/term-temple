@@ -329,4 +329,4 @@ namespace cursesANSI {
         return lengthCount;
     }
 
-}; // end namespace
+} // end namespace

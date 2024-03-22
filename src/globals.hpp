@@ -49,28 +49,28 @@ enum colorPairs {
 };
 
 enum class GameState {
-	BOOTLOADING,
-	INGAME_START,
-	INGAME_MOVE,
-	INGAME_RESIZE,
-	INGAME_SNAP,
-	INGAME_END,
-	INANIMATION
+    BOOTLOADING,
+    INGAME_START,
+    INGAME_MOVE,
+    INGAME_RESIZE,
+    INGAME_SNAP,
+    INGAME_END,
+    INANIMATION
 };
 
 namespace globals {
     extern const wchar_t* cursBlock;
     extern const wchar_t* cursBlock2;
     extern const wchar_t* cursBlock3;
-	extern const wchar_t* longSpacesLine;
-	extern long long currentTimeInMs;
-	extern GameState gameState;
-	extern i2d termSize;
+    extern const wchar_t* longSpacesLine;
+    extern long long currentTimeInMs;
+    extern GameState gameState;
+    extern i2d termSize;
 
     void tick();
-	uint16_t getColor(uint16_t _colorPair);
-	int setStatusText(const wchar_t* _line, ...);
-	const wchar_t* getStatusText();
-};
+    uint16_t getColor(uint16_t _colorPair);
+    int setStatusText(const wchar_t* _line, ...);
+    const wchar_t* getStatusText();
+}
 
 #endif

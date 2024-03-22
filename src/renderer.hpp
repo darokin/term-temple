@@ -11,8 +11,6 @@
 
 #include "utils.hpp"
 
-// TODO refactor
-
 namespace renderer {
 	void setColor(uint8_t _colorPair);
 	void setColorReverse(bool _reverse);
@@ -26,6 +24,6 @@ namespace renderer {
 	void drawString(const char* _line, uint16_t _size);
 	void drawString(const char* _line, i2d _pos);
 	void drawString(const char* _line, i2d _pos, uint16_t _size);
-};
+}
 
 #endif
