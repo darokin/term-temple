@@ -26,7 +26,8 @@ public:
     virtual void draw() final;
     virtual void handleKey(int _keycode) final;
     virtual void setPos(i2d _pos) final;
-    void setCentered(bool _centered) { if (this->dialog) dialog->setCentered(_centered); };
+    void setSpeed(float _speed) { if (this->dialog) this->dialog->setSpeed(_speed); };
+    void setCentered(bool _centered) { if (this->dialog) this->dialog->setCentered(_centered); };
 };
 
 #endif

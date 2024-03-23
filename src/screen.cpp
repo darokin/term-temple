@@ -15,6 +15,7 @@
 #endif
 
 const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans"; // ok path for win also
+//const std::string backgroundAnsiPath = "../data/ans/terry_01.ans";
 
 #include "screen.hpp"
 #include "widgetsManager.hpp"
@@ -45,9 +46,15 @@ WINDOW *wstatus; // <-- remove and put module inside wmgr instead
 void initWidgets() {
     wmgr = WidgetManager::getInstance(); // TODO remove useless singleton
     wmgr->setBackground(backgroundAnsiPath);
-    //wmgr->toggleAppLauncher(); // Start with the app Launcher opened
     wmgr->alert(L"""Press <SPACE BAR> or <Q> to validate this message and then press <F2> to open the APP LAUNCHER.\n\
 I suggest you go first use the TUTORIAL.\nUse <SPACE BAR> to launch an application.\nHAVE FUN!""", false);
+    
+    /*
+    WidgetDialog* _wd = WidgetDialog::createDialogPtrWithFile("../data/txt/terry01.txt");
+    _wd->setPos({68, 58});
+    _wd->setSpeed(200);
+    wmgr->addWidget(_wd);
+   */
 }
 
 /*

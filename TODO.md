@@ -4,6 +4,7 @@
  - [ ] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
  - [ ] timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
  - [ ] rename in globals 
+ - [ ] voir TODO dans FileExplorer, globals::Keys::...
  - [x] rename mainDraw() as update() ?
  - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
  - [ ] Dans AppLauncher mettre des callbacks mappées au appNames

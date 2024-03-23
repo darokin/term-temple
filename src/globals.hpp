@@ -8,7 +8,8 @@
 #define KEY_UP          259
 #define KEY_LEFT        260
 #define KEY_RIGHT       261
-#define KEY_ENTER       343
+#define KEY_ENTER       13
+#define KEY_ENTER_NPAD  343
 #define KEY_BACKSPACE   363
 #define KEY_ESCAPE      27
 #define KEY_F0          264

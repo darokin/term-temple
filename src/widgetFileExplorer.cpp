@@ -4,7 +4,7 @@
 #include <filesystem>
 #include "utils.hpp"
 #include "globals.hpp"
-#include "screen.hpp"
+//#include "screen.hpp"
 #include "renderer.hpp"
 #include "widget.hpp"
 #include "widgetsManager.hpp"
@@ -276,7 +276,10 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             }
             break;
         case KEY_SPACE:
+        #ifndef CURSES // TODO remove (remove le include renderer qui inclut curses, ou plutot faire des globals::KEYS::KEY_ENTER plutôt et tout surcharger)
         case KEY_ENTER:
+        #endif
+        case KEY_ENTER_NPAD:
             if (this->selectedFile->bIsFile) {
                 // == Opening FILES (normal mode)
                 //wmgr->openFile(Utils::wstr2str(this->selectedFile->parentName + this->selectedFile->name));

@@ -52,8 +52,9 @@ void WidgetMsgbox::setPos(i2d _pos) {
 
 void WidgetMsgbox::handleKey(int _keycode) {
     switch (_keycode) {
+        case KEY_SPACE:
         case KEY_ENTER:
-        case ' ':
+        case KEY_ENTER_NPAD:
             wmgr->removeWidget(this);
             break;
         default:

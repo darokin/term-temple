@@ -85,7 +85,7 @@ void Widget::update() {
     if (bClosingCross)
         renderer::drawString(L"[ X ]", {this->pos.x + this->size.x - 7, this->pos.y});
     // == Draw title
-    if (bTitle)
+    if (bTitle && !this->title.empty())
         renderer::drawString((L" " + this->title + L" ").c_str(), {this->pos.x + 2, this->pos.y}); //{this->pos.x + this->titlePosX, this->pos.y});
     // == Draw widget
     draw();

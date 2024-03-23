@@ -87,6 +87,7 @@ void WidgetAppLauncher::handleKey(int _keycode) {
             break;
         case KEY_SPACE:
         case KEY_ENTER:
+        case KEY_ENTER_NPAD:
             //std::invoke(appMap[], wmgr);
             if (appNames[this->indSelected] == L"SYSTEM") {
                 wmgr->openSystem();
