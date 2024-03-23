@@ -10,3 +10,5 @@ src/obj/*.o
 
 # Logs
 data/logs/
+data/txt/terry01.txt
+data/ans/terry_01.ans
