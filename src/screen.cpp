@@ -42,6 +42,9 @@ WINDOW *wstatus; // <-- remove and put module inside wmgr instead
 #define COLOR_BRIGHT_YELLOW     (COLOR_DEC_CONST + 14)
 #define COLOR_BRIGHT_WHITE      (COLOR_DEC_CONST + 15)
 
+// == Just to have room for improvement ahah
+#define SLEEP_DURATION          80
+
 // == Init widgets
 void initWidgets() {
     wmgr = WidgetManager::getInstance(); // TODO remove useless singleton
@@ -51,8 +54,10 @@ I suggest you go first use the TUTORIAL.\nUse <SPACE BAR> to launch an applicati
     
     /*
     WidgetDialog* _wd = WidgetDialog::createDialogPtrWithFile("../data/txt/terry01.txt");
-    _wd->setPos({68, 58});
+    _wd->setSize({32, 7});
+    _wd->setPos({76, 58});
     _wd->setSpeed(200);
+    _wd->setHasButton(false);
     wmgr->addWidget(_wd);
    */
 }
@@ -145,7 +150,7 @@ void screenLoop() {
     MEVENT event;
 
     do {
-        msleep(80);
+        msleep(SLEEP_DURATION);
         
         // ============================================
         globals::tick();

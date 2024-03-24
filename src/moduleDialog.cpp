@@ -34,8 +34,8 @@ void ModuleDialog::draw() {
     uint16_t nbCharsToShowTotal {};
     uint16_t x {0};
     uint16_t y {(uint16_t)this->pos.y};
-    // == Security
-    if (widget == nullptr) // TODO widget should be in every module constructor so we don't do this
+    // == Security (background module not tied to a widget for example)
+    if (widget == nullptr)
         return;
     // == For moduleDialog, elapsedMs is made with seqStart and not timeStart
     this->timeLapsedMs = globals::currentTimeInMs - this->seqTimeStart;
@@ -65,7 +65,7 @@ void ModuleDialog::draw() {
         this->bIsDone = true;
     // == Blink cursor while printing
     if (this->blink && !this->bIsDone)
-        renderer::drawString(((this->timeLapsedMs % 2) ? globals::cursBlock : L"_"), {x, y - 1}, nbCharsToShow);
+        renderer::drawString(((int(this->timeLapsedMs / 100) % 2) ? globals::cursBlock : L"_"), {x, y - 1}, nbCharsToShow);
 }
 
 void ModuleDialog::dialogPrev() {

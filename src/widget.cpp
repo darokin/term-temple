@@ -55,38 +55,67 @@ void Widget::draw() {
     renderer::drawString(L"WIDGET ONLY", {this->pos.x + 4, this->pos.y + 4});
 }
 
-void Widget::drawBorder() {
-    for (int _tx = pos.x; _tx < this->pos.x + this->size.x; _tx++) {
-        renderer::drawString(L"═", {_tx, this->pos.y});
-        renderer::drawString(L"═", {_tx, this->pos.y + this->size.y - 1});
+void Widget::drawBorder(i2d _framePos, i2d _frameSize) {
+    for (int _tx = pos.x; _tx < _framePos.x + _frameSize.x; _tx++) {
+        renderer::drawString(L"═", {_tx, _framePos.y});
+        renderer::drawString(L"═", {_tx, _framePos.y + _frameSize.y - 1});
     }
-    for (int _ty = pos.y; _ty < this->pos.y + this->size.y; _ty++) {
-        renderer::drawString(L"║", {this->pos.x, _ty});
-        renderer::drawString(L"║", {this->pos.x + this->size.x - 1, _ty});
+    for (int _ty = pos.y; _ty < _framePos.y + _frameSize.y; _ty++) {
+        renderer::drawString(L"║", {_framePos.x, _ty});
+        renderer::drawString(L"║", {_framePos.x + _frameSize.x - 1, _ty});
     }   
-    renderer::drawString(L"╔", {this->pos.x, this->pos.y});
-    renderer::drawString(L"╗", {this->pos.x + this->size.x - 1, this->pos.y});
-    renderer::drawString(L"╚", {this->pos.x, this->pos.y + this->size.y - 1});
-    renderer::drawString(L"╝", {this->pos.x + this->size.x - 1, this->pos.y + this->size.y - 1});
+    renderer::drawString(L"╔", {_framePos.x, _framePos.y});
+    renderer::drawString(L"╗", {_framePos.x + _frameSize.x - 1, _framePos.y});
+    renderer::drawString(L"╚", {_framePos.x, _framePos.y + _frameSize.y - 1});
+    renderer::drawString(L"╝", {_framePos.x + _frameSize.x - 1, _framePos.y + _frameSize.y - 1});
+}
+
+void Widget::drawFrame() {
+    i2d _framePos = this->pos;
+    i2d _frameSize = this->size;
+
+    // == Opening calculation for an opening effect
+    if (this->timeOpeningMs > 0 && this->timeLapsedMs < this->timeOpeningMs) {
+        double _ratioOpening = Utils::easeOutCubic(((double)this->timeLapsedMs / (double)this->timeOpeningMs));
+        v2d<double> _minSize { (double)this->size.x * 0.4, (double)this->size.y * 0.4 };
+        _frameSize.x = (_minSize.x) + ((this->size.x - _minSize.x) * _ratioOpening);
+        _frameSize.y = (_minSize.y) + ((this->size.y - _minSize.y) * _ratioOpening);
+        //_framePos.x += ((this->size.x - _frameSize.x) / 2);
+    }
+    // == Set Color
+    renderer::setColor(this->colorPair);
+    // == Draw backgrounds 
+    for (uint8_t _y = _framePos.y; _y < _framePos.y + _frameSize.y -1; _y++) 
+        renderer::drawString(globals::longSpacesLine, {_framePos.x, _y}, _frameSize.x - 1);
+    // == Draw borders  
+    if (bBorder)
+        this->drawBorder(_framePos, _frameSize);
+    // == Draw closing cross
+    if (bClosingCross)
+        renderer::drawString(L"[ X ]", {_framePos.x + _frameSize.x - 7, _framePos.y});
+    // == Draw title
+    if (bTitle && !this->title.empty())
+        renderer::drawString((L" " + this->title + L" ").c_str(), {_framePos.x + 2, _framePos.y}); //{this->pos.x + this->titlePosX, this->pos.y});
+}
+
+void Widget::endOpening() {
+    this->bIsOpening = false;
+    for (auto m : modules) {  
+        m->setTimeStart(globals::currentTimeInMs);
+    }
 }
 
 void Widget::update() {
     // == Refresh time lapsed
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;
-    // == Set Color
-    renderer::setColor(this->colorPair);
-    // == Draw backgrounds 
-    for (uint8_t _y = this->pos.y; _y < this->pos.y + this->size.y -1; _y++) 
-        renderer::drawString(globals::longSpacesLine, {this->pos.x, _y}, this->size.x - 1);
-    // == Draw borders  
-    if (bBorder)
-        this->drawBorder();
-    // == Draw closing cross
-    if (bClosingCross)
-        renderer::drawString(L"[ X ]", {this->pos.x + this->size.x - 7, this->pos.y});
-    // == Draw title
-    if (bTitle && !this->title.empty())
-        renderer::drawString((L" " + this->title + L" ").c_str(), {this->pos.x + 2, this->pos.y}); //{this->pos.x + this->titlePosX, this->pos.y});
+    // == Draw frame (bg, border, title and closing cross)
+    drawFrame();
+    // == Check the 'opening' state
+    if (this->bIsOpening && this->timeLapsedMs > this->timeOpeningMs)
+        endOpening();
+    // == If the widget is opening, only show frame opening
+    if (this->isOpening())
+        return;
     // == Draw widget
     draw();
     // == Update modules 

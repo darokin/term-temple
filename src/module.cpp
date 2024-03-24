@@ -24,6 +24,9 @@ void Module::updatePos() {
 }
 
 void Module::update() {
+    // == If the widget is opening, don´t show us
+    if (this->widget && this->widget->isOpening())
+        return;
     // == Update elapsed time
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;
     // == Set Color

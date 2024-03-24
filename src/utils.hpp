@@ -20,16 +20,27 @@ template<typename Type>
 struct v2d {
     Type x{0};
     Type y{0};
-    friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; };
-    friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; };
+    friend v2d operator+(v2d l, const v2d& r) { l.x += r.x; l.y += r.y; return l; }
+    friend v2d operator-(v2d l, const v2d& r) { l.x -= r.x; l.y -= r.y; return l; }
+    template<typename FromType> v2d<Type>& operator+=(const v2d<FromType>& r) { x += r.x; y += r.y; return *this; }
+    template<typename FromType> v2d<Type>& operator-=(const v2d<FromType>& r) { x -= r.x; y -= r.y; return *this; }
+    template<typename FromType> v2d<Type>& operator*=(const v2d<FromType>& r) { x *= r.x; y *= r.y; return *this; }
+    template<typename FromType> v2d<Type>& operator/=(const v2d<FromType>& r) { x /= r.x; y /= r.y; return *this; }
+    template<typename FromType> v2d<Type>& operator+=(const FromType& v) { x += v; y += v; return *this; }
+    template<typename FromType> v2d<Type>& operator-=(const FromType& v) { x -= v; y -= v; return *this; }
+    template<typename FromType> v2d<Type>& operator*=(const FromType& v) { x *= v; y *= v; return *this; }
+    template<typename FromType> v2d<Type>& operator/=(const FromType& v) { x /= v; y /= v; return *this; }
+    // == For conversion between standard types 
+    //template<typename FromType> v2d<Type>& operator=(const v2d<FromType>& r) { x = r.x; y = r.y; return *this; }
+    //template<typename FromType> v2d(const v2d<FromType> &r) { x = r.x; y = r.y; }
 };
 
-template<typename Type> inline bool operator==(const v2d<Type>& l, const v2d<Type>& r) { return (l.x == r.x && l.y == r.y); };
-template<typename Type> inline bool operator!=(const v2d<Type>& l, const v2d<Type>& r) { return !(l == r); };
-template<typename Type> inline bool operator< (const v2d<Type>& l, const v2d<Type>& r) { return (l.x < r.x && l.y < r.y); };
-template<typename Type> inline bool operator> (const v2d<Type>& l, const v2d<Type>& r) { return r < l; };
-template<typename Type> inline bool operator<=(const v2d<Type>& l, const v2d<Type>& r) { return !(l > r); };
-template<typename Type> inline bool operator>=(const v2d<Type>& l, const v2d<Type>& r) { return !(l < r); };
+template<typename Type> inline bool operator==(const v2d<Type>& l, const v2d<Type>& r) { return (l.x == r.x && l.y == r.y); }
+template<typename Type> inline bool operator!=(const v2d<Type>& l, const v2d<Type>& r) { return !(l == r); }
+template<typename Type> inline bool operator< (const v2d<Type>& l, const v2d<Type>& r) { return (l.x < r.x && l.y < r.y); }
+template<typename Type> inline bool operator> (const v2d<Type>& l, const v2d<Type>& r) { return r < l; }
+template<typename Type> inline bool operator<=(const v2d<Type>& l, const v2d<Type>& r) { return !(l > r); }
+template<typename Type> inline bool operator>=(const v2d<Type>& l, const v2d<Type>& r) { return !(l < r); }
 
 using i2d = v2d<int>;
 using u2d = v2d<uint16_t>; // not used yet may replace most
@@ -181,6 +192,101 @@ namespace Utils {
         return ss.str();
     }
 
+    // == EASING =====================================
+    // https://github.com/nicolausYes/easing-functions/
+    // Test : https://easings.net/
+    #ifndef PI
+    #define PI 3.1415926545
+    #endif
+
+    inline double easeInSine(double t)      { return sin( 1.5707963 * t ); }
+    inline double easeOutSine(double t)     { return 1 + sin( 1.5707963 * (--t) ); }
+    inline double easeInOutSine(double t)   { return 0.5 * (1 + sin( PI * (t - 0.5) ) ); }
+    inline double easeInQuad(double t)      { return t * t; }
+    inline double easeOutQuad(double t)     { return t * (2 - t); }
+    inline double easeInOutQuad(double t)   { return t < 0.5 ? 2 * t * t : t * (4 - 2 * t) - 1; }
+    inline double easeInCubic(double t)     { return t * t * t; }
+    //inline double easeOutCubic(double t)    { return 1 + (--t) * t * t; }
+    inline double easeOutCubic(double t)    { --t; return 1 + t * t * t; }
+    //inline double easeInOutCubic(double t)  { return t < 0.5 ? 4 * t * t * t : 1 + (--t) * (2 * (--t)) * (2 * t); }
+    inline double easeInQuart(double t)     { t *= t; return t * t; }
+    //inline double easeOutQuart(double t)    { t = (--t) * t; return 1 - t * t; }
+    inline double easeOutQuart(double t)    { t--; t *= t; return 1 - t * t; }
+    inline double easeInQuint(double t)     { double t2 = t * t; return t * t2 * t2; }
+    //inline double easeOutQuint(double t)    { double t2 = (--t) * t; return 1 + t * t2 * t2; }
+    inline double easeInExpo(double t)      { return (pow( 2, 8 * t ) - 1) / 255; }
+    inline double easeOutExpo(double t)     { return 1 - pow( 2, -8 * t ); }
+    inline double easeInCirc(double t)      { return 1 - sqrt( 1 - t ); }
+    inline double easeOutCirc(double t)     { return sqrt( t ); }
+    inline double easeInBack(double t)      { return t * t * (2.70158 * t - 1.70158); }
+    //inline double easeOutBack(double t)     { return 1 + (--t) * t * (2.70158 * t + 1.70158); }
+    inline double easeOutBack(double t)     { --t; return 1 + t * t * (2.70158 * t + 1.70158); }
+    inline double easeInElastic(double t)   { double t2 = t * t; return t2 * t2 * sin( t * PI * 4.5 ); }
+    inline double easeOutElastic(double t)  { double t2 = (t - 1) * (t - 1); return 1 - t2 * t2 * cos( t * PI * 4.5 ); }
+    inline double easeInBounce(double t )   { return pow( 2, 6 * (t - 1) ) * abs( sin( t * PI * 3.5 ) ); }
+    inline double easeOutBounce(double t )  { return 1 - pow( 2, -6 * t ) * abs( cos( t * PI * 3.5 ) ); }
+    inline double easeInOutQuart(double t ) {
+        if( t < 0.5 ) {
+            t *= t;
+            return 8 * t * t;
+        } else {
+            //t = (--t) * t;
+            --t; t *= t;
+            return 1 - 8 * t * t;
+        }
+    }
+    inline double easeInOutQuint( double t ) {
+        double t2;
+        if( t < 0.5 ) {
+            t2 = t * t;
+            return 16 * t * t2 * t2;
+        } else {
+            //t2 = (--t) * t;
+            --t; t2 = t * t;
+            return 1 + 16 * t * t2 * t2;
+        }
+    }
+    inline double easeInOutExpo( double t ) {
+        if( t < 0.5 ) {
+            return (pow( 2, 16 * t ) - 1) / 510;
+        } else {
+            return 1 - 0.5 * pow( 2, -16 * (t - 0.5) );
+        }
+    }
+    inline double easeInOutCirc( double t ) {
+        if( t < 0.5 ) {
+            return (1 - sqrt( 1 - 2 * t )) * 0.5;
+        } else {
+            return (1 + sqrt( 2 * t - 1 )) * 0.5;
+        }
+    }
+    inline double easeInOutBack( double t ) {
+        if( t < 0.5 ) {
+            return t * t * (7 * t - 2.5) * 2;
+        } else {
+            //return 1 + (--t) * t * 2 * (7 * t + 2.5);
+            --t; return 1 + t * t * 2 * (7 * t + 2.5);
+        }
+    }
+    inline double easeInOutElastic( double t ) {
+        double t2;
+        if( t < 0.45 ) {
+            t2 = t * t;
+            return 8 * t2 * t2 * sin( t * PI * 9 );
+        } else if( t < 0.55 ) {
+            return 0.5 + 0.75 * sin( t * PI * 4 );
+        } else {
+            t2 = (t - 1) * (t - 1);
+            return 1 - 8 * t2 * t2 * sin( t * PI * 9 );
+        }
+    }
+    inline double easeInOutBounce( double t ) {
+        if( t < 0.5 ) {
+            return 8 * pow( 2, 8 * (t - 1) ) * abs( sin( t * PI * 7 ) );
+        } else {
+            return 1 - 8 * pow( 2, -8 * t ) * abs( sin( t * PI * 7 ) );
+        }
+    }
 }
 
 #endif
