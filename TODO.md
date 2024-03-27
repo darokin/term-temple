@@ -2,13 +2,13 @@
 
  - [x] Dans WidgetANSI mettre juste un moduleANSI et dégager le code en doublon
  - [x] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
- - [ ] timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
- - [ ] rename in globals 
- - [ ] voir TODO dans FileExplorer, globals::Keys::...
+ - [x] timeInMilliseconds() dans Utils() et tick() dans globals... ... ... OK c pas si fou au final...
+ - [x] rename in globals OK sans status c plus clean
+ - [x] voir TODO dans FileExplorer, globals::Keys::... DONE!
  - [x] rename mainDraw() as update() ?
  - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
- - [ ] Dans AppLauncher mettre des callbacks mappées au appNames
- - [ ] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur
+ - [ ] Dans AppLauncher mettre des callbacks mappées au appNames. (Voir functors!)
+ - [x] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur (constructor bypass with static initializer)
  - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
  - [ ] Pour les widget RESIZABLE, mémorisé un prevPos et un prevSize pour revenir dessus lors retour normal après FullScreen <F>
  - [ ] Remplace bOpening etc. et mettre un state à OPENING / ACTIVE / CLOSING et faire anim closing
