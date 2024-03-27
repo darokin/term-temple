@@ -22,7 +22,7 @@ protected:
     WidgetAppLauncher* appLauncher {nullptr};
     bool isOnAppLauncher {false};
     ModuleOneLiner* statusBar {nullptr};
-    wchar_t statusText[STATUS_TEXT_MAXLENGTH];
+    wchar_t statusText[STATUS_TEXT_MAXLENGTH] {};
     // == Handle mouse
     bool mousePressedFlag {false};
     i2d mousePressedPos {0, 0};

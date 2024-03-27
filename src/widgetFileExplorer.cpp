@@ -210,12 +210,11 @@ void WidgetFileExplorer::drawTree() {
 }
 
 void WidgetFileExplorer::addFilesToTree(const std::wstring& _path) {
-    stFile* _stFile;
     auto _itResults = this->files.equal_range(_path); // find all results in multimap for that key
 
     // == Iterating through results of stFiles with that key / path
     for (auto _it = _itResults.first; _it != _itResults.second; ++_it) {
-        _stFile = _it->second; // For easy access
+        stFile* _stFile = _it->second; // For easy access
 
         // == For initialisation purpose, select first stFile at start
         if (this->selectedFile == nullptr)

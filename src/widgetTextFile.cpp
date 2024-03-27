@@ -91,7 +91,6 @@ void WidgetTextFile::handleKey(int _keycode) {
 }
 
 void WidgetTextFile::draw() {
-    std::wstring* content;
     std::wstring tmpWString;
     float _nbLines = static_cast<float>(this->maxHeight);
     float _nbLinesDisplayable = static_cast<float>(this->size.y - 2);
@@ -100,7 +99,7 @@ void WidgetTextFile::draw() {
 
     // == Draw file content
     for (uint16_t nLine = this->scrollY; nLine < this->maxHeight; nLine++) {
-        content = &this->contentLines[nLine];
+        std::wstring* content = &this->contentLines[nLine];
         if (this->scrollX > 0) {
             if (this->contentLines[nLine].length() > this->scrollX)
                 tmpWString = this->contentLines[nLine].substr(this->scrollX);
