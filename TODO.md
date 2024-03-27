@@ -1,7 +1,7 @@
 ## TODO
 
  - [x] Dans WidgetANSI mettre juste un moduleANSI et dégager le code en doublon
- - [ ] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
+ - [x] Dans screen.cpp dégager le WINDOW* !!!! pas de trace de curses mettre un moduleOneLiner en pied (voir si mieux de le gérer dans le widgetManager qui a déjà du 'dur' pour le appLauncher par exemple) YES MOVE STATUS TO WMGR!
  - [ ] timeInMilliseconds() dans Utils() et tick() dans globals... ... ...
  - [ ] rename in globals 
  - [ ] voir TODO dans FileExplorer, globals::Keys::...

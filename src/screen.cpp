@@ -33,7 +33,6 @@ const std::string backgroundAnsiPath = "../data/ans/eyes_pretty_02.ans"; // ok p
 #include "globals.hpp"
 
 WidgetManager* wmgr;
-WINDOW *wstatus; // <-- remove and put module inside wmgr instead
 
 // == We define BRIGHT colors outise of the range of 'normal' curses colors
 #define COLOR_DEC_CONST	        32
@@ -68,15 +67,6 @@ void click1(Module* _module, Widget* _widget, i2d _pos) {
     wmgr->alert(L"CLICKED");
 }
 */
-
-// == TODO : move as a module inside widgetManager
-void drawStatusBar() {
-    werase(wstatus);
-    wbkgd(wstatus, COLOR_PAIR(globals::getColor(colorPairs::BLUE_ON_WHITE)) | A_BOLD | A_REVERSE);
-    wmove(wstatus, 0, 0);
-    wprintw(wstatus, "%ls", globals::getStatusText());
-    wrefresh(wstatus);
-}
 
 void screenInit() {
     // == Init screen
@@ -133,10 +123,6 @@ void screenInit() {
     // == Init term size by faking a resize
     screenResize();
 
-    // == Create main wmaindow and initialize default style
-    //wMain = newwmain(viewSize.y, viewSize.x, 0, 0);
-    wstatus = newwin(1, globals::termSize.x, globals::termSize.y - 1, 0);
-
     // == Init global time (do it once so widget constructors get their timeStart)
     globals::tick();
 
@@ -147,98 +133,93 @@ void screenInit() {
 void screenLoop() {
     bool bQuit = false;
     int keycode;
-    MEVENT event;
 
     do {
         msleep(SLEEP_DURATION);
-        
-        // ============================================
         globals::tick();
+
         wmgr->draw();
-        drawStatusBar();
         wrefresh(stdscr);
-        // ============================================
 
-        // == KEY LISTENING
         keycode = wgetch(stdscr);
-        if (keycode == -1)
-            continue;
-
-        // == HEY HANDLING
-        switch (keycode) {
-            case KEY_MOUSE:
-                if(getmouse(&event) != OK)
-                    break;
-                if(event.bstate & BUTTON1_PRESSED) {	
-                    wmgr->handleMousePressed({event.x, event.y});
-                } else if(event.bstate & REPORT_MOUSE_POSITION) {	
-                    wmgr->handleMouseMove({event.x, event.y});
-                } else if(event.bstate & BUTTON1_RELEASED) {	
-                    wmgr->handleMouseReleased({event.x, event.y});
-                } else if(event.bstate & BUTTON1_CLICKED) {	
-                    wmgr->handleMouseClicked({event.x, event.y});
-                }	
-                break;
-            case KEY_RESIZE:
-                screenResize();
-                wmgr->refreshWidgets(globals::termSize.x, globals::termSize.y);
-                break;
-            case KEY_F(2):
-                wmgr->toggleAppLauncher();
-                break;
-            case 'M':
-            case 'm':
-                if (globals::gameState == GameState::INGAME_START) {
-                    globals::gameState = GameState::INGAME_MOVE;
-                    globals::setStatusText(L"[MOVE] %02d", 42);
-                }
-                break;
-            case 'S':
-            case 's':
-                if (globals::gameState == GameState::INGAME_START) {
-                    globals::gameState = GameState::INGAME_SNAP;
-                    globals::setStatusText(L"[SNAP] %c", 'X');
-                }
-                break;
-            case 'R':
-            case 'r':
-                if (globals::gameState == GameState::INGAME_START) {
-                    globals::gameState = GameState::INGAME_RESIZE;
-                    globals::setStatusText(L"[RESIZE]");
-                }
-                break;
-            case 27: // ESCAPE
-                if (globals::gameState > GameState::INGAME_START && globals::gameState < GameState::INGAME_END) {
-                    // == Quit any special mode (resize, move, snap, etc.)
-                    globals::gameState = GameState::INGAME_START;
-                    globals::setStatusText(L"");
-                } else if (globals::gameState == GameState::INGAME_START) {
-                    bQuit = true;
-                }
-                drawStatusBar();
-                break;
-            default:
-                switch(globals::gameState) {
-                    case GameState::INGAME_MOVE:
-                        wmgr->handleMove(keycode);
-                        break;
-                    case GameState::INGAME_RESIZE:
-                        wmgr->handleResize(keycode);
-                        break;
-                    case GameState::INGAME_SNAP:
-                        wmgr->handleSnap(keycode);
-                        break;
-                    default:
-                        wmgr->handleKey(keycode);
-                }
-                globals::setStatusText(L"Key '%d' '0x%x' [%c]", keycode, keycode, (char)keycode);
-                //wrefresh(wstatus);
-        }
+        bQuit = handleKeys(keycode);
     } while(!bQuit);
 }
 
-void statusRefresh() {
-    wrefresh(wstatus);
+bool handleKeys(int _keycode) {
+    if (_keycode == -1)
+        return false;
+
+    switch (_keycode) {
+        case KEY_MOUSE:
+            MEVENT event;
+            if(getmouse(&event) != OK)
+                break;
+            if(event.bstate & BUTTON1_PRESSED) {	
+                wmgr->handleMousePressed({event.x, event.y});
+            } else if(event.bstate & REPORT_MOUSE_POSITION) {	
+                wmgr->handleMouseMove({event.x, event.y});
+            } else if(event.bstate & BUTTON1_RELEASED) {	
+                wmgr->handleMouseReleased({event.x, event.y});
+            } else if(event.bstate & BUTTON1_CLICKED) {	
+                wmgr->handleMouseClicked({event.x, event.y});
+            }	
+            break;
+        case KEY_RESIZE:
+            screenResize();
+            wmgr->refreshWidgets(globals::termSize.x, globals::termSize.y);
+            break;
+        case KEY_F(2):
+            wmgr->toggleAppLauncher();
+            break;
+        case 'M':
+        case 'm':
+            if (globals::gameState == GameState::INGAME_START) {
+                globals::gameState = GameState::INGAME_MOVE;
+                wmgr->setStatusText(L"[MOVE MODE]");
+            }
+            break;
+        case 'S':
+        case 's':
+            if (globals::gameState == GameState::INGAME_START) {
+                globals::gameState = GameState::INGAME_SNAP;
+                wmgr->setStatusText(L"[SNAP MODE]");
+            }
+            break;
+        case 'R':
+        case 'r':
+            if (globals::gameState == GameState::INGAME_START) {
+                globals::gameState = GameState::INGAME_RESIZE;
+                wmgr->setStatusText(L"[RESIZE MODE]");
+            }
+            break;
+        case 27: // ESCAPE
+            if (globals::gameState > GameState::INGAME_START && globals::gameState < GameState::INGAME_END) {
+                // == Quit any special mode (resize, move, snap, etc.)
+                globals::gameState = GameState::INGAME_START;
+                wmgr->setStatusText(L"");
+            } else if (globals::gameState == GameState::INGAME_START) {
+                return true; // QUIT !
+            }
+            break;
+        default:
+            switch(globals::gameState) {
+                case GameState::INGAME_MOVE:
+                    wmgr->handleMove(_keycode);
+                    break;
+                case GameState::INGAME_RESIZE:
+                    wmgr->handleResize(_keycode);
+                    break;
+                case GameState::INGAME_SNAP:
+                    wmgr->handleSnap(_keycode);
+                    break;
+                default:
+                    wmgr->handleKey(_keycode);
+            }
+            wmgr->setStatusText(L"Key '%d' '0x%x' [%c]", _keycode, _keycode, (char)_keycode);
+    }
+
+    return false;
 }
 
 void screenResize() {

@@ -39,10 +39,11 @@ public:
     void setSize(i2d _size) { this->size.x = _size.x; this->size.y = _size.y; };
     void setTimeStart(long long _timeStart) { this->timeStart = _timeStart; };
     void setTriggerClick(triggerfunc _clickFunc);
-    i2d getPos() { return this->pos; };
-    i2d getSize() { return this->size; };
-    long long getTimeStart() { return this->timeStart; };
-    triggerfunc getTriggerClick() { return this->clickFunc; };
+    i2d getPos() { return this->pos; }
+    i2d getSize() { return this->size; }
+    uint8_t getColorPair() { return this->colorPair; }
+    long long getTimeStart() { return this->timeStart; }
+    triggerfunc getTriggerClick() { return this->clickFunc; }
 };
 
 #endif

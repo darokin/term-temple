@@ -8,7 +8,7 @@
 #include "moduleOneLiner.hpp"
 #include "moduleANSI.hpp"
 
-//class WidgetAppLauncher; // < this class has typedef on widgetManager
+#define STATUS_TEXT_MAXLENGTH   (256)
 
 class WidgetManager {
 protected:
@@ -20,8 +20,9 @@ protected:
     // recheck si pas mieux dans screen ou entre screen et wmgrd
     ModuleANSI* background {nullptr};
     WidgetAppLauncher* appLauncher {nullptr};
-    ModuleOneLiner* statusBar {nullptr};
     bool isOnAppLauncher {false};
+    ModuleOneLiner* statusBar {nullptr};
+    wchar_t statusText[STATUS_TEXT_MAXLENGTH];
     // == Handle mouse
     bool mousePressedFlag {false};
     i2d mousePressedPos {0, 0};
@@ -42,6 +43,7 @@ public:
     void freeWidgets();
     void toggleAppLauncher();
     void setBackground(const std::string& _backgroundPath);
+    void setStatusText(const wchar_t* _line, ...);
 
     void openSystem();
     void openTutorial();
@@ -50,6 +52,8 @@ public:
     void openFileExplorer();
     void openFile(const std::string& _filePath);
     void alert(const std::wstring& _msg, bool _centered = true);
+private:
+    void drawStatusBar();
 };
 
 #endif

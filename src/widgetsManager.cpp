@@ -54,21 +54,64 @@ void WidgetManager::draw() {
     // == App launcher
     if (this->isOnAppLauncher)
         this->appLauncher->update(); 
+
+    // == Draw Status Bar
+    drawStatusBar();
 }
 
 void WidgetManager::setBackground(const std::string& _backgroundPath) {
-    if (background != nullptr) {
+    if (background != nullptr)
         delete background;
-    }
-
-    i2d bkgSize;
-    i2d tmpPos;
-
     background = new ModuleANSI(_backgroundPath);
-    bkgSize = background->getSize();
-    tmpPos.x = (globals::termSize.x - bkgSize.x) / 2.0;
-    tmpPos.y = (globals::termSize.y - bkgSize.y) / 2.0;
-    background->setPos(tmpPos);
+    i2d _bkgSize {background->getSize()};
+    i2d _tmpPos {(globals::termSize.x - _bkgSize.x) / 2, (globals::termSize.y - _bkgSize.y) / 2};
+    background->setPos(_tmpPos);
+}
+
+void WidgetManager::drawStatusBar() {
+    renderer::setColor(statusBar->getColorPair());
+    renderer::drawString(globals::longSpacesLine, {0, globals::termSize.y - 1}, globals::termSize.x);
+    statusBar->update();
+}
+
+void WidgetManager::setStatusText(const wchar_t* _line, ...) {
+    va_list vl;
+    va_start(vl, _line);
+    auto ret = vswprintf(statusText, STATUS_TEXT_MAXLENGTH, _line, vl);
+    va_end(vl);
+    if (ret)
+        statusBar->setText(statusText);
+}
+
+void WidgetManager::toggleAppLauncher() {
+    this->isOnAppLauncher = !(this->isOnAppLauncher);
+    if (this->isOnAppLauncher)
+        this->focusWidget = this->appLauncher;
+}
+
+void WidgetManager::addWidget(Widget* _widget) {
+    this->widgets.push_back(_widget);
+    this->focusWidget = _widget;
+    this->isOnAppLauncher = false;
+}
+
+void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
+    // == Remove widget from vector
+    for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
+        if (*it == _widget) {
+            if (bDoKill)
+                delete _widget;
+            this->widgets.erase(it);
+            break;
+        }
+    }
+    // == Set focus on top widget OR the App Launcher if opened
+    if (this->widgets.size() > 0)
+        this->focusWidget = this->widgets.back();
+    else if (this->isOnAppLauncher)
+        this->focusWidget = this->appLauncher;
+    else
+        this->focusWidget = nullptr;
 }
 
 void WidgetManager::handleKey(int _keycode) {
@@ -89,14 +132,9 @@ void WidgetManager::handleKey(int _keycode) {
             this->removeWidget(this->focusWidget);
         return;
     }
+    // == If it's key that need to be handled by the focused widget
     if (this->focusWidget != nullptr)
         focusWidget->mainHandleKey(_keycode);
-}
-
-void WidgetManager::toggleAppLauncher() {
-    this->isOnAppLauncher = !(this->isOnAppLauncher);
-    if (this->isOnAppLauncher)
-        this->focusWidget = this->appLauncher;
 }
 
 void WidgetManager::handleMove(int _keycode) {
@@ -194,33 +232,8 @@ void WidgetManager::handleResize(int _keycode) {
     if (_size != _backupSize) {
         focusWidget->setPos(_pos);
         focusWidget->setSize(_size);
-        globals::setStatusText(L"[RESIZE] [%d, %d]", _size.x, _size.y);
+        setStatusText(L"[RESIZE] [%d, %d]", _size.x, _size.y);
     }
-}
-
-void WidgetManager::addWidget(Widget* _widget) {
-    this->widgets.push_back(_widget);
-    this->focusWidget = _widget;
-    this->isOnAppLauncher = false;
-}
-
-void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
-    // == Remove widget from vector
-    for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
-        if (*it == _widget) {
-            if (bDoKill)
-                delete _widget;
-            this->widgets.erase(it);
-            break;
-        }
-    }
-    // == Set focus on top widget OR the App Launcher if opened
-    if (this->widgets.size() > 0)
-        this->focusWidget = this->widgets.back();
-    else if (this->isOnAppLauncher)
-        this->focusWidget = this->appLauncher;
-    else
-        this->focusWidget = nullptr;
 }
 
 void WidgetManager::handleMousePressed(i2d _pos) {
@@ -269,14 +282,6 @@ void WidgetManager::handleMouseClicked(i2d _pos) {
 }
 
 void WidgetManager::alert(const std::wstring& _msg, bool _centered) {
-    /*
-    va_list vl;
-    va_start(vl, _msg);
-    size_t size = std::vswprintf(nullptr, 0, _msg.c_str(), vl);
-    wchar_t _formatedMsg[size];
-    vswprintf(_formatedMsg, size, _msg.c_str(), vl);
-    va_end(vl);
-    */
     WidgetMsgbox* newMsgbox = new WidgetMsgbox(_msg);
     newMsgbox->setBorder(true);
     newMsgbox->setTitle(L"WARNING");
@@ -380,5 +385,7 @@ void WidgetManager::freeWidgets() {
         delete background; // background ModuleANSI
     if (appLauncher)
         delete appLauncher; // widgetAppLauncher
+    if (statusBar)
+        delete statusBar;
 }
 

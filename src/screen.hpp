@@ -8,9 +8,9 @@ void screenInit();
 void screenLoop();
 void screenExit();
 void screenResize();
-void statusRefresh();
 void initWidgets();
 void drawWidgets();
+bool handleKeys(int _keycode);
 
 //void click1(Module* _module, Widget* _widget, i2d _pos);
 
