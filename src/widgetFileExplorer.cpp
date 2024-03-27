@@ -253,7 +253,7 @@ void WidgetFileExplorer::handleKey(int _keycode) {
     switch (_keycode) {
         case 'k':
         case 'K':
-        case KEY_UP:
+        case globals::keys::KeyUp:
             if (_yPos != 0) {
                 if (_yPos - this->scrollY < 3 && this->scrollY > 0) {
                     bHasScrolled = true;
@@ -265,7 +265,7 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             break;
         case 'j':
         case 'J':
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             if (_yPos < this->nbLines) {
                 if (_yPos - this->scrollY > this->nbLinesDisplayable - 4) {
                     bHasScrolled = true;
@@ -275,11 +275,9 @@ void WidgetFileExplorer::handleKey(int _keycode) {
                 bHasMoved = true;
             }
             break;
-        case KEY_SPACE:
-        #ifndef CURSES // TODO remove (remove le include renderer qui inclut curses, ou plutot faire des globals::KEYS::KEY_ENTER plutôt et tout surcharger)
-        case KEY_ENTER:
-        #endif
-        case KEY_ENTER_NPAD:
+        case globals::keys::KeySpace:
+        case globals::keys::KeyEnter:
+        case globals::keys::KeyEnterNumPad:
             if (this->selectedFile->bIsFile) {
                 // == Opening FILES (normal mode)
                 //wmgr->openFile(Utils::wstr2str(this->selectedFile->parentName + this->selectedFile->name));
@@ -297,7 +295,7 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             break;
         case 'l':
         case 'L':
-        case KEY_RIGHT:
+        case globals::keys::KeyRight:
             // == Do nothing if it's an opened folder or a file
             if (this->selectedFile->bIsOpen || this->selectedFile->bIsFile)
                 break;
@@ -306,14 +304,14 @@ void WidgetFileExplorer::handleKey(int _keycode) {
             break;
         case 'h':
         case 'H':
-        case KEY_LEFT:
+        case globals::keys::KeyLeft:
             // == Do nothing if it's a closed folder or a file
             if (!this->selectedFile->bIsOpen || this->selectedFile->bIsFile)
                 break;
             this->selectedFile->bIsOpen = false;
             bHasOpenedClosed = true;
             break;
-        case KEY_PPAGE:
+        case globals::keys::KeyPageUp:
             if (_yPos > 0) {
                 if (_yPos > PAGE_SKIP)
                     _yPos -= PAGE_SKIP;
@@ -328,7 +326,7 @@ void WidgetFileExplorer::handleKey(int _keycode) {
                 }                
             }
             break;
-        case KEY_NPAGE:
+        case globals::keys::KeyPageDown:
             if (_yPos < this->nbLines) {
                 if (_yPos + PAGE_SKIP < this->nbLines)
                     _yPos += PAGE_SKIP;

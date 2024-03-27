@@ -73,15 +73,14 @@ void WidgetDialog::handleKey(int _keycode) {
         return;
     switch (_keycode)
     {
-    case KEY_UP:
+    case globals::keys::KeyUp:
+    case globals::keys::KeyPageUp:
         dialog->dialogPrev();
         break;
-    case KEY_SPACE:
-    case KEY_DOWN:
+    case globals::keys::KeyDown:
+    case globals::keys::KeySpace:
+    case globals::keys::KeyPageDown:
         dialog->dialogNext();
-        break;
-    case KEY_PPAGE:
-    case KEY_NPAGE:
         break;
     default:
         break;

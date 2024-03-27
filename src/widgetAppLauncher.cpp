@@ -71,23 +71,23 @@ void WidgetAppLauncher::handleKey(int _keycode) {
 
     switch (_keycode)
     {
-        case KEY_UP:
+        case globals::keys::KeyUp:
             //if (this->selectedModuleIterator != appMap.begin())
             //    this->selectedModuleIterator--;
             if (this->indSelected > 0)
                 this->indSelected--;
             bHasMoved = true;
             break;
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             //if (this->selectedModuleIterator != appMap.end())
             //    this->selectedModuleIterator++;
             if (this->indSelected < APPLAUNCHER_NBAPPS - 1)
                 this->indSelected++;
             bHasMoved = true;
             break;
-        case KEY_SPACE:
-        case KEY_ENTER:
-        case KEY_ENTER_NPAD:
+        case globals::keys::KeySpace:
+        case globals::keys::KeyEnter:
+        case globals::keys::KeyEnterNumPad:
             //std::invoke(appMap[], wmgr);
             if (appNames[this->indSelected] == L"SYSTEM") {
                 wmgr->openSystem();

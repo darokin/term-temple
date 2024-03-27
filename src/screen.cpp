@@ -150,6 +150,7 @@ bool handleKeys(int _keycode) {
     if (_keycode == -1)
         return false;
 
+    // == Special nCurses KEY codes for MOUSE, RESIZE and F keys
     switch (_keycode) {
         case KEY_MOUSE:
             MEVENT event;

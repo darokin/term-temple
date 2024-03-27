@@ -46,41 +46,41 @@ WidgetTextFile::~WidgetTextFile() {
 void WidgetTextFile::handleKey(int _keycode) {
     switch (_keycode) {
         // == SCROLL VERTICAL Y
-        case KEY_UP:
+        case globals::keys::KeyUp:
             if (this->scrollY > 0)
                 this->scrollY--;
             break;
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             if (this->scrollY < (int)this->maxHeight - this->size.y + 2)
                 this->scrollY++;
             break;
-        case KEY_PPAGE:
+        case globals::keys::KeyPageUp:
             if (this->scrollY - this->size.y - 2 < 0)
                 this->scrollY = 0;
             else
                 this->scrollY -= this->size.y - 2;
             break;
-        case KEY_NPAGE:
+        case globals::keys::KeyPageDown:
             this->scrollY += this->size.y - 2;
             if (this->scrollY > (int)this->maxHeight - this->size.y + 2)
                 this->scrollY = this->maxHeight - this->size.y + 2;
             break;
         // == SCROLL HORIZONTAL X
-        case KEY_LEFT:
+        case globals::keys::KeyLeft:
             if (this->scrollX > 0)
                 this->scrollX--;
             break;
-        case KEY_RIGHT:
+        case globals::keys::KeyRight:
             if (this->scrollX < this->maxWidth - this->size.x + 2)
                 this->scrollX++;
             break;
-        case KEY_SLEFT:
+        case globals::keys::KeyShiftLeft:
             if (this->scrollX - this->size.x - 2 < 0)
                 this->scrollX = 0;
             else
                 this->scrollX -= this->size.x - 2;
             break;
-        case KEY_SRIGHT:
+        case globals::keys::KeyShiftRight:
             this->scrollX += this->size.x - 2;
             if (this->scrollX > this->maxWidth - this->size.x + 2)
                 this->scrollX = this->maxWidth - this->size.x + 2;

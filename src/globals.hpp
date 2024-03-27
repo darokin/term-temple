@@ -3,33 +3,14 @@
 
 #include "utils.hpp"
 
+/*
 #ifndef CURSES // include for headers that do not include ncurses
-#define KEY_DOWN        258
-#define KEY_UP          259
-#define KEY_LEFT        260
-#define KEY_RIGHT       261
-#define KEY_ENTER       13
-#define KEY_ENTER_NPAD  343
-#define KEY_BACKSPACE   363
-#define KEY_ESCAPE      27
 #define KEY_F0          264
-#define KEY_F1          265
-#define KEY_F2          266
-#define KEY_F3          267
-#define KEY_F4          268
-#define KEY_F5          269
-#define KEY_F6          270
-#define KEY_F7          271
-#define KEY_F8          272
-#define KEY_F9          273
-#define KEY_F10         274
-#define KEY_F11         275
-#define KEY_F12         276
 #define KEY_F(x)        ((KEY_F0) + (x))
-#define KEY_HOME        262
-#define KEY_TAB         0x09
+#define KEY_MOUSE       409
+#define KEY_RESIZE      410
 #endif
-#define KEY_SPACE       ' '
+*/
 
 enum colorPairs {
     COLORPAIR_DEFAULT,
@@ -60,18 +41,52 @@ enum class GameState {
 };
 
 namespace globals {
-    extern const wchar_t* cursBlock;
-    extern const wchar_t* cursBlock2;
-    extern const wchar_t* cursBlock3;
-    extern const wchar_t* longSpacesLine;
+    // == GLOBAL VARIABLES
     extern long long currentTimeInMs;
     extern GameState gameState;
     extern i2d termSize;
 
+    // == GLOBAL FUNCTIONS
     void tick();
     uint16_t getColor(uint16_t _colorPair);
-    int setStatusText(const wchar_t* _line, ...);
-    const wchar_t* getStatusText();
+
+    // == GLOBAL CONSTANTS
+    extern const wchar_t* cursBlock;
+    extern const wchar_t* cursBlock2;
+    extern const wchar_t* cursBlock3;
+    extern const wchar_t* longSpacesLine;
+    
+    // == KEY CONSTANTS
+    namespace keys {
+        const uint16_t KeyDown          = 258;
+        const uint16_t KeyUp            = 259;
+        const uint16_t KeyLeft          = 260;
+        const uint16_t KeyRight         = 261;
+        const uint16_t KeyEnter         = 13;
+        const uint16_t KeyEnterNumPad   = 343;
+        const uint16_t KeyBackspace     = 363;
+        const uint16_t KeyEscape        = 27;
+        const uint16_t KeyF0            = 264;
+        const uint16_t KeyF1            = 265;
+        const uint16_t KeyF2            = 266;
+        const uint16_t KeyF3            = 267;
+        const uint16_t KeyF4            = 268;
+        const uint16_t KeyF5            = 269;
+        const uint16_t KeyF6            = 270;
+        const uint16_t KeyF7            = 271;
+        const uint16_t KeyF8            = 272;
+        const uint16_t KeyF9            = 273;
+        const uint16_t KeyF10           = 274;
+        const uint16_t KeyF11           = 275;
+        const uint16_t KeyF12           = 276;
+        const uint16_t KeyHome          = 262;
+        const uint16_t KeyTab           = 0x09;
+        const uint16_t KeySpace         = ' ';
+        const uint16_t KeyPageDown      = 338;
+        const uint16_t KeyPageUp        = 339;
+        const uint16_t KeyShiftLeft     = 393;
+        const uint16_t KeyShiftRight    = 402;
+    }
 }
 
 #endif

@@ -115,10 +115,10 @@ void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
 }
 
 void WidgetManager::handleKey(int _keycode) {
-    if (_keycode == KEY_ESCAPE) {
+    if (_keycode == globals::keys::KeyEscape) {
         return;
     }
-    if (_keycode == KEY_TAB) {
+    if (_keycode == globals::keys::KeyTab) {
         if (this->widgets.size() <= 1)
             return;
         Widget* tmpWidget;
@@ -144,16 +144,16 @@ void WidgetManager::handleMove(int _keycode) {
     i2d _size = this->focusWidget->getSize();
     uint16_t _dec = 4;
     switch (_keycode) {
-        case KEY_LEFT:
+        case globals::keys::KeyLeft:
             _pos.x -= _dec;
             break;
-        case KEY_RIGHT:
+        case globals::keys::KeyRight:
             _pos.x += _dec;
             break;
-        case KEY_UP:
+        case globals::keys::KeyUp:
             _pos.y -= _dec;
             break;
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             _pos.y += _dec;
             break;
     }
@@ -174,16 +174,16 @@ void WidgetManager::handleSnap(int _keycode) {
     i2d _pos = this->focusWidget->getPos();
     i2d _size = this->focusWidget->getSize();
     switch (_keycode) {
-        case KEY_LEFT:
+        case globals::keys::KeyLeft:
             _pos.x = 0;
             break;
-        case KEY_RIGHT:
+        case globals::keys::KeyRight:
              _pos.x = globals::termSize.x - _size.x;
             break;
-        case KEY_UP:
+        case globals::keys::KeyUp:
             _pos.y = 0;
             break;
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             _pos.y = globals::termSize.y - _size.y - 1;
             break;
     }
@@ -212,19 +212,19 @@ void WidgetManager::handleResize(int _keycode) {
                 _size.y = globals::termSize.y - 1;
             }
             break;
-        case KEY_LEFT:
+        case globals::keys::KeyLeft:
             if (_size.x > _minSize.x)
                 _size.x--;
             break;
-        case KEY_RIGHT:
+        case globals::keys::KeyRight:
             if (_pos.x + _size.x + 1 < globals::termSize.x)
                 _size.x++;
             break;
-        case KEY_UP:
+        case globals::keys::KeyUp:
             if (_size.y > _minSize.y)
                 _size.y--;
             break;
-        case KEY_DOWN:
+        case globals::keys::KeyDown:
             if (_pos.y + _size.y + 1 < globals::termSize.y - 1)
                 _size.y++;
             break;
