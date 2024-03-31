@@ -97,14 +97,12 @@ void WidgetManager::addWidget(Widget* _widget) {
 
 void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
     // == Remove widget from vector
-    for (std::vector<Widget*>::iterator it = this->widgets.begin(); it != this->widgets.end(); ++it) {
-        if (*it == _widget) {
-            if (bDoKill)
-                delete _widget;
-            this->widgets.erase(it);
-            break;
-        }
-    }
+    std::vector<Widget*>::const_iterator it = std::find(this->widgets.begin(), this->widgets.end(), _widget);
+    if (it == this->widgets.end())
+        return; // Not found
+    if (bDoKill)
+        delete _widget;
+    this->widgets.erase(it);
     // == Set focus on top widget OR the App Launcher if opened
     if (this->widgets.size() > 0)
         this->focusWidget = this->widgets.back();

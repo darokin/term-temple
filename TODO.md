@@ -6,11 +6,11 @@
  - [x] rename in globals OK sans status c plus clean
  - [x] voir TODO dans FileExplorer, globals::Keys::... DONE!
  - [x] rename mainDraw() as update() ?
- - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
- - [ ] Dans AppLauncher mettre des callbacks mappées au appNames. (Voir functors!)
  - [x] Dans widgetDialog avoir un constructeur sans filePath où on peut faire un addDialog manuel et charger sinon always le dialog du fichier dans le constructeur (constructor bypass with static initializer)
- - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
+ - [ ] faire WidgetResizable ou WidgetScrollable entre WidgetTextFile ou WidgetFileExplorer et base class Widget ?
  - [ ] Pour les widget RESIZABLE, mémorisé un prevPos et un prevSize pour revenir dessus lors retour normal après FullScreen {F}
+ - [ ] Dans AppLauncher mettre des callbacks mappées au appNames. (Voir functors!)
+ - [ ] Dand widgetTextFile extraire la partie lect>ss>vector of lines et reuse dans widgetDialog. Look msgBox, heritance de widget et pas widgetTextFile pour widgetDialog!
  - [ ] Remplace bOpening etc. et mettre un state à OPENING / ACTIVE / CLOSING et faire anim closing
  - [ ] Régler les cas d'auto kill (q on widget that call delete on themselves removeWidget(.., true))
  - [ ] Debug mouse les clics semblent triggered de manière random on dirait...
