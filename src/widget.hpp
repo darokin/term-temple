@@ -40,10 +40,11 @@ public:
     void addModule(Module* _module);
 
     virtual void setPos(i2d _pos);
-    void setSize(i2d _size);
+    virtual void setSize(i2d _size);
     void setColorPair(uint8_t _colorPair);
     void setBorder(bool _bBorder);
     void setTitle(const std::wstring& _title);
+    void setResizable(bool _resizable) { this->bResizable = _resizable; }
     i2d  getPos() { return pos; }
     i2d  getSize() { return size; }
     i2d  getSizeMin() { return sizeMin; }

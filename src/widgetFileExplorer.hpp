@@ -34,6 +34,7 @@ public:
     virtual void draw() final;
     virtual void handleKey(int _keycode) final;
     virtual void setPos(i2d _pos) final;
+    virtual void setSize(i2d _size) final;
     void addFilesToTree(const std::wstring& _path);
     //void recursiveScanFolder(const std::string& _filesPath);
     void recursiveScanFolderFake(const std::string& _filesPath, const std::string& _startPath);

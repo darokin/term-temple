@@ -215,9 +215,9 @@ bool handleKeys(int _keycode) {
                     wmgr->handleSnap(_keycode);
                     break;
                 default:
+                    wmgr->setStatusText(L"Key '%d' '0x%x' [%c]", _keycode, _keycode, (char)_keycode);
                     wmgr->handleKey(_keycode);
             }
-            wmgr->setStatusText(L"Key '%d' '0x%x' [%c]", _keycode, _keycode, (char)_keycode);
     }
 
     return false;

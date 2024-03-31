@@ -17,19 +17,22 @@ extern WidgetManager* wmgr;
 
 static const wchar_t* fileExplorerTitle = L"__FILEEXPLORER__"; 
 static const std::string fakePathToDataFiles = "/home/system7/code/cpp/term-temple/";
-static const std::multimap<std::wstring, std::wstring> filesList {{L"/", L"usr/"}, {L"/", L"home/"}, {L"/", L"sys/"}, \
-                                                            {L"/usr/", L"bin/"}, {L"/usr/", L"lib/"}, {L"/usr/", L"include/"}, {L"/usr/", L"share/"}, {L"/usr/", L"sbin/"}, \
-                                                                    {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"cmake/"}, \
-                                                                     {L"/usr/share/", L"tools/"},  {L"/usr/share/", L"themes/"},
-                                                            {L"/home/", L"system7/"}, \
-                                                               {L"/home/system7/", L"code/"}, {L"/home/system7/", L"documents/"}, {L"/home/system7/", L"games/"}, {L"/home/system7/", L"images/"}, \
-                                                                    {L"/home/system7/games/", L"steam/"}, \
-                                                                    {L"/home/system7/code/", L"c/"}, {L"/home/system7/code/", L"cpp/"}, {L"/home/system7/code/", L"python/"}, \
-                                                            {L"/home/system7/code/cpp/", L"term-temple/"}, \
-                                                            {L"/sys/", L"dev/"}, {L"/sys/", L"module/"}};
+static const std::multimap<std::wstring, std::wstring> filesList {\
+    {L"/", L"usr/"}, {L"/", L"home/"}, {L"/", L"sys/"}, \
+    {L"/usr/", L"bin/"}, {L"/usr/", L"lib/"}, {L"/usr/", L"include/"}, {L"/usr/", L"share/"}, {L"/usr/", L"sbin/"}, \
+            {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"blender/"}, {L"/usr/share/", L"cmake/"}, \
+                {L"/usr/share/", L"tools/"},  {L"/usr/share/", L"themes/"},
+    {L"/home/", L"system7/"}, \
+        {L"/home/system7/", L"code/"}, {L"/home/system7/", L"documents/"}, {L"/home/system7/", L"games/"}, {L"/home/system7/", L"images/"}, \
+            {L"/home/system7/games/", L"steam/"}, \
+            {L"/home/system7/code/", L"c/"}, {L"/home/system7/code/", L"cpp/"}, {L"/home/system7/code/", L"python/"}, \
+    {L"/home/system7/code/cpp/", L"term-temple/"}, \
+    {L"/sys/", L"dev/"}, {L"/sys/", L"module/"}\
+};
 
 WidgetFileExplorer::WidgetFileExplorer() : Widget(fileExplorerTitle) {
     this->bTitle = false;
+    this->setResizable(true);
     // == Init File Explorer Widget
     this->size.x = 54;//60;
     this->size.y = 24;//32;
@@ -196,6 +199,7 @@ void WidgetFileExplorer::drawTree() {
         // == Create a new module at the correct line and add it to the modules of the widget
         i2d _modulePos {1, (_stFile->yPosition * 1) - this->scrollY + (this->size.y - this->nbLinesDisplayable - 1)};
         _lineModule = new ModuleOneLiner(_spacing + _icon + L" " + _stFile->name, _modulePos);
+        _lineModule->setSize({this->size.x - 2, 1}); 
         _lineModule->setWidget(this);
         _lineModule->updatePos();
         _lineModule->setTimeStart(_lineModule->getTimeStart() - 99999);
@@ -392,6 +396,19 @@ void WidgetFileExplorer::setPos(i2d _pos) {
     this->lineModule->updatePos();
     for (const auto& m : modules)
         m->updatePos();
+}
+
+void WidgetFileExplorer::setSize(i2d _size) {
+    this->size = _size;
+    // == Format separator line
+    std::wstring _sLine = std::wstring(this->size.x, L'═');
+    _sLine[_sLine.size() - 1] = L'╣';
+    _sLine[0] = L'╠';
+    // == Update modules sizes
+    this->lineModule->setText(_sLine);
+    this->lineModule->setSize({this->size.x, 1});
+    this->pathModule->setSize({this->size.x, 1});
+    this->nbLinesDisplayable = this->size.y - 4;
 }
 
 void WidgetFileExplorer::draw() {
