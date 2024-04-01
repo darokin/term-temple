@@ -97,7 +97,9 @@ void WidgetDialog::endOpening() {
 void WidgetDialog::draw() {
     if (!dialog) // TODO build on construct
         return;
-
+    if (!this->isActive())
+        return;
+        
     // == Update button if present
     if (button && bHasButton)
         button->update();

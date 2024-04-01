@@ -249,8 +249,6 @@ void WidgetFileExplorer::handleKey(int _keycode) {
     if (this->selectedFile == nullptr)
         return;
 
-    // TODO replace 10 par PAGE_SKIP ds les cases NPAGE PPAGE
-
     uint16_t _yPos = this->selectedFile->yPosition;
 
     switch (_keycode) {
@@ -412,6 +410,9 @@ void WidgetFileExplorer::setSize(i2d _size) {
 }
 
 void WidgetFileExplorer::draw() {
+    if (!this->isActive())
+        return;
+
     // everything is in the widget modules
     this->pathModule->update();
     this->lineModule->update();

@@ -229,7 +229,7 @@ void WidgetManager::handleResize(int _keycode) {
                 _size.x--;
             break;
         case globals::keys::KeyRight:
-            if (_pos.x + _size.x + 1 < globals::termSize.x)
+            if (_pos.x + _size.x < globals::termSize.x)
                 _size.x++;
             break;
         case globals::keys::KeyUp:
@@ -237,7 +237,7 @@ void WidgetManager::handleResize(int _keycode) {
                 _size.y--;
             break;
         case globals::keys::KeyDown:
-            if (_pos.y + _size.y + 1 < globals::termSize.y - 1)
+            if (_pos.y + _size.y < globals::termSize.y - 1)
                 _size.y++;
             break;
     }

@@ -22,6 +22,12 @@ Widget::~Widget() {
     }
 }
 
+void Widget::endOpening() {
+}
+
+void Widget::startClosing() {
+}
+
 void Widget::setPos(i2d _pos) {
     this->pos = _pos;
     for (auto& m : this->modules)
@@ -55,9 +61,6 @@ void Widget::close() {
         return;
     this->timeClosingStart = globals::currentTimeInMs;
     this->state = widgetState::STATE_CLOSING;
-}
-
-void Widget::endOpening() {
 }
 
 void Widget::draw() {

@@ -45,6 +45,7 @@ public:
     virtual void update();
     virtual void draw();
     virtual void endOpening();
+    virtual void startClosing();
     virtual void handleKey(int _keycode);
     virtual void mainHandleKey(int _keycode);
     virtual void handleMouseClick(i2d _pos);
