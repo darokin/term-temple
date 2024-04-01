@@ -6,21 +6,33 @@
 #include "utils.hpp"
 
 #define DEFAULT_OPENING_DELAY   250
+#define DEFAULT_CLOSING_DELAY   120
+
+enum class widgetState {
+    STATE_NONE,
+    STATE_OPENING,
+    STATE_NORMAL,
+    STATE_CLOSING,
+    STATE_KILLED
+};
 
 class Module; // Forward declaration because Module also have a pointer to widget
 
 class Widget {
 protected:
+    widgetState state { widgetState::STATE_OPENING };
     std::wstring title {};
     bool        bTitle {true};
     i2d         pos {0, 0};
     i2d         size {80, 25};
     uint8_t     colorPair {1}; // colorPairs::<COLOR>_ON_<COLOR>
     std::vector<Module*> modules {};
-    long long   timeStart {0};
+    long long   timeStart {1};
+    long long   timeClosingStart {1};
     long        timeOpeningMs {DEFAULT_OPENING_DELAY};
-    bool        bIsOpening {true};
+    long        timeClosingMs {DEFAULT_CLOSING_DELAY};
     long        timeLapsedMs {0};
+    //bool        bIsOpening {true};
     bool        bBorder {true};
     bool        bClosingCross {true};
     bool        bResizable {false};
@@ -36,7 +48,6 @@ public:
     virtual void handleKey(int _keycode);
     virtual void mainHandleKey(int _keycode);
     virtual void handleMouseClick(i2d _pos);
-    void drawBorder(i2d _framePos, i2d _frameSize);
     void addModule(Module* _module);
 
     virtual void setPos(i2d _pos);
@@ -51,9 +62,15 @@ public:
     long long getTimeStart() { return timeStart; }
     bool isResizable() { return bResizable; }
     //bool isOpening() { return (timeLapsedMs < timeOpeningMs); }
-    bool isOpening() { return (bIsOpening); }
+    bool isOpening() { return (this->state == widgetState::STATE_OPENING); }
+    bool isClosing() { return (this->state == widgetState::STATE_CLOSING); }
+    bool isActive() { return (this->state == widgetState::STATE_NORMAL); }
+    bool isKilled() { return (this->state == widgetState::STATE_KILLED); }
+    void close();
 private:
     void drawFrame();
+    void drawBorder(i2d _framePos, i2d _frameSize);
+    void updateState();
 };
 
 #endif

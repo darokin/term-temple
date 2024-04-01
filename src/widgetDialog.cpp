@@ -88,10 +88,6 @@ void WidgetDialog::handleKey(int _keycode) {
 }
 
 void WidgetDialog::endOpening() {
-    this->bIsOpening = false;
-    for (auto m : modules) {  
-        m->setTimeStart(globals::currentTimeInMs);
-    }
     if (button)
         button->setTimeStart(globals::currentTimeInMs);
     if (dialog)

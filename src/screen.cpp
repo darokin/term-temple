@@ -170,7 +170,9 @@ bool handleKeys(int _keycode) {
             screenResize();
             wmgr->refreshWidgets(globals::termSize.x, globals::termSize.y);
             break;
-        case KEY_F(2):
+        case 'a':
+        case 'A':
+        //case KEY_F(2):
             wmgr->toggleAppLauncher();
             break;
         case 'M':
@@ -198,7 +200,7 @@ bool handleKeys(int _keycode) {
             if (globals::gameState > GameState::INGAME_START && globals::gameState < GameState::INGAME_END) {
                 // == Quit any special mode (resize, move, snap, etc.)
                 globals::gameState = GameState::INGAME_START;
-                wmgr->setStatusText(L"");
+                wmgr->setStatusText(L"[NORMAL MODE]");
             } else if (globals::gameState == GameState::INGAME_START) {
                 return true; // QUIT !
             }

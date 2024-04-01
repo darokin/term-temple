@@ -50,6 +50,16 @@ void Widget::addModule(Module* _module) {
     this->modules.push_back(_module);
 }
 
+void Widget::close() {
+    if (this->state >= widgetState::STATE_CLOSING)
+        return;
+    this->timeClosingStart = globals::currentTimeInMs;
+    this->state = widgetState::STATE_CLOSING;
+}
+
+void Widget::endOpening() {
+}
+
 void Widget::draw() {
     renderer::drawString(this->title.c_str(), {this->pos.x, this->pos.y});
     renderer::drawString(L"WIDGET ONLY", {this->pos.x + 4, this->pos.y + 4});
@@ -75,17 +85,22 @@ void Widget::drawFrame() {
     i2d _frameSize = this->size;
 
     // == Opening calculation for an opening effect
-    if (this->timeOpeningMs > 0 && this->timeLapsedMs < this->timeOpeningMs) {
+    if (this->state == widgetState::STATE_OPENING) {// this->timeOpeningMs > 0 && this->timeLapsedMs < this->timeOpeningMs) {
         double _ratioOpening = Utils::easeOutCubic(((double)this->timeLapsedMs / (double)this->timeOpeningMs));
         v2d<double> _minSize { (double)this->size.x * 0.4, (double)this->size.y * 0.4 };
         _frameSize.x = (_minSize.x) + ((this->size.x - _minSize.x) * _ratioOpening);
         _frameSize.y = (_minSize.y) + ((this->size.y - _minSize.y) * _ratioOpening);
         //_framePos.x += ((this->size.x - _frameSize.x) / 2);
+    } else if (this->state == widgetState::STATE_CLOSING) {
+        double _ratioClosing = Utils::easeInCubic(((double)(globals::currentTimeInMs - this->timeClosingStart) / (double)this->timeOpeningMs));
+        v2d<double> _minSize { 4, 4 };//(double)this->size.x * 0.15, (double)this->size.y * 0.15 };
+        _frameSize.x = (this->size.x) - ((this->size.x - _minSize.x) * _ratioClosing);
+        _frameSize.y = (this->size.y) - ((this->size.y - _minSize.y) * _ratioClosing);
     }
     // == Set Color
     renderer::setColor(this->colorPair);
-    // == Draw backgrounds 
-    for (uint8_t _y = _framePos.y; _y < _framePos.y + _frameSize.y -1; _y++) 
+    // == Draw backgrounds
+    for (uint8_t _y = _framePos.y; _y < _framePos.y + _frameSize.y -1; _y++)
         renderer::drawString(globals::longSpacesLine, {_framePos.x, _y}, _frameSize.x - 1);
     // == Draw borders  
     if (bBorder)
@@ -98,21 +113,29 @@ void Widget::drawFrame() {
         renderer::drawString((L" " + this->title + L" ").c_str(), {_framePos.x + 2, _framePos.y}); //{this->pos.x + this->titlePosX, this->pos.y});
 }
 
-void Widget::endOpening() {
-    this->bIsOpening = false;
-    for (auto m : modules) {  
-        m->setTimeStart(globals::currentTimeInMs);
+void Widget::updateState() {
+    // == Check the 'opening' state ending
+    if (this->state == widgetState::STATE_OPENING && this->timeLapsedMs > this->timeOpeningMs) {
+        this->state = widgetState::STATE_NORMAL;
+        for (auto m : modules)
+            m->setTimeStart(globals::currentTimeInMs);
+        endOpening();
+    // == Chech the 'closing' state ending
+    } else if (this->state == widgetState::STATE_CLOSING && globals::currentTimeInMs - this->timeClosingStart > this->timeClosingMs) {
+        this->state = widgetState::STATE_KILLED;
+        for (auto m : modules)
+            free(m);
+        modules.clear();
     }
 }
 
 void Widget::update() {
     // == Refresh time lapsed
     this->timeLapsedMs = globals::currentTimeInMs - this->timeStart;
+    // == Update state (opening / closing animation)
+    updateState();
     // == Draw frame (bg, border, title and closing cross)
     drawFrame();
-    // == Check the 'opening' state
-    if (this->bIsOpening && this->timeLapsedMs > this->timeOpeningMs)
-        endOpening();
     // == If the widget is opening, only show frame opening
     if (this->isOpening())
         return;
@@ -153,7 +176,7 @@ void Widget::handleMouseClick(i2d _pos) {
     // == Detect click on closing cross
     if (bClosingCross) {
         if (_pos.y == 0 && _pos.x >= this->size.x - 7 && _pos.x <= this->size.x - 3) {
-            wmgr->removeWidget(this);
+            wmgr->closeWidget(this);
             return;
         }
     }

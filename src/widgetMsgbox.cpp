@@ -55,7 +55,7 @@ void WidgetMsgbox::handleKey(int _keycode) {
         case globals::keys::KeySpace:
         case globals::keys::KeyEnter:
         case globals::keys::KeyEnterNumPad:
-            wmgr->removeWidget(this);
+            wmgr->closeWidget(this);
             break;
         default:
             break;

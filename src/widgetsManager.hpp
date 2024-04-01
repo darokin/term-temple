@@ -30,7 +30,7 @@ public:
     static WidgetManager* getInstance();
     void draw();
     void addWidget(Widget* _widget);
-    void removeWidget(Widget* _widget, bool bDoKill = true);
+    void closeWidget(Widget* _widget);
     void refreshWidgets(uint16_t _termCols, uint16_t _termLines);
     void handleKey(int _keycode);
     void handleMove(int _keycode);
@@ -53,7 +53,9 @@ public:
     void openFile(const std::string& _filePath);
     void alert(const std::wstring& _msg, bool _centered = true);
 private:
+    void removeWidget(Widget* _widget);
     void drawStatusBar();
+    Widget* nextFocusWidget();
 };
 
 #endif

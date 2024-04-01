@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <algorithm>
 #include "globals.hpp"
 #include "renderer.hpp"
 #include "widgetsManager.hpp"
@@ -46,6 +47,10 @@ void WidgetManager::draw() {
     if (background != nullptr)
         background->draw();
 
+    // == Erase killed
+    widgets.erase(std::remove_if(widgets.begin(), widgets.end(), 
+        [](Widget* _w){ if (_w->isKilled()) { delete _w; return true;} return false; } ), widgets.end());
+
     // == Draw widgets
     for (auto w : widgets) {
         w->update();
@@ -91,25 +96,34 @@ void WidgetManager::toggleAppLauncher() {
 
 void WidgetManager::addWidget(Widget* _widget) {
     this->widgets.push_back(_widget);
-    this->focusWidget = _widget;
+    if (!_widget->isKilled()) // when we TAB we add to put upfront existing widgets
+        this->focusWidget = _widget;
     this->isOnAppLauncher = false;
 }
 
-void WidgetManager::removeWidget(Widget* _widget, bool bDoKill) {
+Widget* WidgetManager::nextFocusWidget() {
+    for (auto rev = this->widgets.rbegin(); rev != this->widgets.rend(); ++rev)
+        if ((*rev)->isKilled() == false && (*rev)->isClosing() == false)
+            return *rev;
+    if (this->isOnAppLauncher)
+        return this->appLauncher;
+    return nullptr;
+}
+
+void WidgetManager::closeWidget(Widget* _widget) {
+    _widget->close();
+    if (this->focusWidget == _widget)
+        this->focusWidget = nextFocusWidget();
+}
+
+void WidgetManager::removeWidget(Widget* _widget) {
     // == Remove widget from vector
     std::vector<Widget*>::const_iterator it = std::find(this->widgets.begin(), this->widgets.end(), _widget);
     if (it == this->widgets.end())
         return; // Not found
-    if (bDoKill)
-        delete _widget;
     this->widgets.erase(it);
     // == Set focus on top widget OR the App Launcher if opened
-    if (this->widgets.size() > 0)
-        this->focusWidget = this->widgets.back();
-    else if (this->isOnAppLauncher)
-        this->focusWidget = this->appLauncher;
-    else
-        this->focusWidget = nullptr;
+    this->focusWidget = nextFocusWidget();
 }
 
 void WidgetManager::handleKey(int _keycode) {
@@ -121,17 +135,17 @@ void WidgetManager::handleKey(int _keycode) {
             return;
         Widget* tmpWidget;
         tmpWidget = this->widgets.front();
-        this->removeWidget(tmpWidget, false);
+        this->removeWidget(tmpWidget);
         this->addWidget(tmpWidget);
         return;
     }
     if (_keycode == 'q' || _keycode == 'Q') {
-        if (this->focusWidget != nullptr)
-            this->removeWidget(this->focusWidget);
+        if (this->focusWidget != nullptr && this->focusWidget != this->appLauncher)
+            closeWidget(this->focusWidget);
         return;
     }
     // == If it's key that need to be handled by the focused widget
-    if (this->focusWidget != nullptr)
+    if (this->focusWidget)
         focusWidget->mainHandleKey(_keycode);
 }
 
@@ -272,7 +286,7 @@ void WidgetManager::handleMouseClicked(i2d _pos) {
         }
     }
     if (_clickedWidget != nullptr) {
-        removeWidget(_clickedWidget, false);
+        removeWidget(_clickedWidget);
         addWidget(_clickedWidget);
         this->focusWidget = _clickedWidget;
         _clickedWidget->handleMouseClick(_pos);
@@ -350,9 +364,9 @@ void WidgetManager::openClock() {
     addWidget(_wClock);
 }
 
-// TODO : is it useless
 // TODO : instead of blind centering, calculate widget that are out of bounds
 // and move them inside the screen. Display alert if screensize too small ?
+// == Used when terminal is resized
 void WidgetManager::refreshWidgets(uint16_t _termCols, uint16_t _termLines) {
     i2d tmpPos{};
     i2d bkgSize {};
@@ -376,9 +390,8 @@ void WidgetManager::refreshWidgets(uint16_t _termCols, uint16_t _termLines) {
 }
 
 void WidgetManager::freeWidgets() {
-    for (auto w : widgets) {
+    for (auto w : widgets)
         delete w;
-    }
     if (background)
         delete background; // background ModuleANSI
     if (appLauncher)
